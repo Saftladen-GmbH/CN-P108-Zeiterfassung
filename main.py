@@ -21,7 +21,7 @@ while 1:
         now2 = datetime.now()
         timeOut = now2.strftime("%H:%M:%S %d.%m.%Y")
         break
-# TimeIn und TimeOut zur einem Datetime Format zurückwandeln um anschließend die Differenz zu ermitteln
+# TimeIn und TimeOut zur einem Datetime Objekt zurückwandeln um anschließend die Differenz zu ermitteln
 time1 = datetime.strptime(timeIn, "%H:%M:%S %d.%m.%Y")
 time2 = datetime.strptime(timeOut, "%H:%M:%S %d.%m.%Y")
 timeDif = (time2 - time1)
