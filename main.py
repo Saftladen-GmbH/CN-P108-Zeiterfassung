@@ -6,20 +6,22 @@ time = datetime.strptime(Zeitpunkt1, "%d. %B %Y %H:%M:%S")
 print(time)"""
 
 # Currenttime with format: Hours:Minutes:Seconds Day.Month.Year
+
 now1 = datetime.now()
-#print(now.strftime("%H:%M:%S %d.%m.%Y"))
 einstempeln = input('Einstempeln?')
 if einstempeln.lower() == 'yes' or einstempeln.lower() == 'ja':
     timeIn = now1.strftime("%H:%M:%S %d.%m.%Y")
     print("Eingestempelt: ",timeIn)
 else:
     exit
+# Solange die Schleife läuft, ist man anwesend. Möchte man sich ausstempeln, bricht man die While Schleife mit einer Eingabe ab.    
 while 1:
     ausstempeln = input('Beliebige Eingabe zum ausstempeln: ')
     if ausstempeln.lower() !='':
         now2 = datetime.now()
         timeOut = now2.strftime("%H:%M:%S %d.%m.%Y")
         break
+# TimeIn und TimeOut zur einem Datetime Format zurückwandeln um anschließend die Differenz zu ermitteln
 time1 = datetime.strptime(timeIn, "%H:%M:%S %d.%m.%Y")
 time2 = datetime.strptime(timeOut, "%H:%M:%S %d.%m.%Y")
 timeDif = (time2 - time1)
