@@ -7,9 +7,9 @@ print(time)"""
 
 # Currenttime with format: Hours:Minutes:Seconds Day.Month.Year
 
-now1 = datetime.now()
 einstempeln = input('Einstempeln?')
 if einstempeln.lower() == 'yes' or einstempeln.lower() == 'ja':
+    now1 = datetime.now()
     timeIn = now1.strftime("%H:%M:%S %d.%m.%Y")
     print("Eingestempelt: ",timeIn)
 else:
