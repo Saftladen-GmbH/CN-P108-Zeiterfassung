@@ -11,11 +11,11 @@ einstempeln = input('Einstempeln?')
 if einstempeln.lower() == 'yes' or einstempeln.lower() == 'ja':
     now1 = datetime.now()
     timeIn = now1.strftime("%H:%M:%S %d.%m.%Y")
-    print("Eingestempelt: ",timeIn)
+    print("Eingestempelt: ", timeIn)
 else:
     print('Nicht eingestempelt! Gebe Ja oder Yes um sich einzustempeln.')
 # Solange die Schleife läuft, ist man anwesend. Möchte man sich ausstempeln, bricht man die While Schleife mit einer Eingabe ab.    
-while einstempeln.lower() == 'yes' or einstempeln.lower() == 'ja':
+while einstempeln.lower() == 'yes' or einstempeln.lower() == 'ja'git :
     ausstempeln = input('Beliebige Eingabe zum ausstempeln: ')
     if ausstempeln.lower() !='':
         now2 = datetime.now()
