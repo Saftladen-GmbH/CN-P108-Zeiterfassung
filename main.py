@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 
 """ String to datetime object
 Zeitpunkt1 = "15.07.2023 18:37:45"
@@ -7,17 +7,19 @@ print(time)"""
 
 # Currenttime with format: Hours:Minutes:Seconds Day.Month.Year
 
-einstempeln = input('Einstempeln?')
+while True:
+    einstempeln = input('Einstempeln?')
 
-if einstempeln.lower() == 'yes' or einstempeln.lower() == 'ja':
-    now1 = datetime.now()
-    timeIn = now1.strftime("%H:%M:%S %d.%m.%Y")
-    print(f"Eingestempelt: {timeIn}")
-else:
-    print('Nicht eingestempelt! Gebe Ja oder Yes um sich einzustempeln.')
+    if einstempeln.lower() == 'yes' or einstempeln.lower() == 'ja':
+        now1 = datetime.now()
+        timeIn = now1.strftime("%H:%M:%S %d.%m.%Y")
+        print(f"Eingestempelt: {timeIn}")
+        break
+    else:
+        print('Nicht eingestempelt! Gebe Ja oder Yes um sich einzustempeln.')
 
 # Solange die Schleife läuft, ist man anwesend. Möchte man sich ausstempeln, bricht man die While Schleife mit einer Eingabe ab.    
-while einstempeln.lower() == 'yes' or einstempeln.lower() == 'ja'git :
+while True:
     ausstempeln = input('Beliebige Eingabe zum ausstempeln: ')
 
     if ausstempeln.lower() != '':
@@ -29,4 +31,4 @@ while einstempeln.lower() == 'yes' or einstempeln.lower() == 'ja'git :
 time1 = datetime.strptime(timeIn, "%H:%M:%S %d.%m.%Y")
 time2 = datetime.strptime(timeOut, "%H:%M:%S %d.%m.%Y")
 timeDif = (time2 - time1)
-print('Ausgestempelt: ', timeOut, '\nSie waren für  ', timeDif , 'eingestempelt!')
+print(f'Ausgestempelt: {timeOut} \nSie waren für {timeDif} eingestempelt!')
