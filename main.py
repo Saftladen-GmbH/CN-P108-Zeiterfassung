@@ -9,22 +9,22 @@ print(time)"""
 # Currenttime with format: Hours:Minutes:Seconds Day.Month.Year
 
 while True:
-    einstempeln = input('Einstempeln?')
+    einstempeln = input('Einstempeln? (y/Y): ')
 
-    if einstempeln.lower() == 'yes' or einstempeln.lower() == 'ja':
+    if einstempeln.lower() == 'y':
         now1 = datetime.now()
         timeIn = now1.strftime("%H:%M:%S %d.%m.%Y")
         print(f"Eingestempelt: {timeIn}")
         break
     else:
-        print('Nicht eingestempelt! Gebe Ja oder Yes um sich einzustempeln.')
+        print('Nicht eingestempelt! Gebe "Y" oder "y" ein um sich einzustempeln. Bestätigen mit "Enter"')
 
 # Solange die Schleife läuft, ist man anwesend. Möchte man sich ausstempeln,
 # bricht man die While Schleife mit einer Eingabe ab
 while True:
-    ausstempeln = input('Beliebige Eingabe zum ausstempeln: ')
+    ausstempeln = input('Ausstempeln? (a/A): ')
 
-    if ausstempeln.lower() != '':
+    if ausstempeln.lower() == "a":
         now2 = datetime.now()
         timeOut = now2.strftime("%H:%M:%S %d.%m.%Y")
         break
