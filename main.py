@@ -17,7 +17,8 @@ while True:
         print(f"Eingestempelt: {timeIn}")
         break
     else:
-        print('Nicht eingestempelt! Gebe "Y" oder "y" ein um sich einzustempeln. Bestätigen mit "Enter"')
+        print('Nicht eingestempelt! Gebe "Y" oder "y" ein um sich',
+              'einzustempeln. Bestätigen mit "Enter"')
 
 # Solange die Schleife läuft, ist man anwesend. Möchte man sich ausstempeln,
 # bricht man die While Schleife mit einer Eingabe ab
