@@ -22,11 +22,11 @@ while True:
 
         with open('data.csv', mode='w', newline='') as file:
             writer = csv.DictWriter(file, fieldnames=header)
-            writer.writerow(header)
+            writer.writeheader()
             writer.writerow(data)
 
         break
-    elif ode.lower() == 'a'
+    elif mode.lower() == 'a':
         now_out = datetime.now()
         f_time_Out = now_out.strftime("%H:%M:%S %d.%m.%Y")
         data = {
@@ -37,9 +37,9 @@ while True:
         # Needs READING first so its not overwriting the old Data! 
         # INSERT HERE!
 
-        with open('data.csv', mode='r') as file:
+        with open('data.csv', mode='w', newline='') as file:
             writer = csv.DictWriter(file, fieldnames=header)
-            writer.writerow(header)
+            writer.writeheader()
             writer.writerow(data)
 
         # Calculate difference here (PLACEHOLDER CODE!!) - have to read csv first and get "e" Data
@@ -50,4 +50,4 @@ while True:
 
         break
     else:
-    print('Falsche eingabe. gebe e oder a ein!!')
+        print('Falsche eingabe. gebe e oder a ein!!')
