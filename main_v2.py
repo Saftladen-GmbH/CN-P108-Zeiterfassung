@@ -59,14 +59,15 @@ while True:
             with open('data_v2.csv', mode='a', newline='') as file:
                 writer = csv.DictWriter(file, fieldnames=header)
                 writer.writerow(data)
+            # Calculate difference here(PLACEHOLDER CODE!!) - have to read csv first and get "e" Data
+            time1 = datetime.strptime(last_item['Zeit'], "%H:%M:%S %d.%m.%Y")
+            time2 = datetime.strptime(data['Zeit'], "%H:%M:%S %d.%m.%Y")
+            timeDif = (time2 - time1)
+            print(f"Ausgestempelt: {data['Zeit']}")
+            print(f"Sie waren für {timeDif} eingestempelt!")
+
         else:
             print("Du musst dich erst einstempeln!")
-
-        # Calculate difference here (PLACEHOLDER CODE!!) - have to read csv first and get "e" Data
-        # time1 = datetime.strptime(timeIn, "%H:%M:%S %d.%m.%Y")
-        # time2 = datetime.strptime(timeOut, "%H:%M:%S %d.%m.%Y")
-        # timeDif = (time2 - time1)
-        # print(f'Ausgestempelt: {timeOut} \nSie waren für {timeDif} eingestempelt!')
 
         break
     else:
