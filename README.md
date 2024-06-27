@@ -2,7 +2,7 @@
 
 ## Timeline
 
-See [Jira - Board](www.google.com)
+See [Milestones](https://github.com/Saftladen-GmbH/CN-P108-Zeiterfassung/milestones)
 
 - [x] v 1.0.0 - Base Functions (CLI Application)
 - [ ] v 2.0.0 - Webbased Application
