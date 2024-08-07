@@ -16,6 +16,18 @@ See [Milestones](https://github.com/Saftladen-GmbH/CN-P108-Zeiterfassung/milesto
 - HTML / CSS
 - Javascript
 
+## Tools to use
+
+- Backend
+  - Python -> Flask
+  - Datenbank -> SQLite3 o. SQLAlchemie
+
+- Frontend
+  - HTML 5
+  - CSS -> Tailwind
+  - JS -> Vanilla
+
+
 ## Planned Hardware
 
 - Raspberry Pi 4 or 5
