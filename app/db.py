@@ -1,50 +1,60 @@
 import os
 import random
 import string
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, Date, ForeignKey
+from sqlalchemy.orm import sessionmaker, relationship
 
-app = Flask(__name__)
-basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'db/database.db')
-db = SQLAlchemy(app)
+Base = declarative_base()
 
-class User(db.Model):
-    UID = db.Column(db.String, primary_key=True)
-    Name = db.Column(db.String, nullable=False)
-    Firstname = db.Column(db.String, nullable=False)
-    DOB = db.Column(db.Date, nullable=False)
-    CA = db.Column(db.String, db.ForeignKey('class.CA'))
-    Logins = db.relationship('Login', backref='user', lazy=True)
-    Logoffs = db.relationship('Logoff', backref='user', lazy=True)
+class User(Base):
+    __tablename__ = 'user'
+    UID = Column(String, primary_key=True)
+    Name = Column(String, nullable=False)
+    Firstname = Column(String, nullable=False)
+    DOB = Column(Date, nullable=False)
+    CA = Column(String, ForeignKey('class.CA'))
+    Logins = relationship('Login', backref='user', lazy=True)
+    Logoffs = relationship('Logoff', backref='user', lazy=True)
 
-class Login(db.Model):
-    NR = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    Time = db.Column(db.DateTime, nullable=False)
-    UID = db.Column(db.String, db.ForeignKey('user.UID'))
+class Login(Base):
+    __tablename__ = 'login'
+    NR = Column(Integer, primary_key=True, autoincrement=True)
+    Time = Column(DateTime, nullable=False)
+    UID = Column(String, ForeignKey('user.UID'))
 
-class Logoff(db.Model):
-    NR = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    Time = db.Column(db.DateTime, nullable=False)
-    UID = db.Column(db.String, db.ForeignKey('user.UID'))
+class Logoff(Base):
+    __tablename__ = 'logoff'
+    NR = Column(Integer, primary_key=True, autoincrement=True)
+    Time = Column(DateTime, nullable=False)
+    UID = Column(String, ForeignKey('user.UID'))
 
-class Admin(db.Model):
-    Username = db.Column(db.String, primary_key=True)
-    Password = db.Column(db.String, nullable=False)
-    UID = db.Column(db.String, db.ForeignKey('user.UID'))
+class Admin(Base):
+    __tablename__ = 'admin'
+    Username = Column(String, primary_key=True)
+    Password = Column(String, nullable=False)
+    UID = Column(String, ForeignKey('user.UID'))
 
-class Class(db.Model):
-    CA = db.Column(db.String, primary_key=True)
-    Subject_area = db.Column(db.String, nullable=False)
-    Classroom = db.Column(db.String, nullable=False)
-    Students = db.relationship('User', backref='class', lazy=True)
+class Class(Base):
+    __tablename__ = 'class'
+    CA = Column(String, primary_key=True)
+    Subject_area = Column(String, nullable=False)
+    Classroom = Column(String, nullable=False)
+    Students = relationship('User', backref='class', lazy=True)
 
 def init_db():
-    with app.app_context():
-        db.create_all()
-        new_admin = Admin(Username='master', Password=_generate_password(), UID='')
-        db.session.add(new_admin)
-        db.session.commit()
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    engine = create_engine('sqlite:///' + os.path.join(basedir, 'db/database.db'))
+    # Tabellen erstellen
+    Base.metadata.create_all(engine)
+    # Session erstellen
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    # Beispiel-Datensatz hinzufügen
+    master_admin = Admin(Username='master', Password=_generate_password())
+    session.add(master_admin)
+    session.commit()
 
 def _generate_password():
     notallowed = '²³{[]}^`´'
