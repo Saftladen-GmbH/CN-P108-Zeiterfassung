@@ -4,6 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, date
 from db import init_db, Admin, User, Class, Login, Logoff
 
+server = Flask(__name__)
+
 # Database initialization
 basedir = os.path.abspath(os.path.dirname(__file__))
 path2db = os.path.join(basedir, 'db/database.db')
@@ -13,7 +15,7 @@ if not os.path.exists(os.path.join(basedir, 'db/database.db')):
     print("Database not generated. Generating database")
     init_db(sqpath)
 
-server = Flask(__name__)
+# Database configuration
 server.config['SQLALCHEMY_DATABASE_URI'] = sqpath
 db = SQLAlchemy(server)
 
