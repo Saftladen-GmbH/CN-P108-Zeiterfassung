@@ -6,12 +6,15 @@ from db import init_db, Admin, User, Class, Login, Logoff
 
 # Database initialization
 basedir = os.path.abspath(os.path.dirname(__file__))
+path2db = os.path.join(basedir, 'db/database.db')
+sqpath = 'sqlite:///' + os.path.join(basedir, 'db/database.db')
+
 if not os.path.exists(os.path.join(basedir, 'db/database.db')):
     print("Database not generated. Generating database")
-    init_db(os.path.join(basedir, 'db/database.db'))
+    init_db(sqpath)
 
 server = Flask(__name__)
-server.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'db/database.db')
+server.config['SQLALCHEMY_DATABASE_URI'] = sqpath
 db = SQLAlchemy(server)
 
 @server.route("/")
