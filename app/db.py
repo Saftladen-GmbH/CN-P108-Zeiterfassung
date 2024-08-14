@@ -3,13 +3,9 @@ import random
 import string
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import text
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
-if os.path.exists(os.path.join(basedir, 'db/database.db')):
-    print("Database exists. exit")
-    exit()
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'db/database.db')
 db = SQLAlchemy(app)
 
