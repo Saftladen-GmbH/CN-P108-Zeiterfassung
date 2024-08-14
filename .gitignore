@@ -6,6 +6,7 @@ __pycache__/
 # Custom
 node_modules/
 settings.json
+*.db
 
 # C extensions
 *.so
