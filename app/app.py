@@ -8,7 +8,7 @@ from db import init_db, Admin, User, Class, Login, Logoff
 basedir = os.path.abspath(os.path.dirname(__file__))
 if not os.path.exists(os.path.join(basedir, 'db/database.db')):
     print("Database not generated. Generating database")
-    init_db()
+    init_db(os.path.join(basedir, 'db/database.db'))
 
 server = Flask(__name__)
 server.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'db/database.db')

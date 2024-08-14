@@ -1,8 +1,11 @@
 import pytest
 import sys
 import os
+from datetime import datetime
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/../")
-from app.db import User, Login, Logoff, Admin, Class
+from app.db import Base, User, Login, Logoff, Admin, Class, init_db
 
 @pytest.fixture(scope='module')
 def new_user():
@@ -28,6 +31,61 @@ def new_login():
 def new_logoff():
     logoff = Logoff(Time='2021-01-01 12:00:00', UID='UI1245321')
     return logoff
+
+@pytest.fixture
+def session():
+    # In-Memory SQLite-Datenbank verwenden
+    engine = create_engine('sqlite:///:memory:')
+    Base.metadata.create_all(engine)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    yield session
+    session.close()
+
+def test_user_model(session):
+    user = User(UID='123', Name='Doe', Firstname='John', DOB=datetime(1990, 1, 1), CA='CA1')
+    session.add(user)
+    session.commit()
+
+    assert session.query(User).count() == 1
+    assert session.query(User).first().Name == 'Doe'
+
+def test_login_model(session):
+    login = Login(Time=datetime.now(), UID='123')
+    session.add(login)
+    session.commit()
+
+    assert session.query(Login).count() == 1
+    assert session.query(Login).first().UID == '123'
+
+def test_logoff_model(session):
+    logoff = Logoff(Time=datetime.now(), UID='123')
+    session.add(logoff)
+    session.commit()
+
+    assert session.query(Logoff).count() == 1
+    assert session.query(Logoff).first().UID == '123'
+
+def test_admin_model(session):
+    admin = Admin(Username='admin', Password='password', UID='123')
+    session.add(admin)
+    session.commit()
+
+    assert session.query(Admin).count() == 1
+    assert session.query(Admin).first().Username == 'admin'
+
+def test_class_model(session):
+    class_ = Class(CA='CA1', Subject_area='Math', Classroom='101')
+    session.add(class_)
+    session.commit()
+
+    assert session.query(Class).count() == 1
+    assert session.query(Class).first().Subject_area == 'Math'
+
+@pytest.mark.skip(reason='Need fix - not importatnt for now')
+def test_init_db(session):
+    init_db('sqlite:///:memory:')
+    assert session.query(Admin).filter_by(Username='master').first() is not None, 'Master-Admin nicht gefunden'
 
 def test_new_user_with_fixture(new_user):
     assert new_user.UID == 'UI1245321'

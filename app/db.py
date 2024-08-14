@@ -42,9 +42,8 @@ class Class(Base):
     Classroom = Column(String, nullable=False)
     Students = relationship('User', backref='class', lazy=True)
 
-def init_db():
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    engine = create_engine('sqlite:///' + os.path.join(basedir, 'db/database.db'))
+def init_db(db_url: str):
+    engine = create_engine(db_url)
     # Tabellen erstellen
     Base.metadata.create_all(engine)
     # Session erstellen
@@ -68,4 +67,5 @@ def _generate_password():
 
 
 if __name__ == '__main__':
-    init_db()
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    init_db('sqlite:///' + os.path.join(basedir, 'db/database.db'))
