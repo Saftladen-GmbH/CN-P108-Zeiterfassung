@@ -1,10 +1,15 @@
 import os
+import random
+import string
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
+if os.path.exists(os.path.join(basedir, 'db/database.db')):
+    print("Database exists. exit")
+    exit()
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'db/database.db')
 db = SQLAlchemy(app)
 
@@ -38,6 +43,19 @@ class Class(db.Model):
 def init_db():
     with app.app_context():
         db.create_all()
+        new_admin = Admin(Username='master', Password=_generate_password(), UID='')
+        db.session.add(new_admin)
+        db.session.commit()
+
+def _generate_password():
+    notallowed = '²³{[]}^`´'
+    letters = string.digits + string.ascii_letters + string.punctuation
+    
+    for x in notallowed:
+        letters = letters.replace(x, '')
+    
+    pw = ''.join(random.choice(letters) for i in range(10))
+    return pw
 
 
 if __name__ == '__main__':
