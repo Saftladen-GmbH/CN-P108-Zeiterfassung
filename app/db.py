@@ -15,6 +15,8 @@ class User(db.Model):
     Firstname = db.Column(db.String, nullable=False)
     DOB = db.Column(db.Date, nullable=False)
     CA = db.Column(db.String, db.ForeignKey('class.CA'))
+    Logins = db.relationship('Login', backref='user', lazy=True)
+    Logoffs = db.relationship('Logoff', backref='user', lazy=True)
 
 class Login(db.Model):
     NR = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -35,6 +37,7 @@ class Class(db.Model):
     CA = db.Column(db.String, primary_key=True)
     Subject_area = db.Column(db.String, nullable=False)
     Classroom = db.Column(db.String, nullable=False)
+    Students = db.relationship('User', backref='class', lazy=True)
 
 def init_db():
     with app.app_context():
