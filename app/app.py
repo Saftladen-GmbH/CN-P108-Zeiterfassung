@@ -20,6 +20,7 @@ if not os.path.exists(os.path.join(basedir, 'db/database.db')):
 server.config['SQLALCHEMY_DATABASE_URI'] = sqpath
 db = SQLAlchemy(server)
 
+
 @server.route("/")
 def index():
     return render_template("index.html")

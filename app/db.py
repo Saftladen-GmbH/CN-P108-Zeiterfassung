@@ -1,9 +1,12 @@
 import os
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, Date, ForeignKey
+from sqlalchemy import (
+    create_engine, Column, Integer, String, DateTime, Date, ForeignKey
+    )
 from sqlalchemy.orm import sessionmaker, relationship, declarative_base
 from utility import random_password, hash_password
 
 Base = declarative_base()
+
 
 class User(Base):
     __tablename__ = 'user'
@@ -15,11 +18,13 @@ class User(Base):
     Logins = relationship('Login', backref='user', lazy=True)
     Logoffs = relationship('Logoff', backref='user', lazy=True)
 
+
 class Login(Base):
     __tablename__ = 'login'
     NR = Column(Integer, primary_key=True, autoincrement=True)
     Time = Column(DateTime, nullable=False)
     UID = Column(String, ForeignKey('user.UID'))
+
 
 class Logoff(Base):
     __tablename__ = 'logoff'
@@ -27,11 +32,13 @@ class Logoff(Base):
     Time = Column(DateTime, nullable=False)
     UID = Column(String, ForeignKey('user.UID'))
 
+
 class Admin(Base):
     __tablename__ = 'admin'
     Username = Column(String, primary_key=True)
     Password = Column(String, nullable=False)
     UID = Column(String, ForeignKey('user.UID'))
+
 
 class Class(Base):
     __tablename__ = 'class'
@@ -39,6 +46,7 @@ class Class(Base):
     Subject_area = Column(String, nullable=False)
     Classroom = Column(String, nullable=False)
     Students = relationship('User', backref='class', lazy=True)
+
 
 def init_db(db_url: str):
     engine = create_engine(db_url)
@@ -53,7 +61,8 @@ def init_db(db_url: str):
     master_admin = Admin(Username='master', Password=hash_password(rndpw))
     session.add(master_admin)
     session.commit()
-    print(f'The Admin "master" has been created. Note the Password: "{rndpw}" you wont see it again!')
+    print(f'''The Admin "master" has been created.
+          Note the Password: "{rndpw}" you wont see it again!''')
 
 
 if __name__ == '__main__':

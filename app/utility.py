@@ -15,10 +15,10 @@ def random_password(length: int = 10) -> str:
     """
     notallowed = '²³{[]}^`´'
     letters = string.digits + string.ascii_letters + string.punctuation
-    
+
     for x in notallowed:
         letters = letters.replace(x, '')
-    
+
     pw = ''.join(random.choice(letters) for i in range(length))
     return pw
 
@@ -42,7 +42,8 @@ def hash_password(password: str) -> str:
 def verify_password(stored_password: str, provided_password: str) -> bool:
     """Compares a stored hash password with a provided password
 
-    Using a 16-Byte-Salt, the stored password is split into the salt and the hash.
+    Using a 16-Byte-Salt, the stored password is split into the
+    salt and the hash.
 
     Args:
         stored_password (str): password from Database
@@ -51,7 +52,8 @@ def verify_password(stored_password: str, provided_password: str) -> bool:
     Returns:
         bool: True if the passwords match, False otherwise
     """
-    salt = stored_password[:16] 
-    stored_hash = stored_password[16:] 
-    hash_obj = hashlib.pbkdf2_hmac('sha256', provided_password.encode(), salt, 100000)
+    salt = stored_password[:16]
+    stored_hash = stored_password[16:]
+    hash_obj = hashlib.pbkdf2_hmac('sha256', provided_password.encode(),
+                                   salt, 100000)
     return hash_obj == stored_hash
