@@ -132,4 +132,5 @@ def test_new_class_with_fixture(new_class):
 
 def test_generate_uid(session):
     uid = generate_uid('Doe', 'John', datetime(2024, 1, 1), session)
+    assert len(uid) == 12
     assert uid == 'JD2401010010'
