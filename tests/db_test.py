@@ -50,7 +50,7 @@ def session():
 
 
 def test_user_model(session):
-    user = User(UID='123', Name='Doe', Firstname='John', DOB=datetime(1990, 1, 1), CA='CA1')
+    user = User(UID='123', Name='Doe', Firstname='John', Password="ABcd123!", DOB=datetime(1990, 1, 1), CA='CA1')
     session.add(user)
     session.commit()
 
