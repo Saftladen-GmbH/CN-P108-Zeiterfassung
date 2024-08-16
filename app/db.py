@@ -1,7 +1,6 @@
 import os
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine, Column, Integer, String, DateTime, Date, ForeignKey
-from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy.orm import sessionmaker, relationship, declarative_base
 from utility import random_password, hash_password
 
 Base = declarative_base()
