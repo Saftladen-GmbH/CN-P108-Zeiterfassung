@@ -50,9 +50,11 @@ def init_db(db_url: str):
     session = Session()
 
     # Beispiel-Datensatz hinzufügen
-    master_admin = Admin(Username='master', Password=hash_password(random_password()))
+    rndpw = random_password()
+    master_admin = Admin(Username='master', Password=hash_password(rndpw))
     session.add(master_admin)
     session.commit()
+    print(f'The Admin "master" has been created. Note the Password: "{rndpw}" you wont see it again!')
 
 
 if __name__ == '__main__':

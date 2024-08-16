@@ -3,6 +3,7 @@ import hashlib
 import random
 import string
 
+
 def random_password(length: int = 10) -> str:
     """Generates a random password
 
@@ -20,6 +21,7 @@ def random_password(length: int = 10) -> str:
     
     pw = ''.join(random.choice(letters) for i in range(length))
     return pw
+
 
 def hash_password(password: str) -> str:
     """Hashes a password

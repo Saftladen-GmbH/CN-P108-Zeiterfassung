@@ -5,7 +5,7 @@ from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/../")
-from app.db import Base, User, Login, Logoff, Admin, Class, init_db
+from db import Base, User, Login, Logoff, Admin, Class, init_db
 
 @pytest.fixture(scope='module')
 def new_user():
@@ -111,6 +111,3 @@ def test_new_class_with_fixture(new_class):
     assert new_class.CA == 'TA_22'
     assert new_class.Subject_area == 'Math'
     assert new_class.Classroom == 'A1'
-
-if __name__ == '__main__':
-    pytest.main()
