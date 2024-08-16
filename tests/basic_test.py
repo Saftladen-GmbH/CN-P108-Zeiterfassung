@@ -9,7 +9,6 @@ from utility import random_password, hash_password, verify_password
 def test_test():
     assert 1 == 1, "1 is not equal to 1"
 
-
 def test_random_password():
     pw = random_password()
     assert len(pw) == 10, "Password length is not 10"

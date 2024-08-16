@@ -1,4 +1,5 @@
 from os import urandom
+from datetime import datetime
 from hashlib import pbkdf2_hmac
 from random import choice
 from string import (
@@ -6,7 +7,6 @@ from string import (
     digits,
     punctuation
 )
-
 
 def random_password(length: int = 10) -> str:
     """Generates a random password

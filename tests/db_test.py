@@ -5,7 +5,7 @@ from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/../")
-from db import Base, User, Login, Logoff, Admin, Class, init_db
+from db import Base, User, Login, Logoff, Admin, Class, init_db, generate_uid
 
 
 @pytest.fixture(scope='module')
@@ -128,3 +128,8 @@ def test_new_class_with_fixture(new_class):
     assert new_class.CA == 'TA_22'
     assert new_class.Subject_area == 'Math'
     assert new_class.Classroom == 'A1'
+
+
+def test_generate_uid(session):
+    uid = generate_uid('Doe', 'John', datetime(2024, 1, 1), session)
+    assert uid == 'JD2401010010'

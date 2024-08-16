@@ -105,6 +105,28 @@ class Class(Base):
     Students = relationship('User', backref='class', lazy=True)
 
 
+def generate_uid(name: str, first_name: str, dob: datetime, session) -> str:
+    """
+    Generates a unique identifier for a user.
+
+    Args:
+        name (str): The name of the user.
+        first_name (str): The first name of the user.
+        dob (datetime): The date of birth of the user.
+        session(sqlalchemie session): The session to query the database.
+
+    Returns:
+        str: The unique identifier.
+    """
+    modifier = 0
+    while True:
+        uid = first_name[0] + name[0] + dob.date().strftime("%y%m%d") + str(sum([int(x) for x in dob.date().strftime("%Y%m%d")]) + modifier).zfill(4)
+
+        if not session.query(User).filter(User.UID == uid).first():
+            return uid
+        modifier += 1
+
+
 def init_db(db_url: str):
     """
     Initializes the database.
