@@ -143,9 +143,13 @@ def init_db(db_url: str):
 
     # Beispiel-Datensatz hinzufügen
     rndpw = random_password()
-    master_user = User(UID='000000000000', Name='Master', Firstname='Admin', Password=hash_password(rndpw), DOB=datetime.now(), CA='')
+    master_user = User(UID='000000000000', Name='Admin', Firstname='Master',
+                       Password=hash_password(rndpw), DOB=datetime.now(),
+                       CA='')
     session.add(master_user)
-    master_admin = Admin(Username='master', Password=hash_password(rndpw), UID='000000')
+    master_admin = Admin(Username='master',
+                         Password=hash_password(rndpw),
+                         UID='000000000000')
     session.add(master_admin)
     session.commit()
     print(f"Master-Admin added. Note the Password: {rndpw}")
