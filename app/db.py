@@ -61,8 +61,8 @@ def init_db(db_url: str):
     master_admin = Admin(Username='master', Password=hash_password(rndpw))
     session.add(master_admin)
     session.commit()
-    print(f'''The Admin "master" has been created.
-          Note the Password: "{rndpw}" you wont see it again!''')
+    print(f"Master-Admin added. Note the Password: {rndpw}")
+    print("## You won't see it again. Please note the password. ##")
 
 
 if __name__ == '__main__':
