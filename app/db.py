@@ -1,9 +1,8 @@
 import os
-import random
-import string
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine, Column, Integer, String, DateTime, Date, ForeignKey
 from sqlalchemy.orm import sessionmaker, relationship
+from utility import random_password, hash_password
 
 Base = declarative_base()
 
@@ -51,19 +50,9 @@ def init_db(db_url: str):
     session = Session()
 
     # Beispiel-Datensatz hinzufügen
-    master_admin = Admin(Username='master', Password=_generate_password())
+    master_admin = Admin(Username='master', Password=hash_password(random_password()))
     session.add(master_admin)
     session.commit()
-
-def _generate_password():
-    notallowed = '²³{[]}^`´'
-    letters = string.digits + string.ascii_letters + string.punctuation
-    
-    for x in notallowed:
-        letters = letters.replace(x, '')
-    
-    pw = ''.join(random.choice(letters) for i in range(10))
-    return pw
 
 
 if __name__ == '__main__':
