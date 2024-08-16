@@ -15,6 +15,18 @@ Base = declarative_base()
 
 
 class User(Base):
+    """
+    Database model for the user table.
+
+    Attributes:
+        UID (str): The unique identifier of the user.
+        Name (str): The name of the user.
+        Firstname (str): The first name of the user.
+        DOB (Date): The date of birth of the user.
+        CA (str): The CA of the user.
+        Logins (list): A list of login instances associated with the user.
+        Logoffs (list): A list of logoff instances associated with the user.
+    """
     __tablename__ = 'user'
     UID = Column(String, primary_key=True)
     Name = Column(String, nullable=False)
@@ -26,6 +38,14 @@ class User(Base):
 
 
 class Login(Base):
+    """
+    Database model for the login table.
+
+    Attributes:
+        NR (int): The unique identifier of the login.
+        Time (DateTime): The time of the login.
+        UID (str): The UID of the user who logged in.
+    """
     __tablename__ = 'login'
     NR = Column(Integer, primary_key=True, autoincrement=True)
     Time = Column(DateTime, nullable=False)
@@ -33,6 +53,14 @@ class Login(Base):
 
 
 class Logoff(Base):
+    """
+    Database model for the logoff table.
+
+    Attributes:
+        NR (int): The unique identifier of the logoff.
+        Time (DateTime): The time of the logoff.
+        UID (str): The UID of the user who logged off.
+    """
     __tablename__ = 'logoff'
     NR = Column(Integer, primary_key=True, autoincrement=True)
     Time = Column(DateTime, nullable=False)
@@ -40,6 +68,14 @@ class Logoff(Base):
 
 
 class Admin(Base):
+    """
+    Database model for the admin table.
+
+    Attributes:
+        Username (str): The username of the admin.
+        Password (str): The password of the admin.
+        UID (str): The UID of the corresponding User.
+    """
     __tablename__ = 'admin'
     Username = Column(String, primary_key=True)
     Password = Column(String, nullable=False)
@@ -47,6 +83,15 @@ class Admin(Base):
 
 
 class Class(Base):
+    """
+    Database model for the class table.
+
+    Attributes:
+        CA (str): The CA of the class.
+        Subject_area (str): The subject area of the class.
+        Classroom (str): The classroom of the class.
+        Students (list): A list of user instances associated with the class.
+    """
     __tablename__ = 'class'
     CA = Column(String, primary_key=True)
     Subject_area = Column(String, nullable=False)
@@ -55,6 +100,12 @@ class Class(Base):
 
 
 def init_db(db_url: str):
+    """
+    Initializes the database.
+
+    Args:
+        db_url (str): The URL of the database.
+    """
     engine = create_engine(db_url)
     # Tabellen erstellen
     Base.metadata.create_all(engine)
