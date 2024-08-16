@@ -1,6 +1,12 @@
-import os
+from os import path
 from sqlalchemy import (
-    create_engine, Column, Integer, String, DateTime, Date, ForeignKey
+    create_engine,
+    Column,
+    Integer,
+    String,
+    DateTime,
+    Date,
+    ForeignKey
     )
 from sqlalchemy.orm import sessionmaker, relationship, declarative_base
 from utility import random_password, hash_password
@@ -66,5 +72,5 @@ def init_db(db_url: str):
 
 
 if __name__ == '__main__':
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    init_db('sqlite:///' + os.path.join(basedir, 'db/database.db'))
+    basedir = path.abspath(path.dirname(__file__))
+    init_db('sqlite:///' + path.join(basedir, 'db/database.db'))

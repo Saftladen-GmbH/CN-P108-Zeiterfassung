@@ -1,4 +1,4 @@
-import os
+from os import path
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, date
@@ -8,11 +8,11 @@ from utility import hash_password, verify_password
 server = Flask(__name__)
 
 # Database initialization
-basedir = os.path.abspath(os.path.dirname(__file__))
-path2db = os.path.join(basedir, 'db/database.db')
-sqpath = 'sqlite:///' + os.path.join(basedir, 'db/database.db')
+basedir = path.abspath(path.dirname(__file__))
+path2db = path.join(basedir, 'db/database.db')
+sqpath = 'sqlite:///' + path.join(basedir, 'db/database.db')
 
-if not os.path.exists(os.path.join(basedir, 'db/database.db')):
+if not path.exists(path.join(basedir, 'db/database.db')):
     print("Database not generated. Generating database")
     init_db(sqpath)
 
