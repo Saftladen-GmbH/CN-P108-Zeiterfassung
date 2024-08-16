@@ -1,7 +1,11 @@
-import os
-import hashlib
-import random
-import string
+from os import urandom
+from hashlib import pbkdf2_hmac
+from random import choice
+from string import (
+    ascii_letters,
+    digits,
+    punctuation
+)
 
 
 def random_password(length: int = 10) -> str:
@@ -14,12 +18,12 @@ def random_password(length: int = 10) -> str:
         str: The generated password
     """
     notallowed = '²³{[]}^`´'
-    letters = string.digits + string.ascii_letters + string.punctuation
+    letters = digits + ascii_letters + punctuation
 
     for x in notallowed:
         letters = letters.replace(x, '')
 
-    pw = ''.join(random.choice(letters) for i in range(length))
+    pw = ''.join(choice(letters) for i in range(length))
     return pw
 
 
@@ -33,8 +37,8 @@ def hash_password(password: str) -> str:
         str: The hashed password
     """
 
-    salt = os.urandom(16)  # Generiere einen 16-Byte-Salt
-    hash_obj = hashlib.pbkdf2_hmac('sha256', password.encode(), salt, 100000)
+    salt = urandom(16)  # Generiere einen 16-Byte-Salt
+    hash_obj = pbkdf2_hmac('sha256', password.encode(), salt, 100000)
 
     return salt + hash_obj
 
@@ -54,6 +58,5 @@ def verify_password(stored_password: str, provided_password: str) -> bool:
     """
     salt = stored_password[:16]
     stored_hash = stored_password[16:]
-    hash_obj = hashlib.pbkdf2_hmac('sha256', provided_password.encode(),
-                                   salt, 100000)
+    hash_obj = pbkdf2_hmac('sha256', provided_password.encode(), salt, 100000)
     return hash_obj == stored_hash
