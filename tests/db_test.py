@@ -16,7 +16,7 @@ def new_user():
 
 @pytest.fixture(scope='module')
 def new_class():
-    class_ = Class(CA='TA_22', Subject_area = 'Math', Classroom = 'A1')
+    class_ = Class(CA='TA_22', Subject_area='Math', Classroom='A1')
     return class_
 
 

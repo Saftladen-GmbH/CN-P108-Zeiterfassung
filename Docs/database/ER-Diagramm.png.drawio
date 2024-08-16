@@ -1,9 +1,15 @@
 <mxfile host="65bd71144e">
     <diagram id="8zJVkUx_vMKt5HxGqjAV" name="Page-1">
-        <mxGraphModel dx="865" dy="1894" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="905" dy="1642" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
+                <mxCell id="56" style="edgeStyle=none;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=none;endFill=0;" parent="1" source="2" target="55" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="58" style="edgeStyle=none;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="2" target="57">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
                 <mxCell id="2" value="User" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="354" y="220" width="120" height="60" as="geometry"/>
                 </mxCell>
@@ -113,16 +119,16 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="37" value="&lt;u&gt;UID&lt;/u&gt;" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="260" y="390" width="60" height="50" as="geometry"/>
+                    <mxGeometry x="200" y="390" width="60" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="38" value="Name" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="340" y="390" width="60" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="39" value="Firstname" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="420" y="390" width="61" height="50" as="geometry"/>
+                    <mxGeometry x="393.5" y="390" width="61" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="40" value="DOB" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="490" y="390" width="100" height="50" as="geometry"/>
+                    <mxGeometry x="530" y="390" width="100" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="41" value="" style="endArrow=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" parent="1" source="37" target="2" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -183,6 +189,12 @@
                         <mxPoint x="130" y="120" as="sourcePoint"/>
                         <mxPoint x="110" y="90" as="targetPoint"/>
                     </mxGeometry>
+                </mxCell>
+                <mxCell id="55" value="Picture" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="274" y="390" width="60" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="57" value="Password" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="460" y="390" width="70" height="50" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>

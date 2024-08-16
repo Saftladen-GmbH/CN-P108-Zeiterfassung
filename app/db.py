@@ -1,9 +1,11 @@
 from os import path
+from datetime import datetime
 from sqlalchemy import (
     create_engine,
     Column,
     Integer,
     String,
+    BLOB,
     DateTime,
     Date,
     ForeignKey
@@ -20,8 +22,10 @@ class User(Base):
 
     Attributes:
         UID (str): The unique identifier of the user.
+        Picture (BLOB): The picture of the user. Default is None.
         Name (str): The name of the user.
         Firstname (str): The first name of the user.
+        Password (str): The password of the user.
         DOB (Date): The date of birth of the user.
         CA (str): The CA of the user.
         Logins (list): A list of login instances associated with the user.
@@ -29,8 +33,10 @@ class User(Base):
     """
     __tablename__ = 'user'
     UID = Column(String, primary_key=True)
+    Picture = Column(BLOB)
     Name = Column(String, nullable=False)
     Firstname = Column(String, nullable=False)
+    Password = Column(String, nullable=False)
     DOB = Column(Date, nullable=False)
     CA = Column(String, ForeignKey('class.CA'))
     Logins = relationship('Login', backref='user', lazy=True)
@@ -115,7 +121,9 @@ def init_db(db_url: str):
 
     # Beispiel-Datensatz hinzufügen
     rndpw = random_password()
-    master_admin = Admin(Username='master', Password=hash_password(rndpw))
+    master_user = User(UID='000000', Name='Master', Firstname='Admin', Password=hash_password(rndpw), DOB=datetime.now(), CA='')
+    session.add(master_user)
+    master_admin = Admin(Username='master', Password=hash_password(rndpw), UID='000000')
     session.add(master_admin)
     session.commit()
     print(f"Master-Admin added. Note the Password: {rndpw}")

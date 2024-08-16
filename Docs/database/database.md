@@ -25,8 +25,10 @@ Later, the Userdata should be encrypted with an EE2E solution.
 ### Users
 
 - UID (Primary)
+- Picture
 - Name
 - Firstname
+- Password
 - DOB [Date of Birth]
 - CA (Foreign)
 
