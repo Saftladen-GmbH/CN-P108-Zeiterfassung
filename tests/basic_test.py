@@ -3,7 +3,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/../")
 # Module imports here
-from utility import *
+from utility import random_password, hash_password, verify_password
 
 
 def test_test():
