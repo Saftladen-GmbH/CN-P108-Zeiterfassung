@@ -1,7 +1,6 @@
 from os import path
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime, date
 from db import init_db, Admin, User, Class, Login, Logoff
 from utility import hash_password, verify_password
 
