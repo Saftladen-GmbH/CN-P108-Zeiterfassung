@@ -12,9 +12,22 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="../static/css/output.css">
     </head>
-    <body class="bg-slate-900 text-gray-200 flex justify-between items-center h-60">
-        {%block body%}
-        {%endblock%}
+    <body class="">
+        <nav class="flex justify-center content-center bg-neutral-100 h-32">
+            <div class="flex justify-star content-center  my-6 md:mx-24 mx-4  w-3/4">
+                <img src="./static/images/logo.jpg" class="aspect-square h-full mr-16">
+                {%block navleft%}
+                {%endblock%}
+            </div>
+            <div class="flex justify-end content-center  my-6 md:mx-32 mx-4  w-1/4">
+                {%block navright%}
+                {%endblock%}
+            </div>
+        </nav>
+        <div class="md:mx-40 mx-4 md:my-16 my-8">
+            {%block body%}
+            {%endblock%}
+        </div>
         <script src="" async defer></script>
     </body>
 </html>
