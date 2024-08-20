@@ -152,6 +152,7 @@ def init_db(db_url: str):
                          UID='000000000000')
     session.add(master_admin)
     session.commit()
+    session.close()
     print(f"Master-Admin added. Note the Password: {rndpw}")
     print("## You won't see it again. Please note the password. ##")
 
