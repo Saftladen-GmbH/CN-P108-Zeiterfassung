@@ -2,11 +2,11 @@
 module.exports = {
   content: ["./app/templates/**/*.html", "./app/static/js/**/*.js"],
   theme: {
-    colors:{
-      'fastschwarz': '#C2C2C2',
-      'white': '#ffffff',
+    extend: {
+      colors: {
+        'fastschwarz': '#2C2C2C'
+      },
     },
-    extend: {},
   },
   plugins: [],
 }
