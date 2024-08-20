@@ -14,13 +14,20 @@
     </head>
     <body class="">
         <nav class="flex justify-center content-center bg-neutral-100 h-32">
-            <div class="flex justify-between content-center my-3 w-full">
-                <img src="./static/images/logo.jpg" class="">
-                <h1>Zeiterfassung</h1>
+            <div class="flex justify-star content-center  my-6 md:mx-24 mx-4  w-3/4">
+                <img src="./static/images/logo.jpg" class="aspect-square h-full mr-16">
+                {%block navleft%}
+                {%endblock%}
+            </div>
+            <div class="flex justify-end content-center  my-6 md:mx-32 mx-4  w-1/4">
+                {%block navright%}
+                {%endblock%}
             </div>
         </nav>
-        {%block body%}
-        {%endblock%}
+        <div class="md:mx-40 mx-4 md:my-16 my-8">
+            {%block body%}
+            {%endblock%}
+        </div>
         <script src="" async defer></script>
     </body>
 </html>
