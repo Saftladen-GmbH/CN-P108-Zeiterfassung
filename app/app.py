@@ -27,7 +27,7 @@ def index():
 
 @server.route("/user")
 def user():
-    return render_template("user.html", logins={}, logouts={})
+    return render_template("user.html", logins={}, logouts={}, user={"firstname": "John", "name": "Doe"})
 
 
 if __name__ == "__main__":

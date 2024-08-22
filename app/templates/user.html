@@ -3,31 +3,44 @@
 {%block title%}USERNAME Zeiterfassung{%endblock%}
 
 {%block navleft%}
-    <div class="flex justify-center items-center text-xl">
-        <a href="{{url_for('user')}}" class="mx-5 h-fit text-orange font-bold hover:underline">Home</a>
-        <a href="" class="mx-5 h-fit">Anwesenheiten</a>
+    <div class="flex justify-center items-center text-xl select-none">
+        <a href="{{url_for('user')}}" class="mx-2 lg:mx-5 h-fit text-orange font-bold underline-offset-4 hover:underline">Home</a>
+        <a href="" class="mx-2 lg:mx-5 h-fit underline-offset-4 hover:underline">Anwesenheiten</a>
     </div>
 {%endblock%}
 
 {%block navright%}
-    <div class="flex justify-center items-center text-xl">
-        <div class="mr-20 h-12 w-28 rounded-xl bg-gray-300 content-center text-center">
+    <div class="flex justify-center items-center text-xl select-none">
+        <div class="mr-1 lg:mr-20 h-12 w-28 rounded-xl bg-gray-300 content-center text-center">
             <p id="clockfield" class="text-black">00:00:00</p>
         </div>
-        <button class="mx-5 h-12 w-28 rounded-xl bg-black text-white hover:bg-orange hover:text-black active:ring-4 ring-orange/50 transition-colors duration-300 text-nowrap">Sign Out</button>
+        <button class="md:before:content-['Sign_Out'] mx-5 h-12 w-12 md:w-28 rounded-xl bg-black text-white hover:bg-orange hover:text-black active:ring-4 ring-orange/50 transition-colors duration-300 text-nowrap">
+            <div class="md:hidden flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"
+                    class="size-8">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                </svg>
+
+            </div>
+        </button>
     </div>
 {%endblock%}
 
 {%block body%}
-<div class="w-full min-h-full">
+<div class="w-full min-h-full select-none">
+    <div id="Userdata" class="flex flex-col justify-cente items-center text-4xl">
+        <img src="./static/images/placeholder_user.svg" class="h-20 w-20 mb-10 border-black rounded-full border-4">
+        <p>Hello {{user.name}}, {{user.firstname}}</p>
+    </div>
     <div id="timedisplay" class="flex justify-center items-center">
-        <p class="text-6xl md:text-9xl my-10 md:my-20 text-black">00:00:00</p>
+        <p class="text-7xl md:text-9xl my-10 md:my-20 text-black drop-shadow-lg">00:00:00</p>
     </div>
     <div id="buttons" class="flex justify-center items-center">
         <button id="in" class="mx-5 h-12 w-36 rounded-xl bg-black text-white hover:bg-green-600 ring-green-600/50 hover:ring-8 hover:text-black active:bg-green-800 active:text-white active:duration-100 active:ease-out transition-all duration-300 text-nowrap">Einstempeln</button>
         <button id="out" class="mx-5 h-12 w-36 rounded-xl bg-black text-white hover:bg-rot ring-rot/50 hover:ring-8 hover:text-black active:bg-red-800 active:text-white active:duration-100 active:ease-out transition-all duration-300 text-nowrap">Ausstempeln</button>
     </div>
-    <div id="infofield" class="min-h-60 w-2/3 min-w-[30rem] max-w-3xl mx-auto my-10 rounded-xl bg-gray-300">
+    <div id="infofield" class="min-h-60 w-2/3 min-w-80 sm:min-w-[30rem] max-w-3xl mx-auto my-10 rounded-xl bg-gray-300">
         <div id="contentwrapper" class="p-5">
             <p class="text-2xl text-black">Informationen:</p>
             {% for login in logins %}
