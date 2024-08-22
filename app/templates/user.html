@@ -12,7 +12,7 @@
 {%block navright%}
     <div class="flex justify-center items-center text-xl">
         <div class="mr-20 h-12 w-28 rounded-xl bg-gray-300 content-center text-center">
-            TIME
+            <p id="clockfield" class="text-black">00:00:00</p>
         </div>
         <button class="mx-5 h-12 w-28 rounded-xl bg-black text-white hover:bg-red-600 hover:text-black transition-colors duration-300 text-nowrap">Sign Out</button>
     </div>
@@ -22,4 +22,8 @@
 <div>
 
 </div>
+{%endblock%}
+
+{%block scripts%}
+    <script src="{{url_for('static', filename='js/clock.js')}}"></script>
 {%endblock%}
