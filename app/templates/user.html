@@ -19,8 +19,19 @@
 {%endblock%}
 
 {%block body%}
-<div>
-
+<div class="w-full min-h-full">
+    <div id="timedisplay" class="flex justify-center items-center">
+        <p class="text-6xl md:text-9xl my-10 md:my-20 text-black">00:00:00</p>
+    </div>
+    <div id="buttons" class="flex justify-center items-center">
+        <button id="in" class="mx-5 h-12 w-36 rounded-xl bg-black text-white hover:bg-green-600 ring-green-600/50 hover:ring-8 hover:text-black active:bg-green-800 active:text-white transition-all duration-300 text-nowrap">Einstempeln</button>
+        <button id="out" class="mx-5 h-12 w-36 rounded-xl bg-black text-white hover:bg-red-600 ring-red-600/50 hover:ring-8 hover:text-black active:bg-red-800 active:text-white transition-all duration-300 text-nowrap">Ausstempeln</button>
+    </div>
+    <div id="infofield" class="min-h-60 w-2/3 min-w-[30rem] max-w-3xl mx-auto my-10 rounded-xl bg-gray-300">
+        <div id="contentwrapper" class="p-5">
+            test
+        </div>
+    </div>
 </div>
 {%endblock%}
 
