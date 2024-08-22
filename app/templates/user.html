@@ -3,18 +3,18 @@
 {%block title%}USERNAME Zeiterfassung{%endblock%}
 
 {%block navleft%}
-    <div>
-        <a href="">Home</a>
-        <a href="">Anwesenheiten</a>
+    <div class="flex justify-center items-center text-xl">
+        <a href="{{url_for('user')}}" class="mx-5 h-fit text-orange-500 font-bold hover:underline">Home</a>
+        <a href="" class="mx-5 h-fit">Anwesenheiten</a>
     </div>
 {%endblock%}
 
-{%bock navright%}
-    <div>
-        <div>
+{%block navright%}
+    <div class="flex justify-center items-center text-xl">
+        <div class="mr-20 h-12 w-28 rounded-xl bg-gray-300 content-center text-center">
             TIME
         </div>
-        <button>Sign Out</button>
+        <button class="mx-5 h-12 w-28 rounded-xl bg-black text-white hover:bg-red-600 hover:text-black transition-colors duration-300 text-nowrap">Sign Out</button>
     </div>
 {%endblock%}
 

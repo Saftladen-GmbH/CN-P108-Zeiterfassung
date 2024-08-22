@@ -1,5 +1,5 @@
 from os import path
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for
 from flask_sqlalchemy import SQLAlchemy
 from db import init_db, Admin, User, Class, Login, Logoff
 from utility import hash_password, verify_password
@@ -23,6 +23,11 @@ db = SQLAlchemy(server)
 @server.route("/")
 def index():
     return render_template("index.html")
+
+
+@server.route("/user")
+def user():
+    return render_template("user.html")
 
 
 if __name__ == "__main__":
