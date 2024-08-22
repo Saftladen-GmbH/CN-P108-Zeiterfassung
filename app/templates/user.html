@@ -4,7 +4,7 @@
 
 {%block navleft%}
     <div class="flex justify-center items-center text-xl">
-        <a href="{{url_for('user')}}" class="mx-5 h-fit text-orange-500 font-bold hover:underline">Home</a>
+        <a href="{{url_for('user')}}" class="mx-5 h-fit text-orange font-bold hover:underline">Home</a>
         <a href="" class="mx-5 h-fit">Anwesenheiten</a>
     </div>
 {%endblock%}
@@ -14,7 +14,7 @@
         <div class="mr-20 h-12 w-28 rounded-xl bg-gray-300 content-center text-center">
             <p id="clockfield" class="text-black">00:00:00</p>
         </div>
-        <button class="mx-5 h-12 w-28 rounded-xl bg-black text-white hover:bg-red-600 hover:text-black transition-colors duration-300 text-nowrap">Sign Out</button>
+        <button class="mx-5 h-12 w-28 rounded-xl bg-black text-white hover:bg-orange hover:text-black active:ring-4 ring-orange/50 transition-colors duration-300 text-nowrap">Sign Out</button>
     </div>
 {%endblock%}
 
@@ -24,12 +24,18 @@
         <p class="text-6xl md:text-9xl my-10 md:my-20 text-black">00:00:00</p>
     </div>
     <div id="buttons" class="flex justify-center items-center">
-        <button id="in" class="mx-5 h-12 w-36 rounded-xl bg-black text-white hover:bg-green-600 ring-green-600/50 hover:ring-8 hover:text-black active:bg-green-800 active:text-white transition-all duration-300 text-nowrap">Einstempeln</button>
-        <button id="out" class="mx-5 h-12 w-36 rounded-xl bg-black text-white hover:bg-red-600 ring-red-600/50 hover:ring-8 hover:text-black active:bg-red-800 active:text-white transition-all duration-300 text-nowrap">Ausstempeln</button>
+        <button id="in" class="mx-5 h-12 w-36 rounded-xl bg-black text-white hover:bg-green-600 ring-green-600/50 hover:ring-8 hover:text-black active:bg-green-800 active:text-white active:duration-100 active:ease-out transition-all duration-300 text-nowrap">Einstempeln</button>
+        <button id="out" class="mx-5 h-12 w-36 rounded-xl bg-black text-white hover:bg-rot ring-rot/50 hover:ring-8 hover:text-black active:bg-red-800 active:text-white active:duration-100 active:ease-out transition-all duration-300 text-nowrap">Ausstempeln</button>
     </div>
     <div id="infofield" class="min-h-60 w-2/3 min-w-[30rem] max-w-3xl mx-auto my-10 rounded-xl bg-gray-300">
         <div id="contentwrapper" class="p-5">
-            test
+            <p class="text-2xl text-black">Informationen:</p>
+            {% for login in logins %}
+            <p class="text-black">Logged in last at {{login.date}}, {{login.time}}</p>
+            {% endfor %}
+            {% for logout in logouts %}
+            <p class="text-black">>Logged out last at {{logout.date}}, {{logout.time}}</p>
+            {% endfor %}
         </div>
     </div>
 </div>
