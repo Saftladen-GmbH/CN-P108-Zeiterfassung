@@ -25,7 +25,7 @@ def index():
     return render_template("index.html")
 
 
-@server.route("/user", methods=["GET", "POST"])
+@server.route("/user")
 def user():
     return render_template("user.html",
                            logins={},
