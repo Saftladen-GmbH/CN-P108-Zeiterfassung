@@ -27,7 +27,13 @@ def index():
 
 @server.route("/user")
 def user():
-    return render_template("user.html", logins={}, logouts={}, user={"firstname": "John", "name": "Doe"})
+    return render_template("user.html",
+                           logins={},
+                           logouts={},
+                           user={"firstname": "John",
+                                 "name": "Doe",
+                                 "image": url_for("static",
+                                                  filename="images/placeholder_user.svg")})
 
 
 if __name__ == "__main__":

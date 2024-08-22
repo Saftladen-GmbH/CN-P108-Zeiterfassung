@@ -11,7 +11,7 @@
 
 {%block navright%}
     <div class="flex justify-center items-center text-xl select-none">
-        <div class="mr-1 lg:mr-20 h-12 w-28 rounded-xl bg-gray-300 content-center text-center">
+        <div class="hidden sm:block mr-1 lg:mr-20 h-12 w-28 rounded-xl bg-gray-300 content-center text-center">
             <p id="clockfield" class="text-black">00:00:00</p>
         </div>
         <button class="md:before:content-['Sign_Out'] mx-5 h-12 w-12 md:w-28 rounded-xl bg-black text-white hover:bg-orange hover:text-black active:ring-4 ring-orange/50 transition-colors duration-300 text-nowrap">
@@ -30,11 +30,11 @@
 {%block body%}
 <div class="w-full min-h-full select-none">
     <div id="Userdata" class="flex flex-col justify-cente items-center text-4xl">
-        <img src="./static/images/placeholder_user.svg" class="h-20 w-20 mb-10 border-black rounded-full border-4">
+        <img src="{{user.image}}" class="h-20 md:h-32 aspect-square mb-6 border-black rounded-full border-4">
         <p>Hello {{user.name}}, {{user.firstname}}</p>
     </div>
     <div id="timedisplay" class="flex justify-center items-center">
-        <p class="text-7xl md:text-9xl my-10 md:my-20 text-black drop-shadow-lg">00:00:00</p>
+        <p class="text-7xl sm:text-8xl md:text-9xl my-10 md:my-20 text-black drop-shadow-lg">00:00:00</p>
     </div>
     <div id="buttons" class="flex justify-center items-center">
         <button id="in" class="mx-5 h-12 w-36 rounded-xl bg-black text-white hover:bg-green-600 ring-green-600/50 hover:ring-8 hover:text-black active:bg-green-800 active:text-white active:duration-100 active:ease-out transition-all duration-300 text-nowrap">Einstempeln</button>
@@ -42,13 +42,17 @@
     </div>
     <div id="infofield" class="min-h-60 w-2/3 min-w-80 sm:min-w-[30rem] max-w-3xl mx-auto my-10 rounded-xl bg-gray-300">
         <div id="contentwrapper" class="p-5">
-            <p class="text-2xl text-black">Informationen:</p>
-            {% for login in logins %}
-            <p class="text-black">Logged in last at {{login.date}}, {{login.time}}</p>
-            {% endfor %}
-            {% for logout in logouts %}
-            <p class="text-black">>Logged out last at {{logout.date}}, {{logout.time}}</p>
-            {% endfor %}
+            <p class="text-2xl text-black mb-5">Informationen:</p>
+            {% if logins and logouts%}
+                {% for login in logins %}
+                <p class="text-black">Logged in last at {{login.date}}, {{login.time}}</p>
+                {% endfor %}
+                {% for logout in logouts %}
+                <p class="text-black">>Logged out last at {{logout.date}}, {{logout.time}}</p>
+                {% endfor %}
+            {% else %}
+            <p class="text-black ml-5">You have never been logged in!</p>
+            {% endif %}
         </div>
     </div>
 </div>
