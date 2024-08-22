@@ -6,7 +6,7 @@ function startTime() {
     let s = today.getSeconds();
     m = checkTime(m);
     s = checkTime(s);
-    console.log(h + ":" + m + ":" + s)
+    // console.log(h + ":" + m + ":" + s)
     document.getElementById('clockfield').innerHTML = h + ":" + m + ":" + s;
     setTimeout(startTime, 1000);
 }

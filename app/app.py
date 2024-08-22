@@ -1,5 +1,5 @@
 from os import path
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from db import init_db, Admin, User, Class, Login, Logoff
 from utility import hash_password, verify_password
@@ -25,7 +25,7 @@ def index():
     return render_template("index.html")
 
 
-@server.route("/user")
+@server.route("/user", methods=["GET", "POST"])
 def user():
     return render_template("user.html",
                            logins={},
