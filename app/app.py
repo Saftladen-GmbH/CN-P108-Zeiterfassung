@@ -25,12 +25,16 @@ def index():
     return render_template("index.html")
 
 
+# Remove second route and default value for production !!
+@server.route("/user_test")
 @server.route("/user_<userid>")
-def user(userid: str = "TEST"):
+def user(userid: str = "test"):
     """User Page to start logging Time
 
     Args:
-        userid (str): Needs to be given to load User Data!. Defaults to "TEST".
+        userid (str): Needs to be given to load User Data! Defaults to test for DEV
+
+        !!REMOVE SECOND ROUTE AND DEFAULT VALUE FOR PRODUCTION!!
 
     Returns:
         Page: User Page
