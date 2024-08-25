@@ -25,8 +25,16 @@ def index():
     return render_template("index.html")
 
 
-@server.route("/user")
-def user():
+@server.route("/user_<userid>")
+def user(userid: str = "TEST"):
+    """User Page to start logging Time
+
+    Args:
+        userid (str): Needs to be given to load User Data!. Defaults to "TEST".
+
+    Returns:
+        Page: User Page
+    """
     return render_template("user.html",
                            logins={},
                            logouts={},
