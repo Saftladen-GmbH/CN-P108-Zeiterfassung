@@ -164,7 +164,7 @@ def init_db(db_url: str):
                      CA='Testclass')
     session.add(test_user)
     # Delete this block for production
-    
+
     session.commit()
     session.close()
     print(f"Master-Admin added. Note the Password: {rndpw}")
