@@ -2,9 +2,23 @@
 
 {%block title%}Test Haupseite{%endblock%}
 
+{%block navleft%}hier links{%endblock%}
+
+{%block navright%}<div class="my-6">Uhrzeit
+
+</div>{%endblock%}
+
 {%block body%}
-    <div class="bg-white">
-    <h1 class="text-orange-700">Index</h1>
-    <p>Welcome to the index page.</p>
+<div class="w-full h-full flex justify-center">
+    <div class="bg-neutral-500 h-full w-full m-5">
+        <form class="bg-white p-3" method="post">
+            <div>
+                <label for="username">Username:</label><br>
+                <input type="text" id="username" name="username" required><br>
+                <label for="password">Passwort:</label><br>
+                <input type="text" id="password" name="password" required><br>
+            </div>
+        </form>
+    </div>
 </div>
 {%endblock%}
