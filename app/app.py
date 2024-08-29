@@ -33,7 +33,8 @@ def user(userid: str = 'JD0001010004'):
     """User Page to start logging Time
 
     Args:
-        userid (str): Needs to be given to load User Data! Defaults to test for DEV
+        userid (str): Needs to be given to load User Data!
+                      Defaults to testuser UID for DEV
 
         !!REMOVE SECOND ROUTE AND DEFAULT VALUE FOR PRODUCTION!!
 
@@ -62,11 +63,11 @@ def user(userid: str = 'JD0001010004'):
         return redirect(url_for("user", userid=userid))
     else:
         return render_template("user.html",
-                            logins=user_data.Logins,
-                            logouts=user_data.Logoffs,
-                            user=user_data,
-                            in_state=state[0],
-                            out_state=state[1],)
+                               logins=user_data.Logins,
+                               logouts=user_data.Logoffs,
+                               user=user_data,
+                               in_state=state[0],
+                               out_state=state[1],)
 
 
 if __name__ == "__main__":
