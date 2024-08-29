@@ -46,6 +46,12 @@ def user(userid: str = 'JD0001010004'):
             new_login = Login(Time=datetime.now(), UID=userid)
             db.session.add(new_login)
             db.session.commit()
+        elif request.form['logout'] == 'time_out':
+            new_logoff = Logoff(Time=datetime.now(), UID=userid)
+            db.session.add(new_logoff)
+            db.session.commit()
+        elif request.form['signout_btn'] == 'signout':
+            return redirect(url_for("index"))
         return redirect(url_for("user", userid=userid))
     else:
         return render_template("user.html",

@@ -48,12 +48,12 @@
     <div id="infofield" class="min-h-60 w-2/3 min-w-80 sm:min-w-[30rem] max-w-3xl mx-auto my-10 rounded-xl bg-gray-300">
         <div id="contentwrapper" class="p-5">
             <p class="text-2xl text-black mb-5">Informationen:</p>
-            {% if logins and logouts%}
+            {% if logins or logouts%}
             {% for login in logins %}
             <p class="text-black">Logged in last at {{login.Time}}</p>
             {% endfor %}
             {% for logout in logouts %}
-            <p class="text-black">>Logged out last at {{logout.Time}}}</p>
+            <p class="text-black">>Logged out last at {{logout.Time}}</p>
             {% endfor %}
             {% else %}
             <p class="text-black ml-5">You have never been logged in!</p>
