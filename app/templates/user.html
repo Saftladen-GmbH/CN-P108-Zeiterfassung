@@ -41,9 +41,19 @@
     </div>
     <form id="buttons" class="flex justify-center items-center" method="post">
         <button id="in" name="login" value="time_in"
-            class="mx-5 h-12 w-36 rounded-xl bg-black text-white hover:bg-green-600 ring-green-600/50 hover:ring-8 hover:text-black active:bg-green-800 active:text-white active:duration-100 active:ease-out transition-all duration-300 text-nowrap" {{in_state}}>Einstempeln</button>
+            {% if in_state %}
+            class="mx-5 h-12 w-36 rounded-xl bg-grau-dunkel text-black hover:text-black/25 text-nowrap" 
+            {% else %}
+            class="mx-5 h-12 w-36 rounded-xl bg-black text-white hover:bg-green-600 ring-green-600/50 hover:ring-8 hover:text-black active:bg-green-800 active:text-white active:duration-100 active:ease-out transition-all duration-300 text-nowrap" 
+            {% endif %}
+            {{in_state}}>Einstempeln</button>
         <button id="out" name="logout" value="time_out"
-            class="mx-5 h-12 w-36 rounded-xl bg-black text-white hover:bg-rot ring-rot/50 hover:ring-8 hover:text-black active:bg-red-800 active:text-white active:duration-100 active:ease-out transition-all duration-300 text-nowrap" {{out_state}}>Ausstempeln</button>
+            {% if out_state %}
+            class="mx-5 h-12 w-36 rounded-xl bg-grau-dunkel text-black hover:text-black/25 text-nowrap" 
+            {% else %}
+            class="mx-5 h-12 w-36 rounded-xl bg-black text-white hover:bg-rot ring-rot/50 hover:ring-8 hover:text-black active:bg-red-800 active:text-white active:duration-100 active:ease-out transition-all duration-300 text-nowrap" 
+            {% endif %}
+            {{out_state}}>Ausstempeln</button>
     </form>
     <div id="infofield" class="min-h-60 w-2/3 min-w-80 sm:min-w-[30rem] max-w-3xl mx-auto my-10 rounded-xl bg-gray-300">
         <div id="contentwrapper" class="p-5">
