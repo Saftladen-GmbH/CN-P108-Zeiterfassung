@@ -1,8 +1,7 @@
 from os import path
 from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import select
-from db import init_db, Base, Admin, User, Class, Login, Logoff
+from db import init_db, Admin, User, Class, Login, Logoff
 from utility import hash_password, verify_password
 
 server = Flask(__name__)
@@ -18,8 +17,7 @@ if not path.exists(path.join(basedir, 'db/database.db')):
 
 # Database configuration
 server.config['SQLALCHEMY_DATABASE_URI'] = sqpath
-db = SQLAlchemy(model_class=Base)
-db.init_app(server)
+db = SQLAlchemy(server)
 
 
 @server.route("/")
