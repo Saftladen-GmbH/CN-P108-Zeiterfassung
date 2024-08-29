@@ -45,8 +45,7 @@ def user(userid: str = 'JD0001010004'):
     """
     # user_data = db.session.query(User).filter_by(UID=userid).first()
     user_data = db.get_or_404(User, userid)
-    if user_data is None:
-        return url_for("not_found")
+
     last_login = user_data.Logins[-1]
     last_logoff = user_data.Logoffs[-1]
     state = ['', 'disabled']
