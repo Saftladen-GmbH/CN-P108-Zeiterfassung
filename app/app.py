@@ -41,6 +41,13 @@ def user(userid: str = 'JD0001010004'):
         Page: User Page
     """
     user_data = db.session.query(User).filter_by(UID=userid).first()
+    last_login = user_data.Logins[-1]
+    last_logoff = user_data.Logoffs[-1]
+    state = ['', 'disabled']
+    if last_login.Time < last_logoff.Time:
+        state = ['', 'disabled']
+    else:
+        state = ['disabled', '']
     if request.method == "POST":
         if request.form.get('login') == 'time_in':
             new_login = Login(Time=datetime.now(), UID=userid)
@@ -56,7 +63,9 @@ def user(userid: str = 'JD0001010004'):
         return render_template("user.html",
                             logins=user_data.Logins,
                             logouts=user_data.Logoffs,
-                            user=user_data)
+                            user=user_data,
+                            in_state=state[0],
+                            out_state=state[1],)
 
 
 if __name__ == "__main__":
