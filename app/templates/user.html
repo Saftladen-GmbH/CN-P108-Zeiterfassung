@@ -59,8 +59,8 @@
         <div id="contentwrapper" class="p-5">
             <p class="text-2xl text-black mb-5">Informationen:</p>
             {% if logins or logouts%}
-            <p class="text-black">Logged in last at {{logins[-1].Time}}</p>
-            <p class="text-black">Logged out last at {{logouts[-1].Time}}</p>
+            <p class="text-black">Last Login: {{logins[-1].Time.strftime('%d.%m.%Y at %H:%M:%S')}}</p>
+            <p class="text-black">Last Logout: {{logouts[-1].Time.strftime('%d.%m.%Y at %H:%M:%S')}}</p>
             {% else %}
             <p class="text-black ml-5">You have never been logged in!</p>
             {% endif %}
