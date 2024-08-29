@@ -9,14 +9,16 @@
 </div>{%endblock%}
 
 {%block body%}
-<div class="w-full h-full flex justify-center">
-    <div class="bg-neutral-500 h-full w-full m-5">
-        <form class="bg-white p-3" method="post">
+<div class="w-full min-h-full flex justify-center">
+    <div class="bg-grau-hell px-28 py-20 m-5 flex flex-col justify-center items-center">
+        <h1 class="text-3xl mb-5">Melde dich hier an!</h1>
+        <form class="bg-white p-6 m-3 w-80 border-grau border-[1.5px] rounded-lg" method="post">
             <div>
-                <label for="username">Username:</label><br>
-                <input type="text" id="username" name="username" required><br>
-                <label for="password">Passwort:</label><br>
-                <input type="text" id="password" name="password" required><br>
+                <label for="username">Username:</label>
+                <input class="w-full h-10 mb-4 mt-1 px-2 border-grau border-[1px] rounded-lg" type="text" id="username" name="username" placeholder="Benutzername" required>
+                <label for="password">Passwort:</label>
+                <input class="w-full h-10 mb-8 mt-1 px-2 border-grau border-[1px] rounded-lg" type="password" id="password" name="password" placeholder="Kennwort" required>
+                <button class="bg-blau border-dunkelblau w-full h-10 border-[1px] rounded-lg text-white hover:ring-4 ring-blau/50 transition-all duration-400" type="submit">Anmelden</button>
             </div>
         </form>
     </div>
