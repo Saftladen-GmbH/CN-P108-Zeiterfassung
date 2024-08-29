@@ -42,16 +42,15 @@ def user(userid: str = 'JD0001010004'):
     """
     user_data = db.session.query(User).filter_by(UID=userid).first()
     if request.method == "POST":
-        if request.form['login'] == 'time_in':
+        if request.form.get('login') == 'time_in':
             new_login = Login(Time=datetime.now(), UID=userid)
             db.session.add(new_login)
-            db.session.commit()
-        elif request.form['logout'] == 'time_out':
+        elif request.form.get('logout') == 'time_out':
             new_logoff = Logoff(Time=datetime.now(), UID=userid)
             db.session.add(new_logoff)
-            db.session.commit()
-        elif request.form['signout_btn'] == 'signout':
+        elif request.form.get('signout_btn') == 'signout':
             return redirect(url_for("index"))
+        db.session.commit()
         return redirect(url_for("user", userid=userid))
     else:
         return render_template("user.html",
