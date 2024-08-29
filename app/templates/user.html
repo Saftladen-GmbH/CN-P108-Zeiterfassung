@@ -49,12 +49,8 @@
         <div id="contentwrapper" class="p-5">
             <p class="text-2xl text-black mb-5">Informationen:</p>
             {% if logins or logouts%}
-            {% for login in logins %}
-            <p class="text-black">Logged in last at {{login.Time}}</p>
-            {% endfor %}
-            {% for logout in logouts %}
-            <p class="text-black">>Logged out last at {{logout.Time}}</p>
-            {% endfor %}
+            <p class="text-black">Logged in last at {{logins[-1].Time}}</p>
+            <p class="text-black">Logged out last at {{logouts[-1].Time}}</p>
             {% else %}
             <p class="text-black ml-5">You have never been logged in!</p>
             {% endif %}
