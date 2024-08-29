@@ -1,4 +1,5 @@
 from os import path
+from datetime import datetime
 from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from db import init_db, Admin, User, Class, Login, Logoff
@@ -26,9 +27,9 @@ def index():
 
 
 # Remove second route and default value for production !!
-@server.route("/user_JD0001010004")
-@server.route("/user_<userid>")
-def user(userid: str, method=["POST", "GET"]):
+@server.route("/user_JD0001010004", methods=["POST", "GET"])
+@server.route("/user_<userid>", methods=["POST", "GET"])
+def user(userid: str = 'JD0001010004'):
     """User Page to start logging Time
 
     Args:
@@ -39,10 +40,13 @@ def user(userid: str, method=["POST", "GET"]):
     Returns:
         Page: User Page
     """
-    user_id = 'JD0001010004'
-    user_data = db.session.query(User).filter_by(UID=user_id).first()
+    user_data = db.session.query(User).filter_by(UID=userid).first()
     if request.method == "POST":
-        pass
+        if request.form['login'] == 'time_in':
+            new_login = Login(Time=datetime.now(), UID=userid)
+            db.session.add(new_login)
+            db.session.commit()
+        return redirect(url_for("user", userid=userid))
     else:
         return render_template("user.html",
                             logins=user_data.Logins,

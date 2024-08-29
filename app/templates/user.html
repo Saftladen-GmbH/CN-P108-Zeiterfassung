@@ -50,10 +50,10 @@
             <p class="text-2xl text-black mb-5">Informationen:</p>
             {% if logins and logouts%}
             {% for login in logins %}
-            <p class="text-black">Logged in last at {{login.date}}, {{login.time}}</p>
+            <p class="text-black">Logged in last at {{login.Time}}</p>
             {% endfor %}
             {% for logout in logouts %}
-            <p class="text-black">>Logged out last at {{logout.date}}, {{logout.time}}</p>
+            <p class="text-black">>Logged out last at {{logout.Time}}}</p>
             {% endfor %}
             {% else %}
             <p class="text-black ml-5">You have never been logged in!</p>
