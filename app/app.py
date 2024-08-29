@@ -56,6 +56,7 @@ def user(userid: str = 'JD0001010004'):
             new_logoff = Logoff(Time=datetime.now(), UID=userid)
             db.session.add(new_logoff)
         elif request.form.get('signout_btn') == 'signout':
+            # CODE TO SIGN OUT OF SESSION
             return redirect(url_for("index"))
         db.session.commit()
         return redirect(url_for("user", userid=userid))
