@@ -8,6 +8,31 @@ from string import (
     punctuation
 )
 
+
+def image2blob(image_path: str) -> bytes:
+    """Converts an image to a BLOB
+
+    Args:
+        image_path (str): Path to the image
+
+    Returns:
+        bytes: The image as a BLOB
+    """
+    with open(image_path, 'rb') as file:
+        return file.read()
+
+
+def blob2image(blob: bytes, image_path: str) -> None:
+    """Converts a BLOB to an image
+
+    Args:
+        blob (bytes): The BLOB to convert
+        image_path (str): Path to save the image
+    """
+    with open(image_path, 'wb') as file:
+        file.write(blob)
+
+
 def random_password(length: int = 10) -> str:
     """Generates a random password
 

@@ -141,7 +141,7 @@ def init_db(db_url: str):
     Session = sessionmaker(bind=engine)
     session = Session()
 
-    # Beispiel-Datensatz hinzufügen
+    # Admin Datensatz hinzufügen
     rndpw = random_password()
     master_user = User(UID='000000000000', Name='Admin', Firstname='Master',
                        Password=hash_password(rndpw), DOB=datetime.now(),
@@ -151,6 +151,20 @@ def init_db(db_url: str):
                          Password=hash_password(rndpw),
                          UID='000000000000')
     session.add(master_admin)
+
+    # Testdaten hinzufügen (nur für Entwicklung)!
+    t_name = 'Doe'
+    t_firstname = 'John'
+    t_dob = datetime(2000, 1, 1)
+    t_uid = generate_uid(t_name, t_firstname, t_dob, session)
+    test_class = Class(CA='Testclass', Subject_area='Test', Classroom='Testroom')
+    session.add(test_class)
+    test_user = User(UID=t_uid, Name=t_name, Firstname=t_firstname,
+                     Password=hash_password('123456789'), DOB=t_dob,
+                     CA='Testclass')
+    session.add(test_user)
+    # Delete this block for production
+
     session.commit()
     session.close()
     print(f"Master-Admin added. Note the Password: {rndpw}")
