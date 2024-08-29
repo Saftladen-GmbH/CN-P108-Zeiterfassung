@@ -56,14 +56,13 @@ def user(userid: str = 'JD0001010004'):
         state = ['disabled', '']
     if request.method == "POST":
         if request.form.get('login') == 'time_in':
-            new_login = Login(Time=datetime.now(), UID=userid)
-            db.session.add(new_login)
+            data = Login(Time=datetime.now(), UID=userid)
         elif request.form.get('logout') == 'time_out':
-            new_logoff = Logoff(Time=datetime.now(), UID=userid)
-            db.session.add(new_logoff)
+            data = Logoff(Time=datetime.now(), UID=userid)
         elif request.form.get('signout_btn') == 'signout':
             # CODE TO SIGN OUT OF SESSION
             return redirect(url_for("index"))
+        db.session.add(data)
         db.session.commit()
         return redirect(url_for("user", userid=userid))
     else:
