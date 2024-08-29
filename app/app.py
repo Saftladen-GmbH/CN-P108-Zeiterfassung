@@ -1,7 +1,8 @@
 from os import path
 from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
-from db import init_db, Admin, User, Class, Login, Logoff
+from sqlalchemy import select
+from db import init_db, Base, Admin, User, Class, Login, Logoff
 from utility import hash_password, verify_password
 
 server = Flask(__name__)
@@ -17,7 +18,8 @@ if not path.exists(path.join(basedir, 'db/database.db')):
 
 # Database configuration
 server.config['SQLALCHEMY_DATABASE_URI'] = sqpath
-db = SQLAlchemy(server)
+db = SQLAlchemy(model_class=Base)
+db.init_app(server)
 
 
 @server.route("/")
@@ -26,9 +28,9 @@ def index():
 
 
 # Remove second route and default value for production !!
-@server.route("/user_test")
+@server.route("/user_JD0001010004")
 @server.route("/user_<userid>")
-def user(userid: str = "test"):
+def user(userid: str, method=["POST", "GET"]):
     """User Page to start logging Time
 
     Args:
@@ -39,13 +41,15 @@ def user(userid: str = "test"):
     Returns:
         Page: User Page
     """
-    return render_template("user.html",
-                           logins={},
-                           logouts={},
-                           user={"firstname": "John",
-                                 "name": "Doe",
-                                 "image": url_for("static",
-                                                  filename="images/placeholder_user.svg")})
+    user_id = 'JD0001010004'
+    user_data = db.session.query(User).filter_by(UID=user_id).first()
+    if request.method == "POST":
+        pass
+    else:
+        return render_template("user.html",
+                            logins=user_data.Logins,
+                            logouts=user_data.Logoffs,
+                            user=user_data)
 
 
 if __name__ == "__main__":
