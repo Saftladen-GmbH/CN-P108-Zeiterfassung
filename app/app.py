@@ -39,6 +39,8 @@ def user(userid: str = 'JD0001010004'):
         !!REMOVE SECOND ROUTE AND DEFAULT VALUE FOR PRODUCTION!!
 
     Returns:
+        Page: Index Page
+        Page: Not Found
         Page: User Page
     """
     # user_data = db.session.query(User).filter_by(UID=userid).first()
