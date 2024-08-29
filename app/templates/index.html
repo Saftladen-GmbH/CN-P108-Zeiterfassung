@@ -2,9 +2,13 @@
 
 {%block title%}Test Haupseite{%endblock%}
 
-{%block navleft%}hier links{%endblock%}
+{%block navleft%}<div>
+    <p class="my-6 text-2xl">Zeiterfassung</p>
+</div>{%endblock%}
 
-{%block navright%}<div class="my-6">Uhrzeit
+{%block navright%}<div class="my-6 flex">
+    <p class="text-xl">Uhrzeit</p>
+    <p id="clockfield" class="text-xl ml-2">No time for you </p>
 
 </div>{%endblock%}
 
@@ -23,4 +27,7 @@
         </form>
     </div>
 </div>
+{%endblock%}
+{%block scripts%}
+<script src="{{url_for('static',filename='js/clock.js')}}"></script>
 {%endblock%}
