@@ -60,7 +60,9 @@ def user(userid: str = 'JD0001010004'):
         elif request.form.get('logout') == 'time_out':
             data = Logoff(Time=current_time, UID=userid)
         elif request.form.get('signout_btn') == 'signout':
+            # !!!!
             # CODE TO SIGN OUT OF SESSION
+            # !!!!
             return redirect(url_for("index"))
         db.session.add(data)
         db.session.commit()
