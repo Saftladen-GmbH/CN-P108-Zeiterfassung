@@ -10,10 +10,12 @@ from sqlalchemy import (
     Date,
     ForeignKey
     )
-from sqlalchemy.orm import sessionmaker, relationship, declarative_base
+from sqlalchemy.orm import sessionmaker, relationship, DeclarativeBase
 from utility import random_password, hash_password
 
-Base = declarative_base()
+
+class Base(DeclarativeBase):
+    pass
 
 
 class User(Base):
