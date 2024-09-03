@@ -1,33 +1,14 @@
 {%extends "basis_tmplt.html"%}
+{% from "user_nav.html" import nav_r, nav_l%}
 
 {%block title%}USERNAME Zeiterfassung{%endblock%}
 
 {%block navleft%}
-<div class="flex justify-center items-center text-xl select-none">
-    <a href="{{url_for('user')}}"
-        class="mx-2 lg:mx-5 h-fit text-orange font-bold underline-offset-4 hover:underline">Home</a>
-    <a href="" class="mx-2 lg:mx-5 h-fit underline-offset-4 hover:underline">Anwesenheiten</a>
-</div>
+    {{nav_l}}
 {%endblock%}
 
 {%block navright%}
-<div class="flex justify-center items-center text-xl select-none">
-    <div class="hidden sm:block mr-1 lg:mr-20 h-12 w-28 rounded-xl bg-gray-300 content-center text-center">
-        <p id="clockfield" class="text-black">00:00:00</p>
-    </div>
-    <form method="post">
-        <button type="submit" value="signout" name="signout_btn"
-            class="md:before:content-['Sign_Out'] mx-5 h-12 w-12 md:w-28 rounded-xl bg-black text-white hover:bg-orange hover:text-black active:ring-4 ring-orange/50 transition-colors duration-300 text-nowrap">
-            <div class="md:hidden flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3"
-                    stroke="currentColor" class="size-8">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
-                </svg>
-            </div>
-        </button>
-    </form>
-</div>
+    {{nav_r}}
 {%endblock%}
 
 {%block body%}
