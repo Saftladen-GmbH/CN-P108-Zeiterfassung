@@ -1,5 +1,6 @@
 /*
 ! tailwindcss v3.4.10 | MIT License | https://tailwindcss.com
+! tailwindcss v3.4.10 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -696,6 +697,10 @@ video {
   display: none;
 }
 
+.hidden {
+  display: none;
+}
+
 .aspect-square {
   aspect-ratio: 1 / 1;
 }
@@ -777,6 +782,10 @@ video {
 
 .content-center {
   align-content: center;
+}
+
+.items-center {
+  align-items: center;
 }
 
 .items-center {
