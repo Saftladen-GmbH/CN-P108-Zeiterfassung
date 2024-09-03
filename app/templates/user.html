@@ -36,9 +36,13 @@
         <img src="{{user.Picture}}" class="h-20 md:h-32 aspect-square mb-6 border-black rounded-full border-4">
         <p>Hello {{user.Name}}, {{user.Firstname}}</p>
     </div>
+    <!-- Timer for Current logged in Time NOT WORKING YET 
+
+    !!! NEEDS API !!!
     <div id="timedisplay" class="flex justify-center items-center">
         <p id="cloclcounter" class="text-7xl sm:text-8xl md:text-9xl my-10 md:my-20 text-black drop-shadow-lg">00:00:00</p>
     </div>
+    -->
     <form id="buttons" class="flex justify-center items-center" method="post">
         <button id="in" name="login" value="time_in"
             {% if in_state %}
