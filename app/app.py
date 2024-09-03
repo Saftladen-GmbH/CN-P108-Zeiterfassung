@@ -12,7 +12,7 @@ basedir = path.abspath(path.dirname(__file__))
 path2db = path.join(basedir, 'db/database.db')
 sqpath = 'sqlite:///' + path.join(basedir, 'db/database.db')
 
-if not path.exists(path.join(basedir, 'db/database.db')):
+if not path.exists(path2db):
     print("Database not generated. Generating database")
     init_db(sqpath)
 
