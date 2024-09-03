@@ -27,8 +27,8 @@ def index():
 
 
 # Remove second route and default value for production !!
-@server.route("/user_JD0001010004", methods=["POST", "GET"])
-@server.route("/user_<userid>", methods=["POST", "GET"])
+@server.route("/user/JD0001010004", methods=["POST", "GET"])
+@server.route("/user/<userid>", methods=["POST", "GET"])
 def user(userid: str = 'JD0001010004'):
     """User Page to start logging Time
 
