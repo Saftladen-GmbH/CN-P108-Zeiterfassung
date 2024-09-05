@@ -1,4 +1,5 @@
 from os import path
+from datetime import datetime
 from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from db import init_db, Admin, User, Class, Login, Logoff
@@ -11,7 +12,7 @@ basedir = path.abspath(path.dirname(__file__))
 path2db = path.join(basedir, 'db/database.db')
 sqpath = 'sqlite:///' + path.join(basedir, 'db/database.db')
 
-if not path.exists(path.join(basedir, 'db/database.db')):
+if not path.exists(path2db):
     print("Database not generated. Generating database")
     init_db(sqpath)
 
@@ -26,26 +27,53 @@ def index():
 
 
 # Remove second route and default value for production !!
-@server.route("/user_test")
-@server.route("/user_<userid>")
-def user(userid: str = "test"):
-    """User Page to start logging Time
+@server.route("/user/JD0001010004", methods=["POST", "GET"])
+@server.route("/user/<userid>", methods=["POST", "GET"])
+def user(userid: str = 'JD0001010004'):
+    """User Page to start logging Time In and Time Out
 
     Args:
-        userid (str): Needs to be given to load User Data! Defaults to test for DEV
+        userid (str): Needs to be given to load User Data!
+                      Defaults to testuser UID for DEV
 
         !!REMOVE SECOND ROUTE AND DEFAULT VALUE FOR PRODUCTION!!
 
     Returns:
+        Page: Index Page
+        Page: Not Found
         Page: User Page
     """
-    return render_template("user.html",
-                           logins={},
-                           logouts={},
-                           user={"firstname": "John",
-                                 "name": "Doe",
-                                 "image": url_for("static",
-                                                  filename="images/placeholder_user.svg")})
+    # user_data = db.session.query(User).filter_by(UID=userid).first()
+    user_data = db.get_or_404(User, userid)
+
+    last_login = user_data.Logins[-1]
+    last_logoff = user_data.Logoffs[-1]
+    state = ['', 'disabled']
+    if last_login.Time < last_logoff.Time:
+        state = ['', 'disabled']
+    else:
+        state = ['disabled', '']
+    if request.method == "POST":
+        current_time = datetime.now()
+        if request.form.get('login') == 'time_in':
+            data = Login(Time=current_time, UID=userid)
+        elif request.form.get('logout') == 'time_out':
+            data = Logoff(Time=current_time, UID=userid)
+        elif request.form.get('signout_btn') == 'signout':
+            # !!!!
+            # CODE TO SIGN OUT OF SESSION
+            # !!!!
+            return redirect(url_for("index"))
+        db.session.add(data)
+        db.session.commit()
+        return redirect(url_for("user", userid=userid))
+    else:
+        return render_template("user.html",
+                               logins=user_data.Logins,
+                               logouts=user_data.Logoffs,
+                               user=user_data,
+                               in_state=state[0],
+                               out_state=state[1],)
 
 
 if __name__ == "__main__":
