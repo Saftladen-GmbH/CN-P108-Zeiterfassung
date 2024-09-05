@@ -25,6 +25,26 @@ db = SQLAlchemy(server)
 def index():
     return render_template("index.html")
 
+# Remove second route and default value for production !!
+@server.route("/user/JD0001010004/dashboard", methods=["POST", "GET"])
+@server.route("/user/<userid>/dashboard", methods=["POST", "GET"])
+def dashboard(userid: str = 'JD0001010004'):
+    """Dashboard Page to display User Data
+
+    Args:
+        userid (str): Needs to be given to load User Data!
+                      Defaults to testuser UID for DEV
+
+        !!REMOVE SECOND ROUTE AND DEFAULT VALUE FOR PRODUCTION!!
+
+    Returns:
+        Page: Index Page
+        Page: Not Found
+        Page: Dashboard Page
+    """
+    # user_data = db.session.query(User).filter_by(UID=userid).first()
+    user_data = db.get_or_404(User, userid)
+    return render_template("user_dashboard.html", user=user_data)
 
 # Remove second route and default value for production !!
 @server.route("/user/JD0001010004", methods=["POST", "GET"])
