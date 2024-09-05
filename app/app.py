@@ -45,14 +45,22 @@ def user(userid: str = 'JD0001010004'):
     """
     # user_data = db.session.query(User).filter_by(UID=userid).first()
     user_data = db.get_or_404(User, userid)
-
-    last_login = user_data.Logins[-1]
-    last_logoff = user_data.Logoffs[-1]
     state = ['', 'disabled']
-    if last_login.Time < last_logoff.Time:
-        state = ['', 'disabled']
-    else:
+
+    if len(user_data.Logins) > 0 and len(user_data.Logoffs) > 0:
+        last_login = user_data.Logins[-1]
+        last_logoff = user_data.Logoffs[-1]
+        if last_login.Time < last_logoff.Time:
+            state = ['', 'disabled']
+        else:
+            state = ['disabled', '']
+    elif len(user_data.Logins) > 0:
+        last_login = user_data.Logins[-1]
         state = ['disabled', '']
+    else:
+        last_login = []
+        last_logoff = []
+
     if request.method == "POST":
         current_time = datetime.now()
         if request.form.get('login') == 'time_in':
