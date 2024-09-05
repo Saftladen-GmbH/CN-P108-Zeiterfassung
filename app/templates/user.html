@@ -4,11 +4,11 @@
 {%block title%}USERNAME Zeiterfassung{%endblock%}
 
 {%block navleft%}
-    {{nav_l}}
+    {{nav_l(user.UID)}}
 {%endblock%}
 
 {%block navright%}
-    {{nav_r}}
+    {{nav_r()}}
 {%endblock%}
 
 {%block body%}
@@ -48,8 +48,16 @@
         <div id="contentwrapper" class="p-5">
             <p class="text-2xl text-black mb-5">Informationen:</p>
             {% if logins or logouts%}
-            <p class="text-black">Last Login: {{logins[-1].Time.strftime('%d.%m.%Y at %H:%M:%S')}}</p>
-            <p class="text-black">Last Logout: {{logouts[-1].Time.strftime('%d.%m.%Y at %H:%M:%S')}}</p>
+                {% if logins %}
+                    <p class="text-black">Last Login: {{logins[-1].Time.strftime('%d.%m.%Y at %H:%M:%S')}}</p>
+                {% else %}
+                    <p></p>
+                {% endif %}
+                {% if logouts %}
+                    <p class="text-black">Last Logout: {{logouts[-1].Time.strftime('%d.%m.%Y at %H:%M:%S')}}</p>
+                {% else %}
+                    <p></p>
+                {% endif %}
             {% else %}
             <p class="text-black ml-5">You have never been logged in!</p>
             {% endif %}

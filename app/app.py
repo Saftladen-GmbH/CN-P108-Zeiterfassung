@@ -21,9 +21,12 @@ server.config['SQLALCHEMY_DATABASE_URI'] = sqpath
 db = SQLAlchemy(server)
 
 
-@server.route("/")
+@server.route("/", methods=["POST", "GET"])
 def index():
-    return render_template("index.html")
+    if request.method == "POST":
+        return redirect(url_for("user", userid=request.form.get("username")))
+    else:
+        return render_template("index.html")
 
 # Remove second route and default value for production !!
 @server.route("/user/JD0001010004/dashboard", methods=["POST", "GET"])
@@ -47,9 +50,8 @@ def dashboard(userid: str = 'JD0001010004'):
     return render_template("user_dashboard.html", user=user_data)
 
 # Remove second route and default value for production !!
-@server.route("/user/JD0001010004", methods=["POST", "GET"])
-@server.route("/user/<userid>", methods=["POST", "GET"])
-def user(userid: str = 'JD0001010004'):
+@server.route("/user/<userid>/", methods=["POST", "GET"])
+def user(userid: str):
     """User Page to start logging Time In and Time Out
 
     Args:
@@ -65,14 +67,22 @@ def user(userid: str = 'JD0001010004'):
     """
     # user_data = db.session.query(User).filter_by(UID=userid).first()
     user_data = db.get_or_404(User, userid)
-
-    last_login = user_data.Logins[-1]
-    last_logoff = user_data.Logoffs[-1]
     state = ['', 'disabled']
-    if last_login.Time < last_logoff.Time:
-        state = ['', 'disabled']
-    else:
+
+    if len(user_data.Logins) > 0 and len(user_data.Logoffs) > 0:
+        last_login = user_data.Logins[-1]
+        last_logoff = user_data.Logoffs[-1]
+        if last_login.Time < last_logoff.Time:
+            state = ['', 'disabled']
+        else:
+            state = ['disabled', '']
+    elif len(user_data.Logins) > 0:
+        last_login = user_data.Logins[-1]
         state = ['disabled', '']
+    else:
+        last_login = []
+        last_logoff = []
+
     if request.method == "POST":
         current_time = datetime.now()
         if request.form.get('login') == 'time_in':

@@ -1,4 +1,4 @@
-{% set nav_r%}
+{% macro nav_r()%}
 <div class="flex justify-center items-center text-xl select-none">
     <div class="hidden sm:block mr-1 lg:mr-20 h-12 w-28 rounded-xl bg-gray-300 content-center text-center">
         <p id="clockfield" class="text-black">00:00:00</p>
@@ -16,12 +16,12 @@
         </button>
     </form>
 </div>
-{% endset %}
+{% endmacro %}
 
-{% set nav_l %}
+{% macro nav_l(uid) %}
 <div class="flex justify-center items-center text-xl select-none">
-    <a href="{{url_for('user')}}"
+    <a href="{{url_for('user', userid=uid)}}"
         class="mx-2 lg:mx-5 h-fit text-orange font-bold underline-offset-4 hover:underline">Home</a>
     <a href="" class="mx-2 lg:mx-5 h-fit underline-offset-4 hover:underline">Anwesenheiten</a>
 </div>
-{% endset %}
+{% endmacro %}
