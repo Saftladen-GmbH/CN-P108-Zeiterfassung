@@ -22,6 +22,6 @@
 <div class="flex justify-center items-center text-xl select-none">
     <a href="{{url_for('user', userid=uid)}}"
         class="mx-2 lg:mx-5 h-fit text-orange font-bold underline-offset-4 hover:underline">Home</a>
-    <a href="" class="mx-2 lg:mx-5 h-fit underline-offset-4 hover:underline">Anwesenheiten</a>
+    <a href="{{url_for('dashboard', userid=uid)}}" class="mx-2 lg:mx-5 h-fit underline-offset-4 hover:underline">Anwesenheiten</a>
 </div>
 {% endmacro %}

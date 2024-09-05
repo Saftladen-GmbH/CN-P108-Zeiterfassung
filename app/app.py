@@ -28,10 +28,9 @@ def index():
     else:
         return render_template("index.html")
 
-# Remove second route and default value for production !!
-@server.route("/user/JD0001010004/dashboard", methods=["POST", "GET"])
+
 @server.route("/user/<userid>/dashboard", methods=["POST", "GET"])
-def dashboard(userid: str = 'JD0001010004'):
+def dashboard(userid):
     """Dashboard Page to display User Data
 
     Args:
