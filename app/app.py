@@ -50,7 +50,7 @@ def dashboard(userid: str = 'JD0001010004'):
     return render_template("user_dashboard.html", user=user_data)
 
 # Remove second route and default value for production !!
-@server.route("/user/<userid>/", methods=["POST", "GET"])
+@server.route("/user/<userid>", methods=["POST", "GET"])
 def user(userid: str):
     """User Page to start logging Time In and Time Out
 
