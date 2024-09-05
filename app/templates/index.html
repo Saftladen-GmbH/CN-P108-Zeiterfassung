@@ -2,9 +2,33 @@
 
 {%block title%}Test Haupseite{%endblock%}
 
+{%block navleft%}<div>
+    <p class="my-6 text-2xl">Zeiterfassung</p>
+</div>{%endblock%}
+
+{%block navright%}
+    <div class="flex justify-center items-center text-xl select-none">
+        <div class="hidden sm:block mr-1 lg:mr-20 h-12 w-28 rounded-xl bg-gray-300 content-center text-center">
+            <p id="clockfield" class="text-black">00:00:00</p>
+
+</div>{%endblock%}
+
 {%block body%}
-    <div class="bg-white">
-    <h1 class="text-orange-700">Index</h1>
-    <p>Welcome to the index page.</p>
+<div class="w-full min-h-full flex justify-center">
+    <div class="bg-grau-hell px-28 py-20 m-5 flex flex-col justify-center items-center">
+        <h1 class="text-3xl mb-5">Melde dich hier an!</h1>
+        <form class="bg-white p-6 m-3 w-80 border-grau border-[1.5px] rounded-lg" method="post">
+            <div>
+                <label for="username">Username:</label>
+                <input class="w-full h-10 mb-4 mt-1 px-2 border-grau border-[1px] rounded-lg" type="text" id="username" name="username" placeholder="Benutzername" required>
+                <label for="password">Passwort:</label>
+                <input class="w-full h-10 mb-8 mt-1 px-2 border-grau border-[1px] rounded-lg" type="password" id="password" name="password" placeholder="Kennwort" required>
+                <button class="bg-blau border-dunkelblau w-full h-10 border-[1px] rounded-lg text-white hover:ring-4 ring-blau/50 transition-all duration-400" type="submit">Anmelden</button>
+            </div>
+        </form>
+    </div>
 </div>
+{%endblock%}
+{%block scripts%}
+<script src="{{url_for('static',filename='js/clock.js')}}"></script>
 {%endblock%}
