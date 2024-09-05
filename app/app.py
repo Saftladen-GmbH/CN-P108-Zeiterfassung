@@ -21,15 +21,17 @@ server.config['SQLALCHEMY_DATABASE_URI'] = sqpath
 db = SQLAlchemy(server)
 
 
-@server.route("/")
+@server.route("/", methods=["POST", "GET"])
 def index():
-    return render_template("index.html")
+    if request.method == "POST":
+        return redirect(url_for("user", userid=request.form.get("username")))
+    else:
+        return render_template("index.html")
 
 
 # Remove second route and default value for production !!
-@server.route("/user/JD0001010004", methods=["POST", "GET"])
-@server.route("/user/<userid>", methods=["POST", "GET"])
-def user(userid: str = 'JD0001010004'):
+@server.route("/user/<userid>/", methods=["POST", "GET"])
+def user(userid: str):
     """User Page to start logging Time In and Time Out
 
     Args:
