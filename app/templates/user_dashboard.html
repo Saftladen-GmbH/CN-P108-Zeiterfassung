@@ -4,11 +4,11 @@
 {%block title%}USERNAME Zeiterfassung{%endblock%}
 
 {%block navleft%}
-    {{nav_l}}
+    {{nav_l(user.UID)}}
 {%endblock%}
 
 {%block navright%}
-    {{nav_r}}
+    {{nav_r()}}
 {%endblock%}
 
 {%block body%}
