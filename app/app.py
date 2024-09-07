@@ -1,11 +1,13 @@
 from os import path
 from datetime import datetime
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 from db import init_db, Admin, User, Class, Login, Logoff
 from utility import hash_password, verify_password
 
 server = Flask(__name__)
+
+server.secret_key = '1234566789'
 
 # Database initialization
 basedir = path.abspath(path.dirname(__file__))
@@ -24,9 +26,41 @@ db = SQLAlchemy(server)
 @server.route("/", methods=["POST", "GET"])
 def index():
     if request.method == "POST":
-        return redirect(url_for("user", userid=request.form.get("username")))
+        userid = request.form.get("username").upper()
+        password = request.form.get("password")
+
+        user_data = db.session.query(User).filter_by(UID=userid).first()
+        admin_data = db.session.query(Admin).filter_by(Username=userid.lower()).first()
+
+        if user_data:
+            if verify_password(user_data.Password, password) and userid == user_data.UID:
+                # Password and Username correct
+                print("User Found and Password Correct! Redirect to Userpage")
+                session["userid"] = userid
+                return redirect(url_for("user", userid=userid))
+            else:
+                # Password incorrect
+                print("Password Incorrect!")
+                return render_template("index.html", error="Incorrect Password!")
+        else:
+            # try admin
+            if admin_data:
+                if verify_password(admin_data.Password, password) and userid.lower() == admin_data.Username:
+                    # Password and Username correct
+                    print("Admin Found and Password Correct! Redirect to Admindashboard")
+                    return "Admin Dashboard"
+                else:
+                    # Password incorrect
+                    print("Password Incorrect!")
+                    return render_template("index.html", error="Incorrect Password!")
+            else:
+                # User not found - Bad UserID ?
+                print("User not found!")
+                return render_template("index.html", error="User not found!")
     else:
-        return render_template("index.html")
+        if session.get("userid"):
+            return redirect(url_for("user", userid=session.get("userid")))
+        return render_template("index.html", error="")
 
 
 # Remove second route and default value for production !!
@@ -70,9 +104,7 @@ def user(userid: str):
         elif request.form.get('logout') == 'time_out':
             data = Logoff(Time=current_time, UID=userid)
         elif request.form.get('signout_btn') == 'signout':
-            # !!!!
-            # CODE TO SIGN OUT OF SESSION
-            # !!!!
+            session.pop('userid', None)
             return redirect(url_for("index"))
         db.session.add(data)
         db.session.commit()

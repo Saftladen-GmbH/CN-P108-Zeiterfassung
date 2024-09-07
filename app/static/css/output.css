@@ -901,6 +901,11 @@ video {
   color: rgb(254 131 63 / var(--tw-text-opacity));
 }
 
+.text-rot {
+  --tw-text-opacity: 1;
+  color: rgb(255 97 93 / var(--tw-text-opacity));
+}
+
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
