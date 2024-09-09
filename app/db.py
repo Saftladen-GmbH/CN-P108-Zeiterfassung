@@ -154,7 +154,7 @@ def init_db(db_url: str):
                          UID='000000000000')
     session.add(master_admin)
 
-    # Testdaten hinzufügen (nur für Entwicklung)!
+    # ! Testdaten hinzufügen (nur für Entwicklung)!
     t_name = 'Doe'
     t_firstname = 'John'
     t_dob = datetime(2000, 1, 1)
@@ -165,7 +165,7 @@ def init_db(db_url: str):
                      Password=hash_password('123456789'), DOB=t_dob,
                      CA='Testclass')
     session.add(test_user)
-    # Delete this block for production
+    # ! Delete this block for production
 
     session.commit()
     session.close()

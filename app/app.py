@@ -63,7 +63,6 @@ def index():
         return render_template("index.html", error="")
 
 
-# Remove second route and default value for production !!
 @server.route("/user/<userid>/", methods=["POST", "GET"])
 def user(userid: str):
     """User Page to start logging Time In and Time Out
@@ -104,6 +103,7 @@ def user(userid: str):
         elif request.form.get('logout') == 'time_out':
             data = Logoff(Time=current_time, UID=userid)
         elif request.form.get('signout_btn') == 'signout':
+            # TODO: Write Function for Logout
             session.pop('userid', None)
             return redirect(url_for("index"))
         db.session.add(data)
