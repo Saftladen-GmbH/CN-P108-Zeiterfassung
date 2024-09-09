@@ -1,4 +1,5 @@
 from os import urandom
+from flask import redirect, url_for
 from datetime import datetime
 from hashlib import pbkdf2_hmac
 from random import choice
@@ -7,6 +8,16 @@ from string import (
     digits,
     punctuation
 )
+
+
+def user_logout(session):
+    """Logs out the user
+
+    Args:
+        session: The session object
+    """
+    session.pop('userid', None)
+    return redirect(url_for("index"))
 
 
 def image2blob(image_path: str) -> bytes:

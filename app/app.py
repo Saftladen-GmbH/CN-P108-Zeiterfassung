@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import Flask, render_template, url_for, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 from db import init_db, Admin, User, Class, Login, Logoff
-from utility import hash_password, verify_password
+from utility import hash_password, verify_password, user_logout
 
 server = Flask(__name__)
 
@@ -103,9 +103,7 @@ def user(userid: str):
         elif request.form.get('logout') == 'time_out':
             data = Logoff(Time=current_time, UID=userid)
         elif request.form.get('signout_btn') == 'signout':
-            # TODO: Write Function for Logout
-            session.pop('userid', None)
-            return redirect(url_for("index"))
+            return user_logout(session)
         db.session.add(data)
         db.session.commit()
         return redirect(url_for("user", userid=userid))
