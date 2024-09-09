@@ -116,5 +116,10 @@ def user(userid: str):
                                out_state=state[1],)
 
 
+@server.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
 if __name__ == "__main__":
     server.run("0.0.0.0", "5005", debug=True)
