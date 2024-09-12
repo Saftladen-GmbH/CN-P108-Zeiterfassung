@@ -12,8 +12,29 @@
 {%endblock%}
 
 {%block body%}
-<div class="w-full min-h-full flex justify-center">
-    <div class="bg-grau">
+<div class="bg-grau w-full min-h-full flex justify-start p-5 rounded-lg">
+    <div><table class="table-fixed w-full">
+        <thead>
+            <tr>
+                <th class="text-start">Datum</th>
+                <th class="text-start">Uhrzeit</th>
+                <th class="text-start">Aktion</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in total_list %}
+            <tr>
+                <td class="border-b border-grau-dunkel">{{entry.Time.strftime('%d.%m.%Y')}}</td>
+                <td class="border-b border-l border-grau-dunkel">{{entry.Time.strftime('%H:%M:%S')}}</td>
+                <td class="border-b border-l border-grau-dunkel">{{entry.tp}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     </div>
 </div>
+{%endblock%}
+
+{%block scripts%}
+    <script src="{{url_for('static', filename='js/clock.js')}}"></script>
 {%endblock%}
