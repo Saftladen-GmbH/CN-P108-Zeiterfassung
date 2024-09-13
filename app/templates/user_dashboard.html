@@ -24,9 +24,9 @@
         <tbody>
             {% for entry in total_list %}
             <tr>
-                <td class="border-b border-grau-dunkel">{{entry.Time.strftime('%d.%m.%Y')}}</td>
-                <td class="border-b border-l border-grau-dunkel">{{entry.Time.strftime('%H:%M:%S')}}</td>
-                <td class="border-b border-l border-grau-dunkel">{{entry.tp}}</td>
+                <td class="border-b border-grau-dunkel">{{entry[0].Time.strftime('%d.%m.%Y')}}</td>
+                <td class="border-b border-l border-grau-dunkel">{{entry[0].Time.strftime('%H:%M:%S')}}</td>
+                <td class="border-b border-l border-grau-dunkel">{{entry[1]}}</td>
             </tr>
             {% endfor %}
         </tbody>
