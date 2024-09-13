@@ -47,6 +47,7 @@ def dashboard(userid):
     # user_data = db.session.query(User).filter_by(UID=userid).first()
     user_data = db.get_or_404(User, userid)
 
+
     all_logins = user_data.Logins
     all_logins.sort(key=lambda x: x.Time, reverse=True)
     reduced_logins = all_logins[:9]
