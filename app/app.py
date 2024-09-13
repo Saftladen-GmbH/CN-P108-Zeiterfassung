@@ -46,15 +46,21 @@ def dashboard(userid):
     """
     # user_data = db.session.query(User).filter_by(UID=userid).first()
     user_data = db.get_or_404(User, userid)
+
     all_logins = user_data.Logins
     all_logins.sort(key=lambda x: x.Time, reverse=True)
-    all_logins = all_logins[:9]
-    all_logins = [dict(x).update({"tp": "Login"}) for x in all_logins]
+    reduced_logins = all_logins[:9]
+    for l_in in reduced_logins:
+        l_in["type"] = "login"
+
     all_logouts = user_data.Logoffs
     all_logouts.sort(key=lambda x: x.Time, reverse=True)
-    all_logouts = all_logouts[:9]
-    all_logouts = [dict(x).update({"tp": "Logout"}) for x in all_logouts]
-    total_list = all_logins + all_logouts
+    reduced_logouts = all_logouts[:9]
+
+    for l_out in reduced_logouts:
+        l_out["type"] = "login"
+
+    total_list = reduced_logins + reduced_logouts
     total_list.sort(key=lambda x: x.Time)
     return render_template("user_dashboard.html", user=user_data, all_logins=all_logins, all_logouts=all_logouts, total_list=total_list)
 
