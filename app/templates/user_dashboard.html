@@ -12,21 +12,36 @@
 {%endblock%}
 
 {%block body%}
+<div class="bg-grau w-full min-h-full flex flex-col justify-start p-5 mb-4 rounded-lg">
+    <h1 class="text-xl font-bold mb-4">Persönliche Informationen</h1>
+    <div class="flex md:flex-row flex-col">
+        <p class="mr-4"><span class="font-bold">Klasse: </span> {{user.CA}}</p>
+        <p class="mr-4"><span class="font-bold">Vorname: </span> {{user.Firstname}}</p>
+        <p class="mr-4"><span class="font-bold">Nachname: </span> {{user.Name}}</p>
+        <p class="mr-4"><span class="font-bold">Geburtstag: </span> {{user.DOB}}</p>
+    </div>
+</div>
 <div class="bg-grau w-full min-h-full flex justify-start p-5 rounded-lg">
     <div><table class="table-fixed w-full">
         <thead>
             <tr>
-                <th class="text-start">Datum</th>
-                <th class="text-start">Uhrzeit</th>
-                <th class="text-start">Aktion</th>
+                <th class="text-start pl-2 w-2/5">Datum</th>
+                <th class="text-start pl-2 w-2/5">Uhrzeit</th>
+                <th class="text-start pl-2 w-1/5">Aktion</th>
             </tr>
         </thead>
         <tbody>
             {% for entry in total_list %}
-            <tr>
-                <td class="border-b border-grau-dunkel">{{entry[0].Time.strftime('%d.%m.%Y')}}</td>
-                <td class="border-b border-l border-grau-dunkel">{{entry[0].Time.strftime('%H:%M:%S')}}</td>
-                <td class="border-b border-l border-grau-dunkel">{{entry[1]}}</td>
+            <tr
+            {% if 'login' in entry[1] %}
+                class="bg-green-200"    
+            {% else %}
+                class="bg-red-100"
+            {% endif %}
+            >
+                <td class="border-b pl-2 py-1 border-grau-dunkel">{{entry[0].Time.strftime('%d.%m.%Y')}}</td>
+                <td class="border-b border-l pl-2 py-1 border-grau-dunkel">{{entry[0].Time.strftime('%H:%M:%S')}}</td>
+                <td class="border-b border-l pl-2 py-1 border-grau-dunkel">{{entry[1]}}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -37,4 +52,27 @@
 
 {%block scripts%}
     <script src="{{url_for('static', filename='js/clock.js')}}"></script>
+    <script>
+        const rainbowColors = [
+          'bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-green-500',
+          'bg-blue-500', 'bg-indigo-500', 'bg-purple-500', 'bg-pink-500'
+        ];
+    
+        const rainbowHover = document.getElementById('clock');
+    
+        rainbowHover.addEventListener('mouseover', () => {
+          let index = 0;
+          const interval = setInterval(() => {
+            rainbowHover.classList.remove(...rainbowColors);
+            rainbowHover.classList.add(rainbowColors[index]);
+            index = (index + 1) % rainbowColors.length;
+          }, 500);
+          
+          rainbowHover.addEventListener('mouseout', () => {
+            clearInterval(interval);
+            rainbowHover.classList.remove(...rainbowColors);
+            rainbowHover.style.backgroundColor = '';
+          });
+        });
+      </script>
 {%endblock%}

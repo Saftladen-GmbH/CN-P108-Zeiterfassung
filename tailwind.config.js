@@ -14,7 +14,7 @@ module.exports = {
         'dunkelblau': '#035388',
         'blau': '#0286CA',
         'türkis': '#30E7f4',
-        'geld': 'FFD700',
+        'geld': '#FFD700',
       },
     },
   },
