@@ -47,10 +47,8 @@ def index():
             if admin_data:
                 if verify_password(admin_data.Password, password) and userid.lower() == admin_data.Username:
                     # Password and Username correct
-                    aid = userid.lower()
-                    session["userid"] = aid
                     print("Admin Found and Password Correct! Redirect to Admindashboard")
-                    return redirect(url_for("admin", AID=aid))
+                    return "Admin Dashboard"
                 else:
                     # Password incorrect
                     print("Password Incorrect!")
@@ -83,33 +81,40 @@ def dashboard(userid):
         Page: Not Found
         Page: Dashboard Page
     """
-    # user_data = db.session.query(User).filter_by(UID=userid).first()
-    user_data = db.get_or_404(User, userid)
+    if not verify_login(session, userid):
+        return redirect(url_for("index"))
 
-    all_logins = user_data.Logins
-    all_logins.sort(key=lambda x: x.Time, reverse=True)
-    reduced_logins = all_logins[:9]
+    if request.method == "POST":
+        if request.form.get('signout_btn') == 'signout':
+            return user_logout(session)
+    else:
+        # user_data = db.session.query(User).filter_by(UID=userid).first()
+        user_data = db.get_or_404(User, userid)
 
-    # Das was wir gestern versucht habe, hat nicht geklappt weil:
-    # Die daten die aus user_data.Logins kommen sind keine konventionellen DICTS
-    # Sondern sind Objekte. Demnach können wir da nichts Anfügen. Mit der erstellung einer
-    # "Hilfsliste" geht es jetzt. Bei frage frag.
+        all_logins = user_data.Logins
+        all_logins.sort(key=lambda x: x.Time, reverse=True)
+        reduced_logins = all_logins[:9]
+        # Das was wir gestern versucht habe, hat nicht geklappt weil:
+        # Die daten die aus user_data.Logins kommen sind keine konventionellen DICTS
+        # Sondern sind Objekte. Demnach können wir da nichts Anfügen. Mit der erstellung einer
+        # "Hilfsliste" geht es jetzt. Bei frage frag.
+        # Erstellt eine neue Liste wo auf dem Index 0 das Login Objekt ist
+        # Auf index 1 dann der typ. Habe dir deinen Code schon angepasst.
 
-    # Erstellt eine neue Liste wo auf dem Index 0 das Login Objekt ist
-    # Auf index 1 dann der typ. Habe dir deinen Code schon angepasst. 
-    combined_logins = [[x, "login"] for x in reduced_logins]
+        combined_logins = [[x, "login"] for x in reduced_logins]
 
-    all_logouts = user_data.Logoffs
-    all_logouts.sort(key=lambda x: x.Time, reverse=True)
-    reduced_logouts = all_logouts[:9]
+        all_logouts = user_data.Logoffs
+        all_logouts.sort(key=lambda x: x.Time, reverse=True)
+        reduced_logouts = all_logouts[:9]
 
-    # Erstellt eine neue Liste wo auf dem Index 0 das Login Objekt ist
-    # Auf index 1 dann der typ. Habe dir deinen Code schon angepasst. 
-    combined_logouts = [[x, "logout"] for x in reduced_logouts]
+        # Erstellt eine neue Liste wo auf dem Index 0 das Login Objekt ist
+        # Auf index 1 dann der typ. Habe dir deinen Code schon angepasst. 
+        combined_logouts = [[x, "logout"] for x in reduced_logouts]
 
-    total_list = combined_logins + combined_logouts
-    total_list.sort(key=lambda x: x[0].Time, reverse=True)
-    return render_template("user_dashboard.html", user=user_data, all_logins=all_logins, all_logouts=all_logouts, total_list=total_list)
+        total_list = combined_logins + combined_logouts
+        total_list.sort(key=lambda x: x[0].Time, reverse=True)
+        return render_template("user_dashboard.html", user=user_data, all_logins=all_logins, all_logouts=all_logouts, total_list=total_list)
+
 
 @server.route("/user/<userid>/", methods=["POST", "GET"])
 def user(userid: str):
@@ -165,23 +170,6 @@ def user(userid: str):
                                user=user_data,
                                in_state=state[0],
                                out_state=state[1],)
-
-
-@server.route("/admin/<AID>/", methods=["POST", "GET"])
-def admin(AID: str):
-    """Admin Page to manage Users and Classes"""
-
-    if not verify_login(session, AID):
-        return redirect(url_for("index"))
-
-    admin_data = db.get_or_404(Admin, AID)
-    all_users = db.session.query(User).all()
-
-    if request.method == "POST":
-        if request.form.get('signout_btn') == 'signout':
-            return user_logout(session)
-    else:
-        return render_template("admin.html", data=admin_data, users=all_users)
 
 
 @server.errorhandler(404)
