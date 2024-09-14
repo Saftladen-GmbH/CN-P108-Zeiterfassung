@@ -10,13 +10,28 @@ from string import (
 )
 
 
+def verify_login(session, userid: str) -> bool:
+    """Verifies if the user is logged in
+
+    Args:
+        session: The session object
+        userid (str): The user ID
+
+    Returns:
+        bool: True if the user is logged in, False otherwise
+    """
+    return session.get("userid") == userid
+
+
 def user_logout(session):
     """Logs out the user
 
     Args:
         session: The session object
     """
+    print("Session before Pop: ", session.get("userid"))  # Debug
     session.pop('userid', None)
+    print("Session after Pop: ", session.get("userid"))  # Debug
     return redirect(url_for("index"))
 
 

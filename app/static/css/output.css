@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.4.11 | MIT License | https://tailwindcss.com
+! tailwindcss v3.4.10 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -604,9 +604,6 @@ video {
 .mb-10 {
   margin-bottom: 2.5rem;
 }
-.mb-10 {
-  margin-bottom: 2.5rem;
-}
 
 .mb-4 {
   margin-bottom: 1rem;
@@ -696,10 +693,6 @@ video {
 
 .min-h-60 {
   min-height: 15rem;
-}
-
-.min-h-full {
-  min-height: 100%;
 }
 
 .min-h-full {
@@ -874,11 +867,6 @@ video {
   background-color: rgb(245 245 245 / var(--tw-bg-opacity));
 }
 
-.bg-grau-hell {
-  --tw-bg-opacity: 1;
-  background-color: rgb(245 245 245 / var(--tw-bg-opacity));
-}
-
 .bg-gray-300 {
   --tw-bg-opacity: 1;
   background-color: rgb(209 213 219 / var(--tw-bg-opacity));
@@ -1023,14 +1011,9 @@ video {
   color: rgb(255 97 93 / var(--tw-text-opacity));
 }
 
-.text-rot {
+.text-white {
   --tw-text-opacity: 1;
-  color: rgb(255 97 93 / var(--tw-text-opacity));
-}
-
-.text-red-500 {
-  --tw-text-opacity: 1;
-  color: rgb(239 68 68 / var(--tw-text-opacity));
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
 .underline-offset-4 {

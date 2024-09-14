@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import Flask, render_template, url_for, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 from db import init_db, Admin, User, Class, Login, Logoff
-from utility import hash_password, verify_password, user_logout
+from utility import hash_password, verify_password, user_logout, verify_login
 
 server = Flask(__name__)
 
@@ -58,9 +58,12 @@ def index():
                 print("User not found!")
                 return render_template("index.html", error="User not found!")
     else:
-        if session.get("userid"):
+        if session.get("userid") and db.session.get(User, session.get("userid")):
             return redirect(url_for("user", userid=session.get("userid")))
-        return render_template("index.html", error="")
+        elif session.get("userid") and db.session.get(Admin, session.get("userid")):
+            return redirect(url_for("admin", AID=session.get("userid")))
+        else:
+            return render_template("index.html", error="")
 
 
 @server.route("/user/<userid>/dashboard", methods=["POST", "GET"])
@@ -78,33 +81,40 @@ def dashboard(userid):
         Page: Not Found
         Page: Dashboard Page
     """
-    # user_data = db.session.query(User).filter_by(UID=userid).first()
-    user_data = db.get_or_404(User, userid)
+    if not verify_login(session, userid):
+        return redirect(url_for("index"))
 
-    all_logins = user_data.Logins
-    all_logins.sort(key=lambda x: x.Time, reverse=True)
-    reduced_logins = all_logins[:9]
+    if request.method == "POST":
+        if request.form.get('signout_btn') == 'signout':
+            return user_logout(session)
+    else:
+        # user_data = db.session.query(User).filter_by(UID=userid).first()
+        user_data = db.get_or_404(User, userid)
 
-    # Das was wir gestern versucht habe, hat nicht geklappt weil:
-    # Die daten die aus user_data.Logins kommen sind keine konventionellen DICTS
-    # Sondern sind Objekte. Demnach können wir da nichts Anfügen. Mit der erstellung einer
-    # "Hilfsliste" geht es jetzt. Bei frage frag.
+        all_logins = user_data.Logins
+        all_logins.sort(key=lambda x: x.Time, reverse=True)
+        reduced_logins = all_logins[:9]
+        # Das was wir gestern versucht habe, hat nicht geklappt weil:
+        # Die daten die aus user_data.Logins kommen sind keine konventionellen DICTS
+        # Sondern sind Objekte. Demnach können wir da nichts Anfügen. Mit der erstellung einer
+        # "Hilfsliste" geht es jetzt. Bei frage frag.
+        # Erstellt eine neue Liste wo auf dem Index 0 das Login Objekt ist
+        # Auf index 1 dann der typ. Habe dir deinen Code schon angepasst.
 
-    # Erstellt eine neue Liste wo auf dem Index 0 das Login Objekt ist
-    # Auf index 1 dann der typ. Habe dir deinen Code schon angepasst. 
-    combined_logins = [[x, "login"] for x in reduced_logins]
+        combined_logins = [[x, "login"] for x in reduced_logins]
 
-    all_logouts = user_data.Logoffs
-    all_logouts.sort(key=lambda x: x.Time, reverse=True)
-    reduced_logouts = all_logouts[:9]
+        all_logouts = user_data.Logoffs
+        all_logouts.sort(key=lambda x: x.Time, reverse=True)
+        reduced_logouts = all_logouts[:9]
 
-    # Erstellt eine neue Liste wo auf dem Index 0 das Login Objekt ist
-    # Auf index 1 dann der typ. Habe dir deinen Code schon angepasst. 
-    combined_logouts = [[x, "logout"] for x in reduced_logouts]
+        # Erstellt eine neue Liste wo auf dem Index 0 das Login Objekt ist
+        # Auf index 1 dann der typ. Habe dir deinen Code schon angepasst. 
+        combined_logouts = [[x, "logout"] for x in reduced_logouts]
 
-    total_list = combined_logins + combined_logouts
-    total_list.sort(key=lambda x: x[0].Time, reverse=True)
-    return render_template("user_dashboard.html", user=user_data, all_logins=all_logins, all_logouts=all_logouts, total_list=total_list)
+        total_list = combined_logins + combined_logouts
+        total_list.sort(key=lambda x: x[0].Time, reverse=True)
+        return render_template("user_dashboard.html", user=user_data, all_logins=all_logins, all_logouts=all_logouts, total_list=total_list)
+
 
 @server.route("/user/<userid>/", methods=["POST", "GET"])
 def user(userid: str):
@@ -121,6 +131,9 @@ def user(userid: str):
         Page: Not Found
         Page: User Page
     """
+    if not verify_login(session, userid):
+        return redirect(url_for("index"))
+
     # user_data = db.session.query(User).filter_by(UID=userid).first()
     user_data = db.get_or_404(User, userid)
     state = ['', 'disabled']
