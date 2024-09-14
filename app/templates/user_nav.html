@@ -1,6 +1,6 @@
 {% macro nav_r()%}
 <div class="flex justify-center items-center text-xl select-none">
-    <div class="hidden sm:block mr-1 lg:mr-20 h-12 w-28 rounded-xl bg-gray-300 content-center text-center">
+    <div id="clock" class="hover:rainbow transition-color duration-500 hidden sm:block mr-1 lg:mr-20 h-12 w-28 rounded-xl bg-grau content-center text-center">
         <p id="clockfield" class="text-black">00:00:00</p>
     </div>
     <form method="post">
@@ -22,6 +22,6 @@
 <div class="flex justify-center items-center text-xl select-none">
     <a href="{{url_for('user', userid=uid)}}"
         class="mx-2 lg:mx-5 h-fit text-orange font-bold underline-offset-4 hover:underline">Home</a>
-    <a href="" class="mx-2 lg:mx-5 h-fit underline-offset-4 hover:underline">Anwesenheiten</a>
+    <a href="{{url_for('dashboard', userid=uid)}}" class="mx-2 lg:mx-5 h-fit underline-offset-4 hover:underline">Anwesenheiten</a>
 </div>
 {% endmacro %}

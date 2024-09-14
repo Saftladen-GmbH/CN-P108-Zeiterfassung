@@ -1,0 +1,19 @@
+
+    /* Regenbogen Animation */
+    @keyframes rainbow {
+      0% { background-color: #ff615d; }
+      12% { background-color: #fe833f; }
+      24% { background-color: #fcc147; }
+      36% { background-color: #93fc00; }
+      48% { background-color: #008000; }
+      60% { background-color: #00505c; }
+      72% { background-color: #0000ff; }
+      84% { background-color: #4b0082; }
+      100% { background-color: #ee82ee; }
+    }
+
+    /* Animation nur bei Hover */
+    .rainbow {
+      animation: rainbow linear infinite;
+    }
+  
