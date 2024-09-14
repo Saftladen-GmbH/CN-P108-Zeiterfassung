@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import Flask, render_template, url_for, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 from db import init_db, Admin, User, Class, Login, Logoff
-from utility import hash_password, verify_password, user_logout
+from utility import hash_password, verify_password, user_logout, verify_login
 
 server = Flask(__name__)
 
@@ -47,8 +47,10 @@ def index():
             if admin_data:
                 if verify_password(admin_data.Password, password) and userid.lower() == admin_data.Username:
                     # Password and Username correct
+                    aid = userid.lower()
+                    session["userid"] = aid
                     print("Admin Found and Password Correct! Redirect to Admindashboard")
-                    return "Admin Dashboard"
+                    return redirect(url_for("admin", AID=aid))
                 else:
                     # Password incorrect
                     print("Password Incorrect!")
@@ -58,9 +60,12 @@ def index():
                 print("User not found!")
                 return render_template("index.html", error="User not found!")
     else:
-        if session.get("userid"):
+        if session.get("userid") and db.session.get(User, session.get("userid")):
             return redirect(url_for("user", userid=session.get("userid")))
-        return render_template("index.html", error="")
+        elif session.get("userid") and db.session.get(Admin, session.get("userid")):
+            return redirect(url_for("admin", AID=session.get("userid")))
+        else:
+            return render_template("index.html", error="")
 
 
 @server.route("/user/<userid>/", methods=["POST", "GET"])
@@ -78,6 +83,9 @@ def user(userid: str):
         Page: Not Found
         Page: User Page
     """
+    if not verify_login(session, userid):
+        return redirect(url_for("index"))
+
     # user_data = db.session.query(User).filter_by(UID=userid).first()
     user_data = db.get_or_404(User, userid)
     state = ['', 'disabled']
@@ -114,6 +122,23 @@ def user(userid: str):
                                user=user_data,
                                in_state=state[0],
                                out_state=state[1],)
+
+
+@server.route("/admin/<AID>/", methods=["POST", "GET"])
+def admin(AID: str):
+    """Admin Page to manage Users and Classes"""
+
+    if not verify_login(session, AID):
+        return redirect(url_for("index"))
+
+    admin_data = db.get_or_404(Admin, AID)
+    all_users = db.session.query(User).all()
+
+    if request.method == "POST":
+        if request.form.get('signout_btn') == 'signout':
+            return user_logout(session)
+    else:
+        return render_template("admin.html", data=admin_data, users=all_users)
 
 
 @server.errorhandler(404)
