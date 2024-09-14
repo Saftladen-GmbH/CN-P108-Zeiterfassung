@@ -882,6 +882,11 @@ video {
   line-height: 1;
 }
 
+.text-9xl {
+  font-size: 8rem;
+  line-height: 1;
+}
+
 .text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
@@ -899,6 +904,11 @@ video {
 .text-orange {
   --tw-text-opacity: 1;
   color: rgb(254 131 63 / var(--tw-text-opacity));
+}
+
+.text-rot {
+  --tw-text-opacity: 1;
+  color: rgb(255 97 93 / var(--tw-text-opacity));
 }
 
 .text-white {
