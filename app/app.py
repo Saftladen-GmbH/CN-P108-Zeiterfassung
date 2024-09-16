@@ -47,8 +47,10 @@ def index():
             if admin_data:
                 if verify_password(admin_data.Password, password) and userid.lower() == admin_data.Username:
                     # Password and Username correct
+                    aid = userid.lower()
+                    session["userid"] = aid
                     print("Admin Found and Password Correct! Redirect to Admindashboard")
-                    return "Admin Dashboard"
+                    return redirect(url_for("admin", AID=aid))
                 else:
                     # Password incorrect
                     print("Password Incorrect!")
@@ -170,6 +172,23 @@ def user(userid: str):
                                user=user_data,
                                in_state=state[0],
                                out_state=state[1],)
+
+
+@server.route("/admin/<AID>/", methods=["POST", "GET"])
+def admin(AID: str):
+    """Admin Page to manage Users and Classes"""
+
+    if not verify_login(session, AID):
+        return redirect(url_for("index"))
+
+    admin_data = db.get_or_404(Admin, AID)
+    all_users = db.session.query(User).all()
+
+    if request.method == "POST":
+        if request.form.get('signout_btn') == 'signout':
+            return user_logout(session)
+    else:
+        return render_template("admin.html", data=admin_data, users=all_users)
 
 
 @server.errorhandler(404)
