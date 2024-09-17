@@ -19,7 +19,7 @@
             <span class="text-blau">{{data.Username}}</span>
         </h1>
         <form class="flex justify-center items-center my-20" method="post">
-            <button
+            <button disabled
                 class="mx-5 h-12 w-36 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center">Change
                 Password</button>
         </form>
@@ -29,10 +29,10 @@
             <h2 class="text-5xl my-10">All Users</h2>
             <form class="flex justify-end w-full" method="post">
                 {% if "000000000000" in data.UID %}
-                <button class="mx-5 h-8 w-24 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center">Add
+                <button disabled class="mx-5 h-8 w-24 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center">Add
                     Admin</button>
                 {% endif %}
-                <button
+                <button disabled
                     class="mx-5 h-8 w-24 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center">Add
                     User</button>
             </form>
@@ -48,14 +48,14 @@
                 <tbody>
                     {%for user in users%}
                     {%if 'Admin' not in user.Name %}
-                    <tr class="border-b last:border-b-0 border-grau-hell text-center">
+                    <tr class="border-b last:border-b-0 border-grau-hell text-center bg-transparent hover:bg-blau/50">
                         <td class="">{{user.UID}}</td>
                         <td class="">{{user.Name}}</td>
                         <td class="">{{user.Firstname}}</td>
                         <td class="">{{user.DOB}}</td>
                         <td class="">{{user.class.CA}}</td>
                         <td class="py-3">
-                            <a class="mx-5 text-black/50 hover:text-black/25 text-nowrap text-center">View</a>
+                            <a disabled class="mx-5 text-black/50 hover:text-black/25 text-nowrap text-center">View</a>
                         </td>
                     </tr>
                     {%endif%}

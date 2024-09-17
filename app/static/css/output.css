@@ -949,6 +949,10 @@ video {
   background-color: rgb(234 179 8 / var(--tw-bg-opacity));
 }
 
+.bg-transparent {
+  background-color: transparent;
+}
+
 .p-5 {
   padding: 1.25rem;
 }
@@ -980,16 +984,6 @@ video {
 .py-20 {
   padding-top: 5rem;
   padding-bottom: 5rem;
-}
-
-.py-5 {
-  padding-top: 1.25rem;
-  padding-bottom: 1.25rem;
-}
-
-.py-4 {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
 }
 
 .py-3 {
@@ -1149,6 +1143,15 @@ video {
 .hover\:bg-rot:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(255 97 93 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-blau:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(2 134 202 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-blau\/50:hover {
+  background-color: rgb(2 134 202 / 0.5);
 }
 
 .hover\:text-black:hover {
