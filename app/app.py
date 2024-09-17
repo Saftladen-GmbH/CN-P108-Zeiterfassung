@@ -187,13 +187,13 @@ def admin(AID: str):
     else:
         # ! Pages function not tested yet!
         page = request.args.get('page', 1, type=int)
-        per_page = 20
+        per_page_user = 20
 
         admin_data = db.get_or_404(Admin, AID)
-        pagination = db.paginate(select=db.select(User), page=page, per_page=per_page, error_out=False)
+        pagination_users = db.paginate(select=db.select(User), page=page, per_page=per_page_user, error_out=False)
 
-        all_users = pagination.items
-        return render_template("admin.html", data=admin_data, users=all_users, pagination=pagination)
+        all_users = pagination_users.items
+        return render_template("admin.html", data=admin_data, users=all_users, pagination_users=pagination_users)
 
 
 @server.errorhandler(404)

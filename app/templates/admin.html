@@ -1,5 +1,6 @@
 {%extends "basis_tmplt.html"%}
 {% from "user_nav.html" import nav_r, nav_l%}
+{% from "widgets.html" import page_selector %}
 
 {%block title%}USERNAME Zeiterfassung{%endblock%}
 
@@ -25,7 +26,7 @@
         </form>
     </div>
     <div class="flex justify-center items-center ">
-        <div class="flex flex-col justify-center items-center  rounded-lg bg-grau">
+        <div class="flex flex-col justify-center items-center  rounded-lg bg-grau px-3">
             <h2 class="text-5xl my-10">All Users</h2>
             <form class="flex justify-end w-full" method="post">
                 {% if "000000000000" in data.UID %}
@@ -36,7 +37,7 @@
                     class="mx-5 h-8 w-24 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center">Add
                     User</button>
             </form>
-            <table id="all_users" class="w-[60vw] mx-5 mb-5">
+            <table id="all_users" class="w-[60vw] mb-5">
                 <thead>
                     <th class="border-b border-grau-dunkel py-2 text-2xl">UserID</th>
                     <th class="border-b border-grau-dunkel py-2 text-2xl">Name</th>
@@ -62,6 +63,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+            {{page_selector(pagination_users, 'admin')}}
         </div>
     </div>
 </div>
