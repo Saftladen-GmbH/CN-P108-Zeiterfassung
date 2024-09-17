@@ -185,7 +185,6 @@ def admin(AID: str):
         if request.form.get('signout_btn') == 'signout':
             return user_logout(session)
     else:
-        # ! Pages function not tested yet!
         page = request.args.get('page', 1, type=int)
         per_page_user = 20
 
