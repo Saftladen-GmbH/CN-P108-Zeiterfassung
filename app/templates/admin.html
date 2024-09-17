@@ -28,6 +28,10 @@
         <div class="flex flex-col justify-center items-center  rounded-lg bg-grau">
             <h2 class="text-5xl my-10">All Users</h2>
             <form class="flex justify-end w-full" method="post">
+                {% if "000000000000" in data.UID %}
+                <button class="mx-5 h-8 w-24 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center">Add
+                    Admin</button>
+                {% endif %}
                 <button
                     class="mx-5 h-8 w-24 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center">Add
                     User</button>
@@ -50,9 +54,8 @@
                         <td class="">{{user.Firstname}}</td>
                         <td class="">{{user.DOB}}</td>
                         <td class="">{{user.class.CA}}</td>
-                        <td class="py-2">
-                            <button
-                                class="mx-5 h-12 w-16 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center">View</button>
+                        <td class="py-3">
+                            <a class="mx-5 text-black/50 hover:text-black/25 text-nowrap text-center">View</a>
                         </td>
                     </tr>
                     {%endif%}
