@@ -27,7 +27,7 @@
     </div>
     <div class="flex justify-center items-center ">
         <div class="flex flex-col justify-center items-center  rounded-lg bg-grau px-3">
-            <h2 class="text-5xl my-10">All Users</h2>
+            <h2 class="text-5xl my-10 underline">All Users</h2>
             <form class="flex justify-end w-full" method="post">
                 {% if "000000000000" in data.UID %}
                 <button disabled class="mx-5 h-8 w-24 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center">Add
@@ -63,7 +63,7 @@
                     {% endfor %}
                 </tbody>
             </table>
-            {{page_selector(pagination_users, 'admin')}}
+            {{page_selector(pagination_users, 'admin', data.Username)}}
         </div>
     </div>
 </div>

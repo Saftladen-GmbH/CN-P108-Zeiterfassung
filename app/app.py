@@ -185,11 +185,11 @@ def admin(AID: str):
         if request.form.get('signout_btn') == 'signout':
             return user_logout(session)
     else:
-        page = request.args.get('page', 1, type=int)
+        user_page = request.args.get('page', 1, type=int)
         per_page_user = 20
 
         admin_data = db.get_or_404(Admin, AID)
-        pagination_users = db.paginate(select=db.select(User), page=page, per_page=per_page_user, error_out=False)
+        pagination_users = db.paginate(select=db.select(User), page=user_page, per_page=per_page_user, error_out=False)
 
         all_users = pagination_users.items
         return render_template("admin.html", data=admin_data, users=all_users, pagination_users=pagination_users)
