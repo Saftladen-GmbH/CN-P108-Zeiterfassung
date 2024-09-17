@@ -181,19 +181,18 @@ def admin(AID: str):
     if not verify_login(session, AID):
         return redirect(url_for("index"))
 
-    # ! Pages function not tested yet!
-    page = request.args.get('page', 1, type=int)
-    per_page = 20
-    
-    admin_data = db.get_or_404(Admin, AID)
-    pagination = db.session.query(User).paginate(page, per_page, error_out=False)
-    
-    all_users = pagination.items
-
     if request.method == "POST":
         if request.form.get('signout_btn') == 'signout':
             return user_logout(session)
     else:
+        # ! Pages function not tested yet!
+        page = request.args.get('page', 1, type=int)
+        per_page = 20
+        
+        admin_data = db.get_or_404(Admin, AID)
+        pagination = db.session.query(User).paginate(page, per_page, error_out=False)
+        
+        all_users = pagination.items
         return render_template("admin.html", data=admin_data, users=all_users, pagination=pagination)
 
 
