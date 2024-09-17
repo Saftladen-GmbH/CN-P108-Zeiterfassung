@@ -1,0 +1,15 @@
+{% macro page_selector(pagination, endpoint) %}
+<div class="flex justify-center items-center text-xl select-none">
+    {% for page in pagination.iter_pages %}
+    {% if page %}
+        {% if page != pagination.page %}
+            <a href="{{url_for(endpoint, page=page)}}" class="mx-2">{{page}}</a>
+        {% else %}
+            <a class="mx-2 font-bold">{{page}}</a>
+        {% endif %}
+    {% else %}
+        <a class="mx-2 ">...</a>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endmacro %}
