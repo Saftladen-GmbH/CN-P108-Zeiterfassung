@@ -65,6 +65,35 @@
             </table>
             {{page_selector(user_pages['pagination'], 'admin', data.Username, "userpage")}}
         </div>
+        <div class="flex flex-col justify-center items-center  rounded-lg bg-grau px-3"></div>
+            <h2 class="text-5xl my-10 underline">All Classes</h2>
+            <form class="flex justify-end w-full" method="post">
+                <button disabled
+                    class="mx-5 h-8 w-24 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center">Add
+                    Class</button>
+            </form>
+            <table id="all_users" class="w-[60vw] mb-5">
+                <thead>
+                    <th class="border-b border-grau-dunkel py-2 text-2xl">Kürzel</th>
+                    <th class="border-b border-grau-dunkel py-2 text-2xl">Fach</th>
+                    <th class="border-b border-grau-dunkel py-2 text-2xl">Raum</th>
+                    <th class="border-b border-grau-dunkel py-2 text-2xl">Schüler</th>
+                </thead>
+                <tbody>
+                    {%for class in class_pages['data']%}
+                    <tr class="border-b last:border-b-0 border-grau-hell text-center bg-transparent hover:bg-blau/50">
+                        <td class="">{{class.CA}}</td>
+                        <td class="">{{class.Subject_area}}</td>
+                        <td class="">{{class.Classroom}}</td>
+                        <td class="py-3">
+                            <a disabled class="mx-5 text-black/50 hover:text-black/25 text-nowrap text-center">View</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {{page_selector(class_pages['pagination'], 'admin', data.Username, "classpage")}}
+        </div>
     </div>
 </div>
 {%endblock%}
