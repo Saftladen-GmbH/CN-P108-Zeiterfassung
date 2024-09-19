@@ -47,7 +47,7 @@
                     <th class="border-b border-grau-dunkel py-2 text-2xl"></th>
                 </thead>
                 <tbody>
-                    {%for user in users%}
+                    {%for user in user_pages['data']%}
                     {%if 'Admin' not in user.Name %}
                     <tr class="border-b last:border-b-0 border-grau-hell text-center bg-transparent hover:bg-blau/50">
                         <td class="">{{user.UID}}</td>
@@ -63,7 +63,7 @@
                     {% endfor %}
                 </tbody>
             </table>
-            {{page_selector(pagination_users, 'admin', data.Username, "user")}}
+            {{page_selector(user_pages['pagination'], 'admin', data.Username, "user")}}
         </div>
     </div>
 </div>
