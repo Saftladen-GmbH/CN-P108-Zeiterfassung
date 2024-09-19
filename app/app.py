@@ -200,10 +200,22 @@ def admin(AID: str):
         per_page_user = 20
 
         admin_data = db.get_or_404(Admin, AID)
+
         pagination_users = db.paginate(select=db.select(User), page=user_page, per_page=per_page_user, error_out=False)
+        pagination_classes = db.paginate(select=db.select(Class), page=class_page, per_page=per_page_class, error_out=False)
 
         all_users = pagination_users.items
-        return render_template("admin.html", data=admin_data, users=all_users, pagination_users=pagination_users)
+        all_classes = pagination_classes.items
+
+        return render_template("admin.html", data=admin_data,
+                                            user_pages={
+                                                'data': all_users,
+                                                'pagination': pagination_users
+                                                },
+                                            class_pages={
+                                                'data': all_classes,
+                                                'pagination': pagination_classes
+                                            })
 
 
 @server.errorhandler(404)
