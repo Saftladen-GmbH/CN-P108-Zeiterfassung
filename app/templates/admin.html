@@ -25,7 +25,7 @@
                 Password</button>
         </form>
     </div>
-    <div class="flex justify-center items-center ">
+    <div class="flex flex-col justify-center items-center ">
         <div class="flex flex-col justify-center items-center  rounded-lg bg-grau px-3">
             <h2 class="text-5xl my-10 underline">All Users</h2>
             <form class="flex justify-end w-full" method="post">
@@ -65,7 +65,7 @@
             </table>
             {{page_selector(user_pages['pagination'], 'admin', data.Username, "userpage")}}
         </div>
-        <div class="flex flex-col justify-center items-center  rounded-lg bg-grau px-3"></div>
+        <div class="flex flex-col justify-center items-center rounded-lg bg-grau px-3">
             <h2 class="text-5xl my-10 underline">All Classes</h2>
             <form class="flex justify-end w-full" method="post">
                 <button disabled
