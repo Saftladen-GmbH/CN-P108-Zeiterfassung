@@ -185,16 +185,8 @@ def admin(AID: str):
         if request.form.get('signout_btn') == 'signout':
             return user_logout(session)
     else:
-        info_val = request.args.get('info', None, type=str)
-        if info_val is None:
-            user_page = 1
-            class_page = 1
-        elif info_val == "class":
-            class_page = request.args.get('page', 1, type=int)
-            user_page = 1
-        elif info_val == "user":
-            user_page = request.args.get('page', 1, type=int)
-            class_page = 1
+        class_page = request.args.get('userpage', 1, type=int)
+        user_page = request.args.get('classpage', 1, type=int)
 
         per_page_class = 20
         per_page_user = 20
