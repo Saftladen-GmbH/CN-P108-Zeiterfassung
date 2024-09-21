@@ -227,7 +227,26 @@ def addclass(AID):
     if not verify_login(session, AID):
         return redirect(url_for("index"))
 
-    return render_template("add_class.html")
+    # ! Only for testing purposes
+    log = 'Testclass'
+
+    if request == "POST":
+        existing_classes = [row[0] for row in db.session.query(Class.CA).all()]
+
+        # TODO: Add right form fields
+        ca_in = request.form.get("")
+        subject_area_in = request.form.get("")
+        classroom_in = request.form.get("")
+
+        if ca_in in existing_classes:
+            return render_template("add_class.html", error="Class already exists!")
+
+        class_data = Class(CA=ca_in, Subject_area=subject_area_in, Classroom=classroom_in)
+        db.session.add(class_data)
+        db.session.commit()
+        return redirect(url_for("admin", AID=session.get("userid")))
+
+    return str(log)  # render_template("add_class.html")
 
 
 @server.errorhandler(404)
