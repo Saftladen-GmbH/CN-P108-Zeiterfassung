@@ -219,7 +219,7 @@ def adduser(AID):
     if not verify_login(session, AID):
         return redirect(url_for("index"))
 
-    return render_template("add_user.html")
+    return render_template("user_add.html",AID=session.get("userid"))
 
 
 @server.route("/admin/<AID>/add_class", methods=["POST", "GET"])
@@ -227,7 +227,7 @@ def addclass(AID):
     if not verify_login(session, AID):
         return redirect(url_for("index"))
 
-    return render_template("add_class.html")
+    return render_template("class_add.html",AID=session.get("userid"))
 
 
 @server.errorhandler(404)
