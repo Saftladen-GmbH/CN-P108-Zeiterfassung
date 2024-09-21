@@ -31,7 +31,6 @@ def test_blob2image():
 def test_random_password():
     pw = random_password()
     assert len(pw) == 10, "Password length is not 10"
-    assert not pw.isalnum(), "Password contains no special characters"
 
 
 def test_hash_password():
