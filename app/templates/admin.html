@@ -38,8 +38,8 @@
                     <button disabled class="mx-5 h-8 w-24 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center">Add
                         Admin</button>
                     {% endif %}
-                    <button disabled
-                        class="mx-5 h-8 w-24 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center">Add
+                    <button name="btn_add_user" value="adding_user" 
+                        class="mx-5 h-8 w-24 rounded-xl bg-black text-white hover:bg-blau ring-blau/50 hover:ring-8 hover:text-black active:bg-orange active:text-white active:duration-100 active:ease-out transition-all duration-300 text-nowrap">Add
                         User</button>
                 </form>
                 <table id="all_users" class="min-w-[60vw] mb-5">
@@ -73,8 +73,8 @@
             <div id="classes" class="hidden flex flex-col justify-center items-center transition-all duration-300">
                 <h2 class="text-5xl my-10 underline">All Classes</h2>
                 <form class="flex justify-end w-full" method="post">
-                    <button disabled
-                        class="mx-5 h-8 w-24 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center">Add
+                    <button name="btn_add_class" value="adding_class"
+                        class="mx-5 h-8 w-24 rounded-xl bg-black text-white hover:bg-blau ring-blau/50 hover:ring-8 hover:text-black active:bg-orange active:text-white active:duration-100 active:ease-out transition-all duration-300 text-nowrap">Add
                         Class</button>
                 </form>
                 <table id="all_users" class="min-w-[60vw] mb-5">
