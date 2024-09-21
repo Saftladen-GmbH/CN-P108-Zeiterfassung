@@ -26,7 +26,7 @@ db = SQLAlchemy(server)
 @server.route("/", methods=["POST", "GET"])
 def index():
     if request.method == "POST":
-        userid = request.form.get("username").upper()
+        userid = request.form.get("username").replace(" ", "").upper()
         password = request.form.get("password")
 
         user_data = db.session.query(User).filter_by(UID=userid).first()
