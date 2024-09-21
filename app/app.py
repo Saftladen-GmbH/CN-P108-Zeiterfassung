@@ -1,6 +1,6 @@
 from os import path
 from datetime import datetime
-from flask import Flask, render_template, url_for, request, redirect, session
+from flask import Flask, render_template, url_for, request, redirect, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from db import init_db, Admin, User, Class, Login, Logoff, generate_uid
 from utility import random_password, hash_password, verify_password, user_logout, verify_login
@@ -222,11 +222,10 @@ def adduser(AID):
     existing_classes = [row[0] for row in db.session.query(Class.CA).all()]
 
     if request.method == "POST":
-        # TODO: Add right form fields
-        name_in = request.form.get("")
-        fistname_in = request.form.get("")
-        dob_in = request.form.get("")
-        class_in = request.form.get("")
+        name_in = request.form.get("Name")
+        fistname_in = request.form.get("Firstname")
+        dob_in = request.form.get("DOB")
+        class_in = request.form.get("CA")
 
         if class_in not in existing_classes:
             return render_template("user_add.html",
@@ -243,10 +242,18 @@ def adduser(AID):
                          DOB=dob_in,
                          CA=class_in)
 
-        db.session.add(user_data)
-        db.session.commit()
+        # ! Needs to be enabled after testing
+        # db.session.add(user_data)
+        # db.session.commit()
 
-    return render_template("user_add.html",  error="", existing_classes=existing_classes)
+        # ! Needs to be removed after testing
+        print(f"User added. Note the Password: {pw_gen}")
+        print(user_data)
+
+        flash(f"User added. Note the Password: {pw_gen} and give it to the user!")
+        return redirect(url_for("admin", AID=session.get("userid")))
+
+    return render_template("user_add.html", AID=session.get('userid'),  error="", existing_classes=existing_classes)
 
 
 @server.route("/admin/<AID>/add_class", methods=["POST", "GET"])
@@ -254,30 +261,33 @@ def addclass(AID):
     if not verify_login(session, AID):
         return redirect(url_for("index"))
 
-    # ! Only for testing purposes
-    log = 'Add_class'
-
     existing_classes = [row[0] for row in db.session.query(Class.CA).all()]
 
     if request == "POST":
 
-        # TODO: Add right form fields
-        ca_in = request.form.get("")
-        subject_area_in = request.form.get("")
-        classroom_in = request.form.get("")
+        ca_in = request.form.get("CA")
+        subject_area_in = request.form.get("Subject_area")
+        classroom_in = request.form.get("Classroom")
 
         if ca_in in existing_classes:
-            return render_template("class_add.html", error="Class already exists!")
+            return render_template("class_add.html",AID=session.get('userid'), error="Class already exists!")
 
         class_data = Class(CA=ca_in,
                            Subject_area=subject_area_in,
                            Classroom=classroom_in)
 
-        db.session.add(class_data)
-        db.session.commit()
+        # ! Needs to be enabled after testing
+        # db.session.add(class_data)
+        # db.session.commit()
+
+        # ! Needs to be removed after testing
+        print(class_data)
+
+        flash(f"Class added: {ca_in}")
+
         return redirect(url_for("admin", AID=session.get("userid")))
 
-    return str(log)  # render_template("class_add.html", error="")
+    return render_template("class_add.html", AID=session.get('userid'),  error="")
 
 
 @server.errorhandler(404)

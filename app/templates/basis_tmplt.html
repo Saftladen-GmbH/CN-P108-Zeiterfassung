@@ -26,6 +26,15 @@
             </div>
         </nav>
     <div class="md:mx-40 mx-4 md:my-16 my-8">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        {% endwith %}
         {%block body%}
         {%endblock%}
     </div>
