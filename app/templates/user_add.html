@@ -27,7 +27,9 @@
                 <label for="CA">Klasse wählen</label>
                 <select class="w-full h-10 mb-8 mt-1 px-2 border-grau border-[1px] rounded-lg" id="CA" name="CA" placeholder="Klasse" required>
                     <option value="-">-</option>
-                    
+                    {%for class in existing_classes%}
+                    <option value="{{class}}">{{class}}</option>
+                    {% endfor %}
                 </select>
                 <button class="bg-blau border-dunkelblau w-full h-10 mb-4 border-[1px] rounded-lg text-white hover:ring-4 ring-blau/50 transition-all duration-400" type="submit">Erstellen</button>
                 <a href="{{url_for('admin',AID=AID)}}">

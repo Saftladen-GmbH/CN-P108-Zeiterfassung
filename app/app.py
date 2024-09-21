@@ -224,7 +224,7 @@ def adduser(AID):
     if request.method == "POST":
         name_in = request.form.get("Name")
         fistname_in = request.form.get("Firstname")
-        dob_in = request.form.get("DOB")
+        dob_in = datetime.strptime(request.form.get("DOB"), "%Y-%m-%d")
         class_in = request.form.get("CA")
 
         if class_in not in existing_classes:
@@ -242,15 +242,10 @@ def adduser(AID):
                          DOB=dob_in,
                          CA=class_in)
 
-        # ! Needs to be enabled after testing
-        # db.session.add(user_data)
-        # db.session.commit()
+        db.session.add(user_data)
+        db.session.commit()
 
-        # ! Needs to be removed after testing
-        print(f"User added. Note the Password: {pw_gen}")
-        print(user_data.UID, user_data.Name, user_data.Firstname, user_data.Password, user_data.DOB, user_data.CA)
-
-        flash(f"User added. Note the Password: {pw_gen} and give it to the User!")
+        flash(f"User added. Note the Password: '{pw_gen}' and give it to {user_data.Firstname} {user_data.Name}!")
         return redirect(url_for("admin", AID=session.get("userid")))
 
     return render_template("user_add.html",
