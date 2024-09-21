@@ -1,0 +1,134 @@
+{%extends "basis_tmplt.html"%}
+{% from "user_nav.html" import nav_r, nav_l%}
+{% from "widgets.html" import page_selector %}
+
+{%block title%}USERNAME Zeiterfassung{%endblock%}
+
+{%block navleft%}
+<h2 class="my-auto text-2xl">ADMIN Home</h2>
+{%endblock%}
+
+{%block navright%}
+{{nav_r()}}
+{%endblock%}
+
+{%block body%}
+<div class="justify-center items-center">
+    <div id="admin_info" class="flex flex-col justify-start items-center">
+        <h1 class="text-8xl drop-shadow-xl">
+            <span class="italic">Willkommen</span>
+            <span class="text-blau underline underline-offset-4">{{data.Username}}</span>
+        </h1>
+        <form class="flex justify-center items-center my-20" method="post">
+            <button disabled
+                class="mx-5 h-12 w-36 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center">Change
+                Password</button>
+        </form>
+    </div>
+    <div class="flex flex-col justify-center items-center ">
+        <div class="flex h-14 w-[60vw] justify-start text-center items-end">
+            <button id="btn_users" class="h-12 w-32 bg-grau hover:bg-blau/50 hover:h-14 rounded-t-lg transition-all duration-300">Users</button>
+            <button id="btn_classes" class="h-12 w-32 bg-grau-hell hover:bg-blau/50 hover:h-14  rounded-t-lg transition-all duration-300">Classes</button>
+        </div>
+        <div class="rounded-lg bg-grau px-3 shadow-lg">
+            <div id="user" class="flex flex-col justify-center items-center transition-all duration-300">
+                <h2 class="text-5xl my-10 underline">All Users</h2>
+                <form class="flex justify-end w-full" method="post">
+                    {% if "000000000000" in data.UID %}
+                    <button disabled class="mx-5 h-8 w-24 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center">Add
+                        Admin</button>
+                    {% endif %}
+                    <button disabled
+                        class="mx-5 h-8 w-24 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center">Add
+                        User</button>
+                </form>
+                <table id="all_users" class="min-w-[60vw] mb-5">
+                    <thead>
+                        <th class="border-b border-grau-dunkel py-2 text-2xl">UserID</th>
+                        <th class="border-b border-grau-dunkel py-2 text-2xl">Name</th>
+                        <th class="border-b border-grau-dunkel py-2 text-2xl">Firstname</th>
+                        <th class="border-b border-grau-dunkel py-2 text-2xl">Birthday</th>
+                        <th class="border-b border-grau-dunkel py-2 text-2xl">Class</th>
+                        <th class="border-b border-grau-dunkel py-2 text-2xl"></th>
+                    </thead>
+                    <tbody>
+                        {%for user in user_pages['data']%}
+                        {%if 'Admin' not in user.Name %}
+                        <tr class="border-b last:border-b-0 border-grau-hell text-center bg-transparent hover:bg-blau/50">
+                            <td class="">{{user.UID}}</td>
+                            <td class="">{{user.Name}}</td>
+                            <td class="">{{user.Firstname}}</td>
+                            <td class="">{{user.DOB}}</td>
+                            <td class="">{{user.class.CA}}</td>
+                            <td class="py-3">
+                                <a disabled class="mx-5 text-black/50 hover:text-black/25 text-nowrap text-center">View</a>
+                            </td>
+                        </tr>
+                        {%endif%}
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {{page_selector(user_pages['pagination'], 'admin', data.Username, "userpage")}}
+            </div>
+            <div id="classes" class="hidden flex flex-col justify-center items-center transition-all duration-300">
+                <h2 class="text-5xl my-10 underline">All Classes</h2>
+                <form class="flex justify-end w-full" method="post">
+                    <button disabled
+                        class="mx-5 h-8 w-24 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center">Add
+                        Class</button>
+                </form>
+                <table id="all_users" class="min-w-[60vw] mb-5">
+                    <thead>
+                        <th class="border-b border-grau-dunkel py-2 text-2xl">Kürzel</th>
+                        <th class="border-b border-grau-dunkel py-2 text-2xl">Fach</th>
+                        <th class="border-b border-grau-dunkel py-2 text-2xl">Raum</th>
+                        <th class="border-b border-grau-dunkel py-2 text-2xl">Schüler</th>
+                    </thead>
+                    <tbody>
+                        {%for class in class_pages['data']%}
+                        <tr class="border-b last:border-b-0 border-grau-hell text-center bg-transparent hover:bg-blau/50">
+                            <td class="">{{class.CA}}</td>
+                            <td class="">{{class.Subject_area}}</td>
+                            <td class="">{{class.Classroom}}</td>
+                            <td class="py-3">
+                                <a disabled class="mx-5 text-black/50 hover:text-black/25 text-nowrap text-center">View</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {{page_selector(class_pages['pagination'], 'admin', data.Username, "classpage")}}
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}
+
+{%block scripts%}
+<script src="{{url_for('static', filename='js/clock.js')}}"></script>
+<script>
+    const userbtn = document.getElementById('btn_users')
+    const classbtn = document.getElementById('btn_classes')
+    const user_table = document.getElementById('user')
+    const class_table = document.getElementById('classes')
+
+    userbtn.addEventListener('click', () => {
+        class_table.classList.add('hidden')
+        user_table.classList.remove('hidden')
+        userbtn.classList.add('bg-grau')
+        userbtn.classList.remove('bg-grau-hell')
+        classbtn.classList.remove('bg-grau')
+        classbtn.classList.add('bg-grau-hell')
+    });
+
+    classbtn.addEventListener('click', () => {
+        user_table.classList.add('hidden')
+        class_table.classList.remove('hidden')
+        classbtn.classList.add('bg-grau')
+        userbtn.classList.add('bg-grau-hell')
+        userbtn.classList.remove('bg-grau')
+        classbtn.classList.remove('bg-grau-hell')
+        });
+
+</script>
+{%endblock%}

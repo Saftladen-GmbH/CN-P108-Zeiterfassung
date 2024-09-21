@@ -47,8 +47,10 @@ def index():
             if admin_data:
                 if verify_password(admin_data.Password, password) and userid.lower() == admin_data.Username:
                     # Password and Username correct
+                    aid = userid.lower()
+                    session["userid"] = aid
                     print("Admin Found and Password Correct! Redirect to Admindashboard")
-                    return "Admin Dashboard"
+                    return redirect(url_for("admin", AID=aid))
                 else:
                     # Password incorrect
                     print("Password Incorrect!")
@@ -170,6 +172,42 @@ def user(userid: str):
                                user=user_data,
                                in_state=state[0],
                                out_state=state[1],)
+
+
+@server.route("/admin/<AID>/", methods=["POST", "GET"])
+def admin(AID: str):
+    """Admin Page to manage Users and Classes"""
+
+    if not verify_login(session, AID):
+        return redirect(url_for("index"))
+
+    if request.method == "POST":
+        if request.form.get('signout_btn') == 'signout':
+            return user_logout(session)
+    else:
+        class_page = request.args.get('userpage', 1, type=int)
+        user_page = request.args.get('classpage', 1, type=int)
+
+        per_page_class = 20
+        per_page_user = 20
+
+        admin_data = db.get_or_404(Admin, AID)
+
+        pagination_users = db.paginate(select=db.select(User), page=user_page, per_page=per_page_user, error_out=False)
+        pagination_classes = db.paginate(select=db.select(Class), page=class_page, per_page=per_page_class, error_out=False)
+
+        all_users = pagination_users.items
+        all_classes = pagination_classes.items
+
+        return render_template("admin.html", data=admin_data,
+                                            user_pages={
+                                                'data': all_users,
+                                                'pagination': pagination_users
+                                                },
+                                            class_pages={
+                                                'data': all_classes,
+                                                'pagination': pagination_classes
+                                            })
 
 
 @server.errorhandler(404)
