@@ -26,12 +26,12 @@
         </form>
     </div>
     <div class="flex flex-col justify-center items-center ">
-        <div class="flex h-12 w-[60vw] justify-start text-center items-center">
-            <button id="btn_users" class="h-full w-32 bg-grau hover:bg-blau/50 rounded-t-lg">Users</button>
-            <button id="btn_classes" class="h-full w-32 bg-grau-hell hover:bg-blau/50  rounded-t-lg">Classes</button>
+        <div class="flex h-14 w-[60vw] justify-start text-center items-end">
+            <button id="btn_users" class="h-12 w-32 bg-grau hover:bg-blau/50 hover:h-14 rounded-t-lg transition-all duration-300">Users</button>
+            <button id="btn_classes" class="h-12 w-32 bg-grau-hell hover:bg-blau/50 hover:h-14  rounded-t-lg transition-all duration-300">Classes</button>
         </div>
         <div class="rounded-lg bg-grau px-3">
-            <div id="user" class="flex flex-col justify-center items-center">
+            <div id="user" class="flex flex-col justify-center items-center transition-all duration-300">
                 <h2 class="text-5xl my-10 underline">All Users</h2>
                 <form class="flex justify-end w-full" method="post">
                     {% if "000000000000" in data.UID %}
@@ -70,7 +70,7 @@
                 </table>
                 {{page_selector(user_pages['pagination'], 'admin', data.Username, "userpage")}}
             </div>
-            <div id="classes" class="hidden flex flex-col justify-center items-center">
+            <div id="classes" class="hidden flex flex-col justify-center items-center transition-all duration-300">
                 <h2 class="text-5xl my-10 underline">All Classes</h2>
                 <form class="flex justify-end w-full" method="post">
                     <button disabled
