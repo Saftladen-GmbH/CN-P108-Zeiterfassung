@@ -192,8 +192,8 @@ def admin(AID: str):
         class_page = request.args.get('userpage', 1, type=int)
         user_page = request.args.get('classpage', 1, type=int)
 
-        per_page_class = 20
-        per_page_user = 20
+        per_page_class = 10
+        per_page_user = 10
 
         admin_data = db.get_or_404(Admin, AID)
 
