@@ -175,7 +175,7 @@ def user(userid: str):
 
 
 @server.route("/admin/<AID>/", methods=["POST", "GET"])
-def admin(AID: str):
+def admin(AID: str, **kwargs):
     """Admin Page to manage Users and Classes"""
 
     if not verify_login(session, AID):
@@ -189,8 +189,8 @@ def admin(AID: str):
         elif request.form.get('btn_add_class') == 'adding_class':
             return redirect(url_for("addclass", AID=session.get("userid")))
     else:
-        class_page = request.args.get('userpage', 1, type=int)
-        user_page = request.args.get('classpage', 1, type=int)
+        user_page = request.args.get('userpage', 1, type=int)
+        class_page = request.args.get('classpage', 1, type=int)
 
         per_page_class = 10
         per_page_user = 10
