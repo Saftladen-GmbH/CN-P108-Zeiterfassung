@@ -184,9 +184,9 @@ def admin(AID: str):
     if request.method == "POST":
         if request.form.get('signout_btn') == 'signout':
             return user_logout(session)
-        elif request.form.get('add_user_btn') == 'adding_user':
+        elif request.form.get('btn_add_user') == 'adding_user':
             return redirect(url_for("adduser", AID=session.get("userid")))
-        elif request.form.get('add_class_btn') == 'adding_class':
+        elif request.form.get('btn_add_class') == 'adding_class':
             return redirect(url_for("addclass", AID=session.get("userid")))
     else:
         class_page = request.args.get('userpage', 1, type=int)
@@ -216,11 +216,17 @@ def admin(AID: str):
 
 @server.route("/admin/<AID>/add_user", methods=["POST", "GET"])
 def adduser(AID):
+    if not verify_login(session, AID):
+        return redirect(url_for("index"))
+    
     return render_template("add_user.html")
 
 
 @server.route("/admin/<AID>/add_class", methods=["POST", "GET"])
 def addclass(AID):
+    if not verify_login(session, AID):
+        return redirect(url_for("index"))
+    
     return render_template("add_class.html")
 
 
