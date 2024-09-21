@@ -218,7 +218,7 @@ def admin(AID: str):
 def adduser(AID):
     if not verify_login(session, AID):
         return redirect(url_for("index"))
-    
+
     return render_template("add_user.html")
 
 
@@ -226,7 +226,7 @@ def adduser(AID):
 def addclass(AID):
     if not verify_login(session, AID):
         return redirect(url_for("index"))
-    
+
     return render_template("add_class.html")
 
 
