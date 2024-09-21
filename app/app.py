@@ -2,8 +2,8 @@ from os import path
 from datetime import datetime
 from flask import Flask, render_template, url_for, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
-from db import init_db, Admin, User, Class, Login, Logoff
-from utility import hash_password, verify_password, user_logout, verify_login
+from db import init_db, Admin, User, Class, Login, Logoff, generate_uid
+from utility import random_password, hash_password, verify_password, user_logout, verify_login
 
 server = Flask(__name__)
 
@@ -219,7 +219,34 @@ def adduser(AID):
     if not verify_login(session, AID):
         return redirect(url_for("index"))
 
-    return render_template("add_user.html")
+    existing_classes = [row[0] for row in db.session.query(Class.CA).all()]
+
+    if request.method == "POST":
+        # TODO: Add right form fields
+        name_in = request.form.get("")
+        fistname_in = request.form.get("")
+        dob_in = request.form.get("")
+        class_in = request.form.get("")
+
+        if class_in not in existing_classes:
+            return render_template("user_add.html",
+                                   error="Class does not exist! Contact an Admin",
+                                   existing_classes=existing_classes)
+
+        uid_gen = generate_uid(name_in, fistname_in, dob_in, db.session)
+        pw_gen = random_password()
+
+        user_data = User(UID=uid_gen,
+                         Name=name_in,
+                         Firstname=fistname_in,
+                         Password=hash_password(pw_gen),
+                         DOB=dob_in,
+                         CA=class_in)
+
+        db.session.add(user_data)
+        db.session.commit()
+
+    return render_template("user_add.html",  error="", existing_classes=existing_classes)
 
 
 @server.route("/admin/<AID>/add_class", methods=["POST", "GET"])
@@ -228,10 +255,11 @@ def addclass(AID):
         return redirect(url_for("index"))
 
     # ! Only for testing purposes
-    log = 'Testclass'
+    log = 'Add_class'
+
+    existing_classes = [row[0] for row in db.session.query(Class.CA).all()]
 
     if request == "POST":
-        existing_classes = [row[0] for row in db.session.query(Class.CA).all()]
 
         # TODO: Add right form fields
         ca_in = request.form.get("")
@@ -239,14 +267,17 @@ def addclass(AID):
         classroom_in = request.form.get("")
 
         if ca_in in existing_classes:
-            return render_template("add_class.html", error="Class already exists!")
+            return render_template("class_add.html", error="Class already exists!")
 
-        class_data = Class(CA=ca_in, Subject_area=subject_area_in, Classroom=classroom_in)
+        class_data = Class(CA=ca_in,
+                           Subject_area=subject_area_in,
+                           Classroom=classroom_in)
+
         db.session.add(class_data)
         db.session.commit()
         return redirect(url_for("admin", AID=session.get("userid")))
 
-    return str(log)  # render_template("add_class.html")
+    return str(log)  # render_template("class_add.html", error="")
 
 
 @server.errorhandler(404)
