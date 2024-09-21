@@ -184,6 +184,10 @@ def admin(AID: str):
     if request.method == "POST":
         if request.form.get('signout_btn') == 'signout':
             return user_logout(session)
+        elif request.form.get('add_user_btn') == 'adding_user':
+            return redirect(url_for("adduser", AID=session.get("userid")))
+        elif request.form.get('add_class_btn') == 'adding_class':
+            return redirect(url_for("addclass", AID=session.get("userid")))
     else:
         class_page = request.args.get('userpage', 1, type=int)
         user_page = request.args.get('classpage', 1, type=int)
@@ -208,6 +212,16 @@ def admin(AID: str):
                                                 'data': all_classes,
                                                 'pagination': pagination_classes
                                             })
+
+
+@server.route("/admin/<AID>/add_user", methods=["POST", "GET"])
+def adduser(AID):
+    return render_template("add_user.html")
+
+
+@server.route("/admin/<AID>/add_class", methods=["POST", "GET"])
+def addclass(AID):
+    return render_template("add_class.html")
 
 
 @server.errorhandler(404)
