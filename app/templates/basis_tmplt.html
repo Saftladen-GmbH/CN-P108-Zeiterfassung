@@ -26,6 +26,15 @@
             </div>
         </nav>
     <div class="md:mx-40 mx-4 md:my-16 my-8">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul class='flex justify-center items-center w-full'>
+                {% for message in messages %}
+                <li class="px-10 my-10 text-xl h-24 text-green-800 bg-green-400 border-green-800 rounded-xl content-center shadow-md">{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        {% endwith %}
         {%block body%}
         {%endblock%}
     </div>

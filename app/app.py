@@ -1,9 +1,9 @@
 from os import path
 from datetime import datetime
-from flask import Flask, render_template, url_for, request, redirect, session
+from flask import Flask, render_template, url_for, request, redirect, session, flash
 from flask_sqlalchemy import SQLAlchemy
-from db import init_db, Admin, User, Class, Login, Logoff
-from utility import hash_password, verify_password, user_logout, verify_login
+from db import init_db, Admin, User, Class, Login, Logoff, generate_uid
+from utility import random_password, hash_password, verify_password, user_logout, verify_login
 
 server = Flask(__name__)
 
@@ -175,7 +175,7 @@ def user(userid: str):
 
 
 @server.route("/admin/<AID>/", methods=["POST", "GET"])
-def admin(AID: str):
+def admin(AID: str, **kwargs):
     """Admin Page to manage Users and Classes"""
 
     if not verify_login(session, AID):
@@ -189,11 +189,11 @@ def admin(AID: str):
         elif request.form.get('btn_add_class') == 'adding_class':
             return redirect(url_for("addclass", AID=session.get("userid")))
     else:
-        class_page = request.args.get('userpage', 1, type=int)
-        user_page = request.args.get('classpage', 1, type=int)
+        user_page = request.args.get('userpage', 1, type=int)
+        class_page = request.args.get('classpage', 1, type=int)
 
-        per_page_class = 20
-        per_page_user = 20
+        per_page_class = 10
+        per_page_user = 10
 
         admin_data = db.get_or_404(Admin, AID)
 
@@ -219,7 +219,39 @@ def adduser(AID):
     if not verify_login(session, AID):
         return redirect(url_for("index"))
 
-    return render_template("user_add.html",AID=session.get("userid"))
+    existing_classes = [row[0] for row in db.session.query(Class.CA).all()]
+
+    if request.method == "POST":
+        name_in = request.form.get("Name")
+        fistname_in = request.form.get("Firstname")
+        dob_in = datetime.strptime(request.form.get("DOB"), "%Y-%m-%d")
+        class_in = request.form.get("CA")
+
+        if class_in not in existing_classes:
+            return render_template("user_add.html",
+                                   error="Class does not exist! Contact an Admin",
+                                   existing_classes=existing_classes)
+
+        uid_gen = generate_uid(name_in, fistname_in, dob_in, db.session)
+        pw_gen = random_password()
+
+        user_data = User(UID=uid_gen,
+                         Name=name_in,
+                         Firstname=fistname_in,
+                         Password=hash_password(pw_gen),
+                         DOB=dob_in,
+                         CA=class_in)
+
+        db.session.add(user_data)
+        db.session.commit()
+
+        flash(f"User added. Note the Password: '{pw_gen}' and give it to {user_data.Firstname} {user_data.Name}!")
+        return redirect(url_for("admin", AID=session.get("userid")))
+
+    return render_template("user_add.html",
+                           AID=session.get('userid'),
+                           error="",
+                           existing_classes=existing_classes)
 
 
 @server.route("/admin/<AID>/add_class", methods=["POST", "GET"])
@@ -227,7 +259,34 @@ def addclass(AID):
     if not verify_login(session, AID):
         return redirect(url_for("index"))
 
-    return render_template("class_add.html",AID=session.get("userid"))
+    existing_classes = [row[0] for row in db.session.query(Class.CA).all()]
+
+    if request.method == "POST":
+
+        ca_in = request.form.get("CA")
+        subject_area_in = request.form.get("Subject_area")
+        classroom_in = request.form.get("Classroom")
+
+        if ca_in in existing_classes:
+            return render_template("class_add.html",
+                                   AID=session.get('userid'),
+                                   error="Class already exists!")
+
+        class_data = Class(CA=ca_in,
+                           Subject_area=subject_area_in,
+                           Classroom=classroom_in)
+
+        db.session.add(class_data)
+        db.session.commit()
+
+        flash(f"Class added: {ca_in}")
+
+        return redirect(url_for("admin",
+                                AID=session.get("userid")))
+
+    return render_template("class_add.html",
+                           AID=session.get('userid'),
+                           error="")
 
 
 @server.errorhandler(404)
