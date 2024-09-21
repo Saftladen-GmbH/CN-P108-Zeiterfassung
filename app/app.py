@@ -250,10 +250,13 @@ def adduser(AID):
         print(f"User added. Note the Password: {pw_gen}")
         print(user_data)
 
-        flash(f"User added. Note the Password: {pw_gen} and give it to the user!")
+        flash(f"User added. Note the Password: {pw_gen} and give it to the User!")
         return redirect(url_for("admin", AID=session.get("userid")))
 
-    return render_template("user_add.html", AID=session.get('userid'),  error="", existing_classes=existing_classes)
+    return render_template("user_add.html",
+                           AID=session.get('userid'),
+                           error="",
+                           existing_classes=existing_classes)
 
 
 @server.route("/admin/<AID>/add_class", methods=["POST", "GET"])
@@ -270,7 +273,9 @@ def addclass(AID):
         classroom_in = request.form.get("Classroom")
 
         if ca_in in existing_classes:
-            return render_template("class_add.html",AID=session.get('userid'), error="Class already exists!")
+            return render_template("class_add.html",
+                                   AID=session.get('userid'),
+                                   error="Class already exists!")
 
         class_data = Class(CA=ca_in,
                            Subject_area=subject_area_in,
@@ -285,9 +290,12 @@ def addclass(AID):
 
         flash(f"Class added: {ca_in}")
 
-        return redirect(url_for("admin", AID=session.get("userid")))
+        return redirect(url_for("admin",
+                                AID=session.get("userid")))
 
-    return render_template("class_add.html", AID=session.get('userid'),  error="")
+    return render_template("class_add.html",
+                           AID=session.get('userid'),
+                           error="")
 
 
 @server.errorhandler(404)
