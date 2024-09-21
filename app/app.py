@@ -248,7 +248,7 @@ def adduser(AID):
 
         # ! Needs to be removed after testing
         print(f"User added. Note the Password: {pw_gen}")
-        print(user_data)
+        print(user_data.UID, user_data.Name, user_data.Firstname, user_data.Password, user_data.DOB, user_data.CA)
 
         flash(f"User added. Note the Password: {pw_gen} and give it to the User!")
         return redirect(url_for("admin", AID=session.get("userid")))
@@ -266,7 +266,7 @@ def addclass(AID):
 
     existing_classes = [row[0] for row in db.session.query(Class.CA).all()]
 
-    if request == "POST":
+    if request.method == "POST":
 
         ca_in = request.form.get("CA")
         subject_area_in = request.form.get("Subject_area")
@@ -281,12 +281,8 @@ def addclass(AID):
                            Subject_area=subject_area_in,
                            Classroom=classroom_in)
 
-        # ! Needs to be enabled after testing
-        # db.session.add(class_data)
-        # db.session.commit()
-
-        # ! Needs to be removed after testing
-        print(class_data)
+        db.session.add(class_data)
+        db.session.commit()
 
         flash(f"Class added: {ca_in}")
 
