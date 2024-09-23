@@ -26,6 +26,9 @@ def client(app):
 def runner(app):
     return app.test_cli_runner()
 
+def test_404(client):
+    response = client.get("/asdsdgasad")
+    assert b'404' in response.data
 
 def test_index(client):
     response = client.get("/")
