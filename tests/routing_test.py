@@ -96,6 +96,25 @@ def test_admin_access_denied(client):
     assert post_response_class.request.path =='/'
     assert get_response.request.path == '/'
 
+def test_admin_access(client):
+    with client.session_transaction() as session:
+        # set a user id without going through the login route
+        session["userid"] = 'master'
+
+    get_response = client.get("/admin/master", follow_redirects=True)
+    post_response_user = client.post("/admin/master", data=
+                                {
+                                    'btn_add_user': 'adding_user'
+                                }, follow_redirects=True)
+    post_response_class = client.post("/admin/master", data=
+                                {
+                                    'btn_add_class': 'adding_class'
+                                }, follow_redirects=True)
+    assert post_response_user.status_code == 200 and post_response_class.status_code == 200
+    assert post_response_user.request.path =='/admin/master/add_user'
+    assert post_response_class.request.path =='/admin/master/add_class'
+    assert get_response.request.path == '/admin/master'
+
 def test_admin_adduser_access_denied(client):
     get_response = client.get("/admin/master/add_user", follow_redirects=True)
     post_response = client.post("/admin/master/add_user", data=

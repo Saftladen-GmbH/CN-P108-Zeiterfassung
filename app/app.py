@@ -176,7 +176,7 @@ def create_app():
                                    out_state=state[1],)
 
 
-    @server.route("/admin/<AID>/", methods=["POST", "GET"])
+    @server.route("/admin/<AID>", methods=["POST", "GET"])
     def admin(AID: str, **kwargs):
         """Admin Page to manage Users and Classes"""
 
