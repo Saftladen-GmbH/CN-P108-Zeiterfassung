@@ -35,21 +35,51 @@ def test_index(client):
     assert b"Zeiterfassung by Saftladen GmbH" in response.data
 
 def test_userpage_access_denied(client):
-    response = client.get("/user/JD0001010004", follow_redirects=True)
-    assert response.request.path == '/'
+    get_response = client.get("/user/JD0001010004", follow_redirects=True)
+    post_response = client.post("user/JD0001010004", data=
+                                {
+                                    "login": "time_in"
+                                }, follow_redirects=True)
+    assert post_response.request.path =='/'
+    assert get_response.request.path == '/'
 
 def test_userdashboard_access_denied(client):
-    response = client.get("/user/JD0001010004/dashboard", follow_redirects=True)
-    assert response.request.path == '/'
+    get_response = client.get("/user/JD0001010004/dashboard", follow_redirects=True)
+    assert get_response.request.path == '/'
 
 def test_admin_access_denied(client):
-    response = client.get("/admin/master", follow_redirects=True)
-    assert response.request.path == '/'
+    get_response = client.get("/admin/master", follow_redirects=True)
+    post_response_user = client.post("/admin/master", data=
+                                {
+                                    'btn_add_user': 'adding_user'
+                                }, follow_redirects=True)
+    post_response_class = client.post("/admin/master", data=
+                                {
+                                    'btn_add_class': 'adding_class'
+                                }, follow_redirects=True)
+    assert post_response_user.request.path =='/'
+    assert post_response_class.request.path =='/'
+    assert get_response.request.path == '/'
 
 def test_admin_adduser_access_denied(client):
-    response = client.get("/admin/master/add_user", follow_redirects=True)
-    assert response.request.path == '/'
+    get_response = client.get("/admin/master/add_user", follow_redirects=True)
+    post_response = client.post("/admin/master/add_user", data=
+                                {
+                                    'Name': 'Test',
+                                    'Firstname': 'TestFirst',
+                                    'DOB': '2000-01-01',
+                                    'class_in': 'Testclass'
+                                }, follow_redirects=True)
+    assert post_response.request.path == '/'
+    assert get_response.request.path == '/'
 
 def test_admin_addclass_access_denied(client):
-    response = client.get("/admin/master/add_user", follow_redirects=True)
-    assert response.request.path == '/'
+    get_response = client.get("/admin/master/add_user", follow_redirects=True)
+    post_response = client.post("/admin/master/add_user", data=
+                                {
+                                    'CA': 'Test',
+                                    'Subject_area': 'TestFirst',
+                                    'Classroom': 'Testroom',
+                                }, follow_redirects=True)
+    assert post_response.request.path == '/'
+    assert get_response.request.path == '/'
