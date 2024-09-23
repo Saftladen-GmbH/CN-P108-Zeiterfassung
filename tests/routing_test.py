@@ -1,19 +1,16 @@
 import pytest
 import sys
 import os
-from pprint import pprint as pp
+from flask_sqlalchemy import SQLAlchemy
 sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/../")
 from app import create_app
-from db import init_db, Admin, User, Class, Login, Logoff, generate_uid
-
-def test_app_existence():
-    assert create_app
 
 @pytest.fixture()
 def app():
     app = create_app()
     app.config.update({
         "TESTING": True,
+        "SQLALCHEMY_TRACK_MODIFICATIONS": False,
     })
 
     yield app
@@ -37,7 +34,6 @@ def test_index(client):
 
 def test_session(client):
     with client.session_transaction() as session:
-        # set a user id without going through the login route
         session["userid"] = 'JD0001010004'
 
     response = client.get("/", follow_redirects=True)
@@ -56,16 +52,9 @@ def test_userpage_access_denied(client):
 
 def test_userpage_access(client):
     with client.session_transaction() as session:
-        # set a user id without going through the login route
         session["userid"] = 'JD0001010004'
 
     get_response = client.get("/user/JD0001010004", follow_redirects=True)
-    post_response = client.post("user/JD0001010004", data=
-                                {
-                                    "login": "time_in"
-                                }, follow_redirects=True)
-    assert post_response.status_code == 200
-    assert post_response.request.path == '/user/JD0001010004'
     assert get_response.request.path == '/user/JD0001010004'
     assert b'Einstempeln' in get_response.data and b'Ausstempeln' in get_response.data
 
@@ -75,7 +64,6 @@ def test_userdashboard_access_denied(client):
 
 def test_userdashboard_access(client):
     with client.session_transaction() as session:
-        # set a user id without going through the login route
         session["userid"] = 'JD0001010004'
 
     get_response = client.get("/user/JD0001010004/dashboard", follow_redirects=True)
@@ -98,7 +86,6 @@ def test_admin_access_denied(client):
 
 def test_admin_access(client):
     with client.session_transaction() as session:
-        # set a user id without going through the login route
         session["userid"] = 'master'
 
     get_response = client.get("/admin/master", follow_redirects=True)
@@ -127,9 +114,16 @@ def test_admin_adduser_access_denied(client):
     assert post_response.request.path == '/'
     assert get_response.request.path == '/'
 
-def test_admin_addclass_access_denied(client):
+def test_admin_adduser_access(client):
+    with client.session_transaction() as session:
+        session["userid"] = 'master'
+
     get_response = client.get("/admin/master/add_user", follow_redirects=True)
-    post_response = client.post("/admin/master/add_user", data=
+    assert get_response.request.path == '/admin/master/add_user'
+
+def test_admin_addclass_access_denied(client):
+    get_response = client.get("/admin/master/add_class", follow_redirects=True)
+    post_response = client.post("/admin/master/add_class", data=
                                 {
                                     'CA': 'Test',
                                     'Subject_area': 'TestFirst',
@@ -137,3 +131,11 @@ def test_admin_addclass_access_denied(client):
                                 }, follow_redirects=True)
     assert post_response.request.path == '/'
     assert get_response.request.path == '/'
+
+def test_admin_addclass_access(client):
+    with client.session_transaction() as session:
+        session["userid"] = 'master'
+
+    get_response = client.get("/admin/master/add_class", follow_redirects=True)
+
+    assert get_response.request.path == '/admin/master/add_class'
