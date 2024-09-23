@@ -188,7 +188,8 @@ def init_db_raw(db_url: str):
 
     session.commit()
     session.close()
-    
+
+# ! Not working yet
 def init_db(db: SQLAlchemy):
     """
     Initializes the database.
