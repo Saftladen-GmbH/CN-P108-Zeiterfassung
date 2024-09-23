@@ -5,7 +5,7 @@ from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/../")
-from db import Base, User, Login, Logoff, Admin, Class, init_db, generate_uid
+from db import Base, User, Login, Logoff, Admin, Class, init_db_raw, generate_uid
 
 
 @pytest.fixture(scope='module')
@@ -96,7 +96,7 @@ def test_class_model(session):
 
 @pytest.mark.skip(reason='Need fix - not importatnt for now')
 def test_init_db(session):
-    init_db('sqlite:///:memory:')
+    init_db_raw('sqlite:///:memory:')
     assert session.query(Admin).filter_by(Username='master').first() is not None, 'Master-Admin nicht gefunden'
 
 
