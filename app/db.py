@@ -196,6 +196,7 @@ def init_db(db: SQLAlchemy):
     Args:
         db (SQLAlchemy): The database object.
     """
+    db.create_all()
     session = db.session
 
     # Admin Datensatz hinzufügen
