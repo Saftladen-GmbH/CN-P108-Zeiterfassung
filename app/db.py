@@ -1,5 +1,6 @@
 from os import path
 from datetime import datetime
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (
     create_engine,
     Column,
@@ -188,7 +189,24 @@ def init_db_raw(db_url: str):
     session.commit()
     session.close()
     
+def init_db(db: SQLAlchemy):
+    """
+    Initializes the database.
 
+    Args:
+        db (SQLAlchemy): The database object.
+    """
+    session = db.session
+
+    # Admin Datensatz hinzufügen
+    _master_admin(session)
+
+    # ! Testdaten hinzufügen (nur für Entwicklung)!
+    _test_data(session)
+    # ! Delete this block for production
+
+    db.session.commit()
+    db.session.close()
 
 if __name__ == '__main__':
     basedir = path.abspath(path.dirname(__file__))
