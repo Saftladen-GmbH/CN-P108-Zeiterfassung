@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from db import init_db, Admin, User, Class, Login, Logoff, generate_uid
 from utility import random_password, hash_password, verify_password, user_logout, verify_login
 
+db = SQLAlchemy()
 
 def create_app():
     server = Flask(__name__)
@@ -22,7 +23,7 @@ def create_app():
 
     # Database configuration
     server.config['SQLALCHEMY_DATABASE_URI'] = sqpath
-    db = SQLAlchemy(server)
+    db.init_app(app=server)
 
 
     @server.route("/", methods=["POST", "GET"])
