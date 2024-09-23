@@ -120,7 +120,7 @@ def create_app():
             return render_template("user_dashboard.html", user=user_data, all_logins=all_logins, all_logouts=all_logouts, total_list=total_list)
 
 
-    @server.route("/user/<userid>/", methods=["POST", "GET"])
+    @server.route("/user/<userid>", methods=["POST", "GET"])
     def user(userid: str):
         """User Page to start logging Time In and Time Out
 
