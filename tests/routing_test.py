@@ -4,6 +4,7 @@ import os
 sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/../")
 from app import create_app
 
+
 @pytest.fixture()
 def app():
     db_path = 'db/test.db'
@@ -19,6 +20,7 @@ def app():
     if os.path.exists(os.path.join('./app', db_path)):
         os.remove(os.path.join('./app', db_path))
 
+
 @pytest.fixture()
 def client(app):
     return app.test_client()
@@ -28,13 +30,16 @@ def client(app):
 # def runner(app):
 #     return app.test_cli_runner()
 
+
 def test_404(client):
     response = client.get("/asdsdgasad")
     assert b'404' in response.data
 
+
 def test_index(client):
     response = client.get("/")
     assert b"Zeiterfassung by Saftladen GmbH" in response.data
+
 
 def test_session(client):
     with client.session_transaction() as session:
@@ -54,6 +59,7 @@ def test_userpage_access_denied(client):
     assert post_response.request.path =='/'
     assert get_response.request.path == '/'
 
+
 def test_userpage_access(client):
     with client.session_transaction() as session:
         session["userid"] = 'JD0001010004'
@@ -62,9 +68,11 @@ def test_userpage_access(client):
     assert get_response.request.path == '/user/JD0001010004'
     assert b'Einstempeln' in get_response.data and b'Ausstempeln' in get_response.data
 
+
 def test_userdashboard_access_denied(client):
     get_response = client.get("/user/JD0001010004/dashboard", follow_redirects=True)
     assert get_response.request.path == '/'
+
 
 def test_userdashboard_access(client):
     with client.session_transaction() as session:
@@ -73,6 +81,7 @@ def test_userdashboard_access(client):
     get_response = client.get("/user/JD0001010004/dashboard", follow_redirects=True)
     assert get_response.request.path == '/user/JD0001010004/dashboard'
     assert b'Informationen' in get_response.data
+
 
 def test_admin_access_denied(client):
     get_response = client.get("/admin/master", follow_redirects=True)
@@ -87,6 +96,7 @@ def test_admin_access_denied(client):
     assert post_response_user.request.path =='/'
     assert post_response_class.request.path =='/'
     assert get_response.request.path == '/'
+
 
 def test_admin_access(client):
     with client.session_transaction() as session:
@@ -106,6 +116,7 @@ def test_admin_access(client):
     assert post_response_class.request.path =='/admin/master/add_class'
     assert get_response.request.path == '/admin/master'
 
+
 def test_admin_adduser_access_denied(client):
     get_response = client.get("/admin/master/add_user", follow_redirects=True)
     post_response = client.post("/admin/master/add_user", data=
@@ -118,10 +129,11 @@ def test_admin_adduser_access_denied(client):
     assert post_response.request.path == '/'
     assert get_response.request.path == '/'
 
+
 def test_admin_adduser_access(client):
     with client.session_transaction() as session:
         session["userid"] = 'master'
-    
+
     get_response = client.get("/admin/master/add_user", follow_redirects=True)
     post_response_noclass = client.post("/admin/master/add_user", data=
                                 {
@@ -143,6 +155,7 @@ def test_admin_adduser_access(client):
     assert post_response_noclass.request.path == '/admin/master/add_user'
     assert get_response.request.path == '/admin/master/add_user'
 
+
 def test_admin_addclass_access_denied(client):
     get_response = client.get("/admin/master/add_class", follow_redirects=True)
     post_response = client.post("/admin/master/add_class", data=
@@ -153,6 +166,7 @@ def test_admin_addclass_access_denied(client):
                                 }, follow_redirects=True)
     assert post_response.request.path == '/'
     assert get_response.request.path == '/'
+
 
 def test_admin_addclass_access(client):
     with client.session_transaction() as session:
