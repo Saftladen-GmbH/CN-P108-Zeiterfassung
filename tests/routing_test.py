@@ -7,21 +7,26 @@ from app import create_app
 
 @pytest.fixture()
 def app():
-    app = create_app('db/test.db')
+    db_path = 'db/test.db'
+    app = create_app(db_path)
     app.config.update({
         "TESTING": True,
+        "sqlalchemy_track_modifications": False,
     })
 
     yield app
+
+    if os.path.exists(os.path.join('./app', db_path)):
+        os.remove(os.path.join('./app', db_path))
 
 @pytest.fixture()
 def client(app):
     return app.test_client()
 
-
-@pytest.fixture()
-def runner(app):
-    return app.test_cli_runner()
+# ? Not Needed
+# @pytest.fixture()
+# def runner(app):
+#     return app.test_cli_runner()
 
 def test_404(client):
     response = client.get("/asdsdgasad")
@@ -116,8 +121,18 @@ def test_admin_adduser_access_denied(client):
 def test_admin_adduser_access(client):
     with client.session_transaction() as session:
         session["userid"] = 'master'
-
+    
     get_response = client.get("/admin/master/add_user", follow_redirects=True)
+    post_response_noclass = client.post("/admin/master/add_user", data=
+                                {
+                                    'Name': 'Test',
+                                    'Firstname': 'TestFirst',
+                                    'DOB': '2000-01-01',
+                                    'class_in': 'NotExistingClass'
+                                }, follow_redirects=True)
+    assert post_response_noclass.status_code == 200
+    assert b'Class does not exist! Contact an Admin' in post_response_noclass.data
+    assert post_response_noclass.request.path == '/admin/master/add_user'
     assert get_response.request.path == '/admin/master/add_user'
 
 def test_admin_addclass_access_denied(client):

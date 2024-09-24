@@ -25,7 +25,6 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
     server.config['SQLALCHEMY_DATABASE_URI'] = sqpath
     db.init_app(app=server)
 
-
     @server.route("/", methods=["POST", "GET"])
     def index():
         if request.method == "POST":
