@@ -16,6 +16,7 @@ def app():
 
     yield app
 
+    # ? Path manipulation with ./app needed because of the way the db is created in the app
     if os.path.exists(os.path.join('./app', db_path)):
         os.remove(os.path.join('./app', db_path))
 
