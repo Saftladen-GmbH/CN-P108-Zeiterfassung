@@ -7,15 +7,15 @@ from utility import random_password, hash_password, verify_password, user_logout
 
 db = SQLAlchemy()
 
-def create_app():
+def create_app(db_path: str = 'db/database.db') -> Flask:
     server = Flask(__name__)
 
     server.secret_key = '1234566789'
 
     # Database initialization
     basedir = path.abspath(path.dirname(__file__))
-    path2db = path.join(basedir, 'db/database.db')
-    sqpath = 'sqlite:///' + path.join(basedir, 'db/database.db')
+    path2db = path.join(basedir, db_path)
+    sqpath = 'sqlite:///' + path.join(basedir, db_path)
 
     if not path.exists(path2db):
         print("Database not generated. Generating database")
