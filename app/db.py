@@ -129,7 +129,7 @@ def generate_uid(name: str, first_name: str, dob: datetime, session) -> str:
             return uid
         modifier += 1
 
-def _master_admin(session):
+def _add_master_admin(session):
     """
     Adds the master admin to the database.
     """
@@ -147,7 +147,7 @@ def _master_admin(session):
     print(f"Master-Admin added. Note the Password: {rndpw}")
     print("## You won't see it again. Please note the password. ##")
 
-def _test_data(session):
+def _add_test_data(session):
     """
     Adds test data to the database.
 
@@ -180,10 +180,10 @@ def init_db(db_url: str):
     session = Session()
 
     # Admin Datensatz hinzufügen
-    _master_admin(session)
+    _add_master_admin(session)
 
     # ! Testdaten hinzufügen (nur für Entwicklung)!
-    _test_data(session)
+    _add_test_data(session)
     # ! Delete this block for production
 
     session.commit()
