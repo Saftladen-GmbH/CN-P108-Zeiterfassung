@@ -2,7 +2,7 @@ from os import path
 from datetime import datetime
 from flask import Flask, render_template, url_for, request, redirect, session, flash
 from flask_sqlalchemy import SQLAlchemy
-from db import init_db_raw, Admin, User, Class, Login, Logoff, generate_uid
+from db import init_db, Admin, User, Class, Login, Logoff, generate_uid
 from utility import random_password, hash_password, verify_password, user_logout, verify_login
 
 db = SQLAlchemy()
@@ -19,7 +19,7 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
 
     if not path.exists(path2db):
         print("Database not generated. Generating database")
-        init_db_raw(sqpath)
+        init_db(sqpath)
 
     # Database configuration
     server.config['SQLALCHEMY_DATABASE_URI'] = sqpath

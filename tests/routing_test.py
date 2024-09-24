@@ -1,7 +1,6 @@
 import pytest
 import sys
 import os
-from flask_sqlalchemy import SQLAlchemy
 sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/../")
 from app import create_app
 

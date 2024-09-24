@@ -165,7 +165,7 @@ def _test_data(session):
                      CA='Testclass')
     session.add(test_user)
 
-def init_db_raw(db_url: str):
+def init_db(db_url: str):
     """
     Initializes the database.
 
@@ -189,27 +189,6 @@ def init_db_raw(db_url: str):
     session.commit()
     session.close()
 
-# ! Not working yet
-def init_db(db: SQLAlchemy):
-    """
-    Initializes the database.
-
-    Args:
-        db (SQLAlchemy): The database object.
-    """
-    db.create_all()
-    session = db.session
-
-    # Admin Datensatz hinzufügen
-    _master_admin(session)
-
-    # ! Testdaten hinzufügen (nur für Entwicklung)!
-    _test_data(session)
-    # ! Delete this block for production
-
-    db.session.commit()
-    db.session.close()
-
 if __name__ == '__main__':
     basedir = path.abspath(path.dirname(__file__))
-    init_db_raw('sqlite:///' + path.join(basedir, 'db/database.db'))
+    init_db('sqlite:///' + path.join(basedir, 'db/database.db'))
