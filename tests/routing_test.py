@@ -7,10 +7,9 @@ from app import create_app
 
 @pytest.fixture()
 def app():
-    app = create_app()
+    app = create_app('db/test.db')
     app.config.update({
         "TESTING": True,
-        "SQLALCHEMY_TRACK_MODIFICATIONS": False,
     })
 
     yield app
@@ -136,6 +135,22 @@ def test_admin_addclass_access(client):
     with client.session_transaction() as session:
         session["userid"] = 'master'
 
-    get_response = client.get("/admin/master/add_class", follow_redirects=True)
+    post_response = client.post("/admin/master/add_class", data=
+                                {
+                                    'CA': 'Test',
+                                    'Subject_area': 'TestFirst',
+                                    'Classroom': 'Testroom',
+                                }, follow_redirects=True)
+    post_response_existing = client.post("/admin/master/add_class", data=
+                                {
+                                    'CA': 'Test',
+                                    'Subject_area': 'TestFirst',
+                                    'Classroom': 'Testroom',
+                                }, follow_redirects=True)
 
+    get_response = client.get("/admin/master/add_class", follow_redirects=True)
+    assert post_response.status_code == 200 and post_response_existing.status_code == 200
+    assert b'Class already exists!' in post_response_existing.data
+    assert post_response_existing.request.path == '/admin/master/add_class'
+    assert post_response.request.path == '/admin/master'
     assert get_response.request.path == '/admin/master/add_class'
