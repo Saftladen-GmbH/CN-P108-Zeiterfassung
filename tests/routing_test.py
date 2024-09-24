@@ -128,10 +128,18 @@ def test_admin_adduser_access(client):
                                     'Name': 'Test',
                                     'Firstname': 'TestFirst',
                                     'DOB': '2000-01-01',
-                                    'class_in': 'NotExistingClass'
+                                    'CA': 'NotExistingClass'
                                 }, follow_redirects=True)
-    assert post_response_noclass.status_code == 200
+    post_response = client.post("/admin/master/add_user", data=
+                                {
+                                    'Name': 'Test',
+                                    'Firstname': 'TestFirst',
+                                    'DOB': '2000-01-01',
+                                    'CA': 'Testclass'
+                                }, follow_redirects=True)
+    assert post_response_noclass.status_code == 200 and post_response.status_code == 200
     assert b'Class does not exist! Contact an Admin' in post_response_noclass.data
+    assert post_response.request.path == '/admin/master'
     assert post_response_noclass.request.path == '/admin/master/add_user'
     assert get_response.request.path == '/admin/master/add_user'
 
