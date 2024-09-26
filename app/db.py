@@ -1,5 +1,6 @@
 from os import path
 from datetime import datetime
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (
     create_engine,
     Column,
@@ -128,6 +129,41 @@ def generate_uid(name: str, first_name: str, dob: datetime, session) -> str:
             return uid
         modifier += 1
 
+def _add_master_admin(session):
+    """
+    Adds the master admin to the database.
+    """
+
+    rndpw = random_password()
+    master_user = User(UID='000000000000', Name='Admin', Firstname='Master',
+                       Password=hash_password(rndpw), DOB=datetime.now(),
+                       CA='')
+    session.add(master_user)
+    master_admin = Admin(Username='master',
+                         Password=hash_password(rndpw),
+                         UID='000000000000')
+    session.add(master_admin)
+
+    print(f"Master-Admin added. Note the Password: {rndpw}")
+    print("## You won't see it again. Please note the password. ##")
+
+def _add_test_data(session):
+    """
+    Adds test data to the database.
+
+    Args:
+        session(sqlalchemie session): The session to query the database.
+    """
+    t_name = 'Doe'
+    t_firstname = 'John'
+    t_dob = datetime(2000, 1, 1)
+    t_uid = generate_uid(t_name, t_firstname, t_dob, session)
+    test_class = Class(CA='Testclass', Subject_area='Test', Classroom='Testroom')
+    session.add(test_class)
+    test_user = User(UID=t_uid, Name=t_name, Firstname=t_firstname,
+                     Password=hash_password('123456789'), DOB=t_dob,
+                     CA='Testclass')
+    session.add(test_user)
 
 def init_db(db_url: str):
     """
@@ -144,34 +180,14 @@ def init_db(db_url: str):
     session = Session()
 
     # Admin Datensatz hinzufügen
-    rndpw = random_password()
-    master_user = User(UID='000000000000', Name='Admin', Firstname='Master',
-                       Password=hash_password(rndpw), DOB=datetime.now(),
-                       CA='')
-    session.add(master_user)
-    master_admin = Admin(Username='master',
-                         Password=hash_password(rndpw),
-                         UID='000000000000')
-    session.add(master_admin)
+    _add_master_admin(session)
 
     # ! Testdaten hinzufügen (nur für Entwicklung)!
-    t_name = 'Doe'
-    t_firstname = 'John'
-    t_dob = datetime(2000, 1, 1)
-    t_uid = generate_uid(t_name, t_firstname, t_dob, session)
-    test_class = Class(CA='Testclass', Subject_area='Test', Classroom='Testroom')
-    session.add(test_class)
-    test_user = User(UID=t_uid, Name=t_name, Firstname=t_firstname,
-                     Password=hash_password('123456789'), DOB=t_dob,
-                     CA='Testclass')
-    session.add(test_user)
+    _add_test_data(session)
     # ! Delete this block for production
 
     session.commit()
     session.close()
-    print(f"Master-Admin added. Note the Password: {rndpw}")
-    print("## You won't see it again. Please note the password. ##")
-
 
 if __name__ == '__main__':
     basedir = path.abspath(path.dirname(__file__))
