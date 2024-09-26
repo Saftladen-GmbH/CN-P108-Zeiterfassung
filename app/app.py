@@ -290,6 +290,17 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                                AID=session.get('userid'),
                                error="")
 
+    @server.route("/admin/<AID>/user/<UID>", methods=["POST", "GET"])
+    def admin_userdetails(AID, UID):
+        if not verify_login(session, AID):
+            return redirect(url_for("index"))
+        return render_template("admin_userdetails.html")
+    
+    @server.route("/admin/<AID>/class/<CA>", methods=["POST", "GET"])
+    def admin_classdetails(AID, CA):
+        if not verify_login(session, AID):
+            return redirect(url_for("index"))
+        return render_template("admin_classdetails.html")
 
     @server.errorhandler(404)
     def page_not_found(e):
