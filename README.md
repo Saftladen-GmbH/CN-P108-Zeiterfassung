@@ -19,6 +19,7 @@ See [Milestones](https://github.com/Saftladen-GmbH/CN-P108-Zeiterfassung/milesto
 ## Tools to use
 
 - Backend
+
   - Python -> Flask
   - Datenbank -> SQLite3 with SQLAlchemie
 
@@ -27,8 +28,10 @@ See [Milestones](https://github.com/Saftladen-GmbH/CN-P108-Zeiterfassung/milesto
   - CSS -> Tailwind
   - JS -> Vanilla
 
-
 ## Planned Hardware
 
 - Raspberry Pi 4 or 5
+  - HOTSPOT:
+    saftladen_pi
+    test123456789
 - RFID / NFC Tags & Reader (v3.0.0)
