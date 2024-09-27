@@ -61,7 +61,7 @@
                             <td class="">{{user.DOB}}</td>
                             <td class="">{{user.class.CA}}</td>
                             <td class="py-3">
-                                <a disabled class="mx-5 text-black/50 hover:text-black/25 text-nowrap text-center">View</a>
+                                <a class="mx-5 text-black/50 hover:text-black/25 text-nowrap text-center" href="{{url_for(admin_userdetails, AID=data.UID, UID=user.UID)}}">View</a>
                             </td>
                         </tr>
                         {%endif%}
@@ -91,7 +91,7 @@
                             <td class="">{{class.Subject_area}}</td>
                             <td class="">{{class.Classroom}}</td>
                             <td class="py-3">
-                                <a disabled class="mx-5 text-black/50 hover:text-black/25 text-nowrap text-center">View</a>
+                                <a class="mx-5 text-black/50 hover:text-black/25 text-nowrap text-center" href="{{url_for(admin_classdetails, AID=data.UID, CA=class.CA)}}">View</a>
                             </td>
                         </tr>
                         {% endfor %}
