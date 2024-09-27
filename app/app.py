@@ -119,7 +119,6 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
             total_list.sort(key=lambda x: x[0].Time, reverse=True)
             return render_template("user_dashboard.html", user=user_data, all_logins=all_logins, all_logouts=all_logouts, total_list=total_list)
 
-
     @server.route("/user/<userid>", methods=["POST", "GET"])
     def user(userid: str):
         """User Page to start logging Time In and Time Out
@@ -175,7 +174,6 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                                    in_state=state[0],
                                    out_state=state[1],)
 
-
     @server.route("/admin/<AID>", methods=["POST", "GET"])
     def admin(AID: str, **kwargs):
         """Admin Page to manage Users and Classes"""
@@ -214,7 +212,6 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                                                     'data': all_classes,
                                                     'pagination': pagination_classes
                                                 })
-
 
     @server.route("/admin/<AID>/add_user", methods=["POST", "GET"])
     def adduser(AID):
@@ -255,7 +252,6 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                                error="",
                                existing_classes=existing_classes)
 
-
     @server.route("/admin/<AID>/add_class", methods=["POST", "GET"])
     def addclass(AID):
         if not verify_login(session, AID):
@@ -294,13 +290,15 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
     def admin_userdetails(AID, UID):
         if not verify_login(session, AID):
             return redirect(url_for("index"))
-        return render_template("admin_userdetails.html")
+        user_data = db.get_or_404(User, UID)
+        return render_template("admin_userdetails.html", user_data=user_data)
 
     @server.route("/admin/<AID>/class/<CA>", methods=["POST", "GET"])
     def admin_classdetails(AID, CA):
         if not verify_login(session, AID):
             return redirect(url_for("index"))
-        return render_template("admin_classdetails.html")
+        class_data = db.get_or_404(Class, CA)
+        return render_template("admin_classdetails.html", class_data=class_data)
 
     @server.errorhandler(404)
     def page_not_found(e):
