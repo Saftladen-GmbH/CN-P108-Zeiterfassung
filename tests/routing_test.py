@@ -192,12 +192,26 @@ def test_admin_addclass_access(client):
     assert post_response.request.path == '/admin/master'
     assert get_response.request.path == '/admin/master/add_class'
 
+
 def test_admin_classdetails_access_denied(client):
     get_response = client.get("/admin/master/class/Testklasse", follow_redirects=True)
     assert get_response.request.path == '/'
+
 
 def test_admin_classdetails_access(client):
     with client.session_transaction() as session:
         session["userid"] = 'master'
     get_response = client.get("/admin/master/class/Testklasse", follow_redirects=True)
     assert get_response.request.path == '/admin/master/class/Testklasse'
+
+
+def test_admin_userdetails_access_denied(client):
+    get_response = client.get("/admin/master/user/JD0001010004", follow_redirects=True)
+    assert get_response.request.path == '/'
+
+
+def test_admin_userdetails_access(client):
+    with client.session_transaction() as session:
+        session["userid"] = 'master'
+    get_response = client.get("/admin/master/user/JD0001010004", follow_redirects=True)
+    assert get_response.request.path == '/admin/master/user/JD0001010004'
