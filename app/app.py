@@ -174,7 +174,6 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                                    in_state=state[0],
                                    out_state=state[1],)
 
-
     @server.route("/admin/<AID>", methods=["POST", "GET"])
     def admin(AID: str, **kwargs):
         """Admin Page to manage Users and Classes"""
@@ -213,7 +212,6 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                                                     'data': all_classes,
                                                     'pagination': pagination_classes
                                                 })
-
 
     @server.route("/admin/<AID>/add_user", methods=["POST", "GET"])
     def adduser(AID):
@@ -254,7 +252,6 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                                error="",
                                existing_classes=existing_classes)
 
-
     @server.route("/admin/<AID>/add_class", methods=["POST", "GET"])
     def addclass(AID):
         if not verify_login(session, AID):
@@ -293,6 +290,23 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
     def admin_userdetails(AID, UID):
         if not verify_login(session, AID):
             return redirect(url_for("index"))
+        if request.method == "POST":
+            if request.form.get('signout_btn') == 'signout':
+                return user_logout(session)
+            elif request.form.get('change_userdata') == 'change':
+                # ! Not Working!
+                # Todo: Add template for changing user data
+                return redirect(url_for('admin', AID=session.get("userid")))
+            elif request.form.get('rnd_pw') == 'change':
+                # ? WIP
+                new_pw = random_password()
+                db.get_or_404(User, UID).Password = hash_password(new_pw)
+                db.session.commit()
+                return redirect(url_for("admin", AID=session.get("userid")))
+            elif request.form.get('delete_user') == 'delete' and request.form.get('UID') == UID:
+                db.session.remove(db.get_or_404(User, UID))
+                db.session.commit()
+                return redirect(url_for("admin", AID=session.get("userid")))
         user_data = db.get_or_404(User, UID)
         return render_template("admin_userdetails.html", user_data=user_data)
 
@@ -300,6 +314,13 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
     def admin_classdetails(AID, CA):
         if not verify_login(session, AID):
             return redirect(url_for("index"))
+        if request.method == "POST":
+            if request.form.get('signout_btn') == 'signout':
+                return user_logout(session)
+            elif request.form.get('delete_class') == 'delete' and request.form.get('CA') == CA:
+                db.session.remove(db.get_or_404(Class, CA))
+                db.session.commit()
+                return redirect(url_for("admin", AID=session.get("userid")))
         class_data = db.get_or_404(Class, CA)
         return render_template("admin_classdetails.html", class_data=class_data)
 
