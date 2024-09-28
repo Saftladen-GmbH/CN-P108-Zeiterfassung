@@ -21,10 +21,26 @@
         <p class="mr-4"><span class="font-bold">Geburtstag: </span> {{user.DOB}}</p>
     </div>
 </div>
-<div class="bg-grau w-full min-h-full flex justify-start p-5 rounded-lg mb-4 ">
+<div class="bg-grau w-full min-h-full flex flex-col justify-center items-center p-5 rounded-lg mb-4 ">
+    <h1 class="text-2xl">Time spend at School</h1>
     <div class="flex flex-col justify-center items-center w-full">
-        <h1 class="text-2xl">Time spend at School</h1>
-        <canvas id="Chart"></canvas>
+        <canvas id="Chart" class="mb-5"></canvas>
+        <table class="table-fixed w-full">
+            <thead>
+                <tr>
+                    <th class="text-start pl-2 w-2/5">Datum</th>
+                    <th class="text-start pl-2 w-2/5">Worktime</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in time_history %}
+                <tr>
+                    <td class="border-b pl-2 py-1 border-grau-dunkel">{{'.'.join(entry.split('-')[::-1])}}</td>
+                    <td class="border-b border-l pl-2 py-1 border-grau-dunkel">{{timedelta(seconds=time_history[entry])}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 <div class="bg-grau w-full min-h-full flex justify-start p-5 rounded-lg">

@@ -1,5 +1,5 @@
 from os import path
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask import Flask, render_template, url_for, request, redirect, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from db import init_db, Admin, User, Class, Login, Logoff, generate_uid
@@ -110,7 +110,7 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
             total_list = combined_logins + combined_logouts
             total_list.sort(key=lambda x: x[0].Time, reverse=True)
             time_history = {k: v.total_seconds() for k, v in calculate_time_history(total_list).items()}
-            return render_template("user_dashboard.html", user=user_data, total_list=total_list, time_history=time_history)
+            return render_template("user_dashboard.html", user=user_data, total_list=total_list, time_history=time_history, timedelta=timedelta)
 
     @server.route("/user/<userid>", methods=["POST", "GET"])
     def user(userid: str):
