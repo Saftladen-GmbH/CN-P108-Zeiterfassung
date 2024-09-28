@@ -111,9 +111,12 @@
                             ticks: {
                                 callback: function (value, index, values) {
                                     // Formatieren Sie die Y-Achse als HH:MM:SS
-                                    const hours = Math.floor(value / 3600);
-                                    const minutes = Math.floor((value % 3600) / 60);
-                                    const seconds = value % 60;
+                                    let hours = Math.floor(value / 3600);
+                                    let minutes = Math.floor((value % 3600) / 60);
+                                    let seconds = value % 60;
+                                    hours = checkTime(hours);
+                                    minutes = checkTime(minutes);
+                                    seconds = checkTime(seconds);
                                     return `${hours}:${minutes}:${seconds}`;
                                 }
                             }
@@ -133,9 +136,12 @@
                             callbacks: {
                                 label: function (context) {
                                     const value = context.raw;
-                                    const hours = Math.floor(value / 3600);
-                                    const minutes = Math.floor((value % 3600) / 60);
-                                    const seconds = Math.floor(value % 60);
+                                    let hours = Math.floor(value / 3600);
+                                    let minutes = Math.floor((value % 3600) / 60);
+                                    let seconds = Math.floor(value % 60);
+                                    hours = checkTime(hours);
+                                    minutes = checkTime(minutes);
+                                    seconds = checkTime(seconds);
                                     return `${hours}h ${minutes}m ${seconds}s`;
                                 }
                             }
