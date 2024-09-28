@@ -24,7 +24,7 @@
 <div class="bg-grau w-full min-h-full flex justify-start p-5 rounded-lg mb-4 ">
     <div class="flex flex-col justify-center items-center w-full">
         <h1 class="text-2xl">Time spend at School</h1>
-        <canvas id="myChart"></canvas>
+        <canvas id="Chart"></canvas>
     </div>
 </div>
 <div class="bg-grau w-full min-h-full flex justify-start p-5 rounded-lg">
@@ -59,6 +59,7 @@
 
 {%block scripts%}
     <script src="{{url_for('static', filename='js/clock.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const rainbowColors = [
           'bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-green-500',
@@ -82,7 +83,6 @@
           });
         });
       </script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const labels = {{ time_history.keys() | list | tojson }};
 
@@ -127,8 +127,7 @@
                                     const hours = Math.floor(value / 3600);
                                     const minutes = Math.floor((value % 3600) / 60);
                                     const seconds = Math.floor(value % 60);
-                                    const milliseconds = Math.floor(value % 60 * 1000);
-                                    return `${hours}h ${minutes}m ${seconds}s ${milliseconds}ms`;
+                                    return `${hours}h ${minutes}m ${seconds}s`;
                                 }
                             }
                         }
@@ -137,7 +136,7 @@
             };
 
             const myChart = new Chart(
-                document.getElementById('myChart'),
+                document.getElementById('Chart'),
                 config
             );
     </script>

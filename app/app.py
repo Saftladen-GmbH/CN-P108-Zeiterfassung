@@ -7,6 +7,7 @@ from utility import random_password, hash_password, verify_password, user_logout
 
 db = SQLAlchemy()
 
+
 def create_app(db_path: str = 'db/database.db') -> Flask:
     server = Flask(__name__)
 
@@ -69,7 +70,6 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
             else:
                 return render_template("index.html", error="")
 
-
     @server.route("/user/<userid>/dashboard", methods=["POST", "GET"])
     def dashboard(userid):
         """Dashboard Page to display User Data
@@ -98,12 +98,6 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
             all_logins = user_data.Logins
             all_logins.sort(key=lambda x: x.Time, reverse=True)
             reduced_logins = all_logins[:9]
-            # Das was wir gestern versucht habe, hat nicht geklappt weil:
-            # Die daten die aus user_data.Logins kommen sind keine konventionellen DICTS
-            # Sondern sind Objekte. Demnach können wir da nichts Anfügen. Mit der erstellung einer
-            # "Hilfsliste" geht es jetzt. Bei frage frag.
-            # Erstellt eine neue Liste wo auf dem Index 0 das Login Objekt ist
-            # Auf index 1 dann der typ. Habe dir deinen Code schon angepasst.
 
             combined_logins = [[x, "login"] for x in reduced_logins]
 
@@ -111,14 +105,12 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
             all_logouts.sort(key=lambda x: x.Time, reverse=True)
             reduced_logouts = all_logouts[:9]
 
-            # Erstellt eine neue Liste wo auf dem Index 0 das Login Objekt ist
-            # Auf index 1 dann der typ. Habe dir deinen Code schon angepasst. 
             combined_logouts = [[x, "logout"] for x in reduced_logouts]
 
             total_list = combined_logins + combined_logouts
             total_list.sort(key=lambda x: x[0].Time, reverse=True)
-            time_history = {k: v.total_seconds()/60/60 for k, v in calculate_time_history(total_list).items()}
-            return render_template("user_dashboard.html", user=user_data, all_logins=all_logins, all_logouts=all_logouts, total_list=total_list, time_history=time_history)
+            time_history = {k: v.total_seconds() for k, v in calculate_time_history(total_list).items()}
+            return render_template("user_dashboard.html", user=user_data, total_list=total_list, time_history=time_history)
 
     @server.route("/user/<userid>", methods=["POST", "GET"])
     def user(userid: str):
