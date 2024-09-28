@@ -19,14 +19,14 @@ def calculate_time_history(data: list, limit: int = None) -> dict:
             ! IMPORTANT: The input data MUST be sorted by datatime
 
             List of Dictionaries with the keys 'Time' and 'type'
-            ! 'type' has to be either of: login or logoff
+            ! 'type' has to be either of: login or logout
             ! 'time' has to be a datetime object
             ! Script is ignoring todays date
 
             OR
 
             List of a list with an databaseobject at firstplace and the type at the second
-            ! 'type' has to be either of: login or logoff
+            ! 'type' has to be either of: login or logout
             ! the object should have an attribut 'time'
             ! 'time' has to be a datetime object
             ! Script is ignoring todays date
@@ -34,24 +34,24 @@ def calculate_time_history(data: list, limit: int = None) -> dict:
             List of Dicts:
             example 1:
             [{'time': datetime.strptime('2000-12-03 7:00', '%Y-%m-%d %H:%M'), 'type': 'login'},
-            {'time': datetime.strptime('2000-12-03 16:00', '%Y-%m-%d %H:%M'), 'type': 'logoff'}]
+            {'time': datetime.strptime('2000-12-03 16:00', '%Y-%m-%d %H:%M'), 'type': 'logoout'}]
 
             example 2:
             [{'time': datetime.strptime('2000-12-01 07:00', '%Y-%m-%d %H:%M'), 'type': 'login'},
-            {'time': datetime.strptime('2000-12-01 09:00', '%Y-%m-%d %H:%M'), 'type': 'logoff'},
+            {'time': datetime.strptime('2000-12-01 09:00', '%Y-%m-%d %H:%M'), 'type': 'logout'},
             {'time': datetime.strptime('2000-12-01 11:00', '%Y-%m-%d %H:%M'), 'type': 'login'},
-            {'time': datetime.strptime('2000-12-01 16:00', '%Y-%m-%d %H:%M'), 'type': 'logoff'},
+            {'time': datetime.strptime('2000-12-01 16:00', '%Y-%m-%d %H:%M'), 'type': 'logout'},
             {'time': datetime.strptime('2000-12-02 07:00', '%Y-%m-%d %H:%M'), 'type': 'login'},
-            {'time': datetime.strptime('2000-12-02 10:00', '%Y-%m-%d %H:%M'), 'type': 'logoff'},
+            {'time': datetime.strptime('2000-12-02 10:00', '%Y-%m-%d %H:%M'), 'type': 'logout'},
             {'time': datetime.strptime('2000-12-02 11:00', '%Y-%m-%d %H:%M'), 'type': 'login'},
-            {'time': datetime.strptime('2000-12-02 16:00', '%Y-%m-%d %H:%M'), 'type': 'logoff'},
+            {'time': datetime.strptime('2000-12-02 16:00', '%Y-%m-%d %H:%M'), 'type': 'logout'},
             {'time': datetime.strptime('2000-12-03 7:00', '%Y-%m-%d %H:%M'), 'type': 'login'},
-            {'time': datetime.strptime('2000-12-03 16:00', '%Y-%m-%d %H:%M'), 'type': 'logoff'}]
+            {'time': datetime.strptime('2000-12-03 16:00', '%Y-%m-%d %H:%M'), 'type': 'logout'}]
 
             List of Lists:
             example 1:
             [[databaseobject, 'login'],
-            [databaseobject, 'logoff']]
+            [databaseobject, 'logout']]
 
         limit (int): the limit of days that get processed. Defaults to 'None'
 
@@ -74,7 +74,7 @@ def calculate_time_history(data: list, limit: int = None) -> dict:
             d_time = d['time']
         elif type(d) is list:
             d_type = d[1]
-            d_time = d[0].time
+            d_time = d[0].Time
         else:
             raise SyntaxError('Given Data is not supported!')
 
@@ -97,10 +97,10 @@ def calculate_time_history(data: list, limit: int = None) -> dict:
 
         if d_type == 'login':
             start = d_time
-        elif d_type == 'logoff':
+        elif d_type == 'logout':
             end = d_time
         else:
-            raise ValueError(f'Expected: "login" or "logoff". Got: {d_type}')
+            raise ValueError(f'Expected: "login" or "logout". Got: {d_type}')
 
         if start is not None and end is not None:
             tmp = end - start

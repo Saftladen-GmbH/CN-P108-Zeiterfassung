@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import Flask, render_template, url_for, request, redirect, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from db import init_db, Admin, User, Class, Login, Logoff, generate_uid
-from utility import random_password, hash_password, verify_password, user_logout, verify_login
+from utility import random_password, hash_password, verify_password, user_logout, verify_login, calculate_time_history
 
 db = SQLAlchemy()
 
@@ -116,6 +116,8 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
             combined_logouts = [[x, "logout"] for x in reduced_logouts]
 
             total_list = combined_logins + combined_logouts
+            time_history = calculate_time_history(total_list)
+            print(time_history)
             total_list.sort(key=lambda x: x[0].Time, reverse=True)
             return render_template("user_dashboard.html", user=user_data, all_logins=all_logins, all_logouts=all_logouts, total_list=total_list)
 
