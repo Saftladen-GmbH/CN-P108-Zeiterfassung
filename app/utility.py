@@ -105,6 +105,8 @@ def calculate_time_history(data: list, limit: int = None) -> dict:
 
         if start is not None and end is not None:
             tmp = end - start
+            start = None
+            end = None
             if str(current_date) not in work_hours:
                 work_hours[str(current_date)] = tmp
             else:
