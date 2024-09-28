@@ -290,6 +290,7 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
     def admin_userdetails(AID, UID):
         if not verify_login(session, AID):
             return redirect(url_for("index"))
+        user_data = db.get_or_404(User, UID)
         if request.method == "POST":
             if request.form.get('signout_btn') == 'signout':
                 return user_logout(session)
@@ -300,28 +301,40 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
             elif request.form.get('rnd_pw') == 'change':
                 # ? WIP
                 new_pw = random_password()
-                db.get_or_404(User, UID).Password = hash_password(new_pw)
+                user_data.Password = hash_password(new_pw)
                 db.session.commit()
+                flash(f"New Password for {user_data.UID}: {new_pw}")
                 return redirect(url_for("admin", AID=session.get("userid")))
             elif request.form.get('delete_user') == 'delete' and request.form.get('UID') == UID:
-                db.session.remove(db.get_or_404(User, UID))
-                db.session.commit()
+                # TODO: Change to real deletion
+                # ? DEBUG
+                print('Would delete User!')
+                # ! If 'if' works, remove the '#' from the following lines
+                # db.session.remove(user_data)
+                # db.session.commit()
                 return redirect(url_for("admin", AID=session.get("userid")))
-        user_data = db.get_or_404(User, UID)
         return render_template("admin_userdetails.html", user_data=user_data)
 
     @server.route("/admin/<AID>/class/<CA>", methods=["POST", "GET"])
     def admin_classdetails(AID, CA):
         if not verify_login(session, AID):
             return redirect(url_for("index"))
+        class_data = db.get_or_404(Class, CA)
         if request.method == "POST":
             if request.form.get('signout_btn') == 'signout':
                 return user_logout(session)
             elif request.form.get('delete_class') == 'delete' and request.form.get('CA') == CA:
-                db.session.remove(db.get_or_404(Class, CA))
-                db.session.commit()
+                users = class_data.Users
+                if users:
+                    return render_template("admin_classdetails.html", class_data=class_data, error="Class still has Users!")
+                else:
+                    # TODO: Change to real deletion
+                    # ? DEBUG
+                    print('Would delete class cause class is empty and has no users!')
+                    # ! If 'if' works, remove the '#' from the following lines
+                    # db.session.remove(class_data)
+                    # db.session.commit()
                 return redirect(url_for("admin", AID=session.get("userid")))
-        class_data = db.get_or_404(Class, CA)
         return render_template("admin_classdetails.html", class_data=class_data)
 
     @server.errorhandler(404)
