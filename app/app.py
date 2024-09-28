@@ -116,10 +116,10 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
             combined_logouts = [[x, "logout"] for x in reduced_logouts]
 
             total_list = combined_logins + combined_logouts
+            total_list.sort(key=lambda x: x[0].Time, reverse=True)
             time_history = calculate_time_history(total_list)
             print(time_history)
-            total_list.sort(key=lambda x: x[0].Time, reverse=True)
-            return render_template("user_dashboard.html", user=user_data, all_logins=all_logins, all_logouts=all_logouts, total_list=total_list)
+            return render_template("user_dashboard.html", user=user_data, all_logins=all_logins, all_logouts=all_logouts, total_list=total_list, time_history=time_history)
 
     @server.route("/user/<userid>", methods=["POST", "GET"])
     def user(userid: str):

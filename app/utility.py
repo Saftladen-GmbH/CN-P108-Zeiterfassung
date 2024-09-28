@@ -79,6 +79,7 @@ def calculate_time_history(data: list, limit: int = None) -> dict:
             raise SyntaxError('Given Data is not supported!')
 
         if limit is not None and len(work_hours) >= limit:
+            print('Limit reached')
             break
 
         # ? Skip data if date is today
@@ -93,7 +94,7 @@ def calculate_time_history(data: list, limit: int = None) -> dict:
         current_date = d_time.date()
 
         # ? For Debug
-        # print('Calculating date: ', current_date)
+        print('Calculating date: ', current_date)
 
         if d_type == 'login':
             start = d_time
