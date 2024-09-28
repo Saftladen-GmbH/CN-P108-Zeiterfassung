@@ -324,7 +324,7 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
             if request.form.get('signout_btn') == 'signout':
                 return user_logout(session)
             elif request.form.get('delete_class') == 'delete' and request.form.get('CA') == CA:
-                users = class_data.Users
+                users = class_data.Students
                 if users:
                     return render_template("admin_classdetails.html", class_data=class_data, error="Class still has Users!")
                 else:
