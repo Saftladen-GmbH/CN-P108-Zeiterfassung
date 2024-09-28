@@ -718,6 +718,18 @@ video {
   height: 100%;
 }
 
+.h-96 {
+  height: 24rem;
+}
+
+.h-72 {
+  height: 18rem;
+}
+
+.h-56 {
+  height: 14rem;
+}
+
 .min-h-60 {
   min-height: 15rem;
 }
