@@ -104,7 +104,35 @@
                 options: { 
                     aspectRatio: 10/2,
                     maintainAspectRatio: true,
-                    responsive: true
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function (value, index, values) {
+                                    // Formatieren Sie die Y-Achse als HH:MM:SS
+                                    const hours = Math.floor(value / 3600);
+                                    const minutes = Math.floor((value % 3600) / 60);
+                                    const seconds = value % 60;
+                                    return `${hours}:${minutes}:${seconds}`;
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    const value = context.raw;
+                                    const hours = Math.floor(value / 3600);
+                                    const minutes = Math.floor((value % 3600) / 60);
+                                    const seconds = Math.floor(value % 60);
+                                    const milliseconds = Math.floor(value % 60 * 1000);
+                                    return `${hours}h ${minutes}m ${seconds}s ${milliseconds}ms`;
+                                }
+                            }
+                        }
+                    }
                 }
             };
 
