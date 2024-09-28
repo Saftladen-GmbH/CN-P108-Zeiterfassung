@@ -94,7 +94,6 @@
                     tension: 0.4,
                     backgroundColor: '#FE833F',
                     borderColor: '#FE833F',
-                    pointStyle: false,
                     data: {{ time_history.values() | list | tojson }},
                 }]
             };
@@ -133,6 +132,11 @@
                         }
                     },
                     plugins: {
+                        legend: {
+                            labels: {
+                                usePointStyle: true,
+                            },
+                        },
                         tooltip: {
                             callbacks: {
                                 label: function (context) {
