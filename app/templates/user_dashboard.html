@@ -22,30 +22,49 @@
     </div>
 </div>
 <div class="bg-grau w-full min-h-full flex justify-start p-5 rounded-lg">
-    <div><table class="table-fixed w-full">
-        <thead>
-            <tr>
-                <th class="text-start pl-2 w-2/5">Datum</th>
-                <th class="text-start pl-2 w-2/5">Uhrzeit</th>
-                <th class="text-start pl-2 w-1/5">Aktion</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for entry in total_list %}
-            <tr
-            {% if 'login' in entry[1] %}
-                class="bg-green-200"    
-            {% else %}
-                class="bg-red-100"
-            {% endif %}
-            >
-                <td class="border-b pl-2 py-1 border-grau-dunkel">{{entry[0].Time.strftime('%d.%m.%Y')}}</td>
-                <td class="border-b border-l pl-2 py-1 border-grau-dunkel">{{entry[0].Time.strftime('%H:%M:%S')}}</td>
-                <td class="border-b border-l pl-2 py-1 border-grau-dunkel">{{entry[1]}}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div>
+        <table class="table-fixed w-full">
+            <thead>
+                <tr>
+                    <th class="text-start pl-2 w-2/5">Datum</th>
+                    <th class="text-start pl-2 w-2/5">Uhrzeit</th>
+                    <th class="text-start pl-2 w-1/5">Aktion</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in total_list %}
+                <tr
+                {% if 'login' in entry[1] %}
+                    class="bg-green-200"    
+                {% else %}
+                    class="bg-red-100"
+                {% endif %}
+                >
+                    <td class="border-b pl-2 py-1 border-grau-dunkel">{{entry[0].Time.strftime('%d.%m.%Y')}}</td>
+                    <td class="border-b border-l pl-2 py-1 border-grau-dunkel">{{entry[0].Time.strftime('%H:%M:%S')}}</td>
+                    <td class="border-b border-l pl-2 py-1 border-grau-dunkel">{{entry[1]}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <table class="table-fixed w-full">
+            <thead>
+                <tr>
+                    <th class="text-start pl-2 w-2/5">Datum</th>
+                    <th class="text-start pl-2 w-2/5">Zeit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in time_history %}
+                <tr>
+                    <td class="border-b pl-2 py-1 border-grau-dunkel">{{entry}}</td>
+                    <td class="border-b border-l pl-2 py-1 border-grau-dunkel">{{time_history[entry]}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 {%endblock%}
