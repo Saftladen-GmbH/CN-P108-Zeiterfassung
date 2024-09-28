@@ -49,6 +49,7 @@
         </table>
     </div>
     <div>
+        <canvas id="myChart"></canvas>
         <table class="table-fixed w-full">
             <thead>
                 <tr>
@@ -94,4 +95,29 @@
           });
         });
       </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const labels = {{ time_history.keys() | list | tojson }};
+
+            const data = {
+                labels: labels,
+                datasets: [{
+                    label: 'Working Hours',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: {{ time_history.values() | list | tojson }},
+                }]
+            };
+
+            const config = {
+                type: 'line',
+                data: data,
+                options: { maintainAspectRatio: true }
+            };
+
+            const myChart = new Chart(
+                document.getElementById('myChart'),
+                config
+            );
+    </script>
 {%endblock%}
