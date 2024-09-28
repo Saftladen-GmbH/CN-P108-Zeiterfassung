@@ -7,6 +7,7 @@ from utility import random_password, hash_password, verify_password, user_logout
 
 db = SQLAlchemy()
 
+
 def create_app(db_path: str = 'db/database.db') -> Flask:
     server = Flask(__name__)
 
@@ -69,7 +70,6 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
             else:
                 return render_template("index.html", error="")
 
-
     @server.route("/user/<userid>/dashboard", methods=["POST", "GET"])
     def dashboard(userid):
         """Dashboard Page to display User Data
@@ -118,7 +118,6 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
             total_list = combined_logins + combined_logouts
             total_list.sort(key=lambda x: x[0].Time, reverse=True)
             return render_template("user_dashboard.html", user=user_data, all_logins=all_logins, all_logouts=all_logouts, total_list=total_list)
-
 
     @server.route("/user/<userid>", methods=["POST", "GET"])
     def user(userid: str):
@@ -175,7 +174,6 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                                    in_state=state[0],
                                    out_state=state[1],)
 
-
     @server.route("/admin/<AID>", methods=["POST", "GET"])
     def admin(AID: str, **kwargs):
         """Admin Page to manage Users and Classes"""
@@ -214,7 +212,6 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                                                     'data': all_classes,
                                                     'pagination': pagination_classes
                                                 })
-
 
     @server.route("/admin/<AID>/add_user", methods=["POST", "GET"])
     def adduser(AID):
@@ -255,7 +252,6 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                                error="",
                                existing_classes=existing_classes)
 
-
     @server.route("/admin/<AID>/add_class", methods=["POST", "GET"])
     def addclass(AID):
         if not verify_login(session, AID):
@@ -289,7 +285,6 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
         return render_template("class_add.html",
                                AID=session.get('userid'),
                                error="")
-
 
     @server.errorhandler(404)
     def page_not_found(e):
