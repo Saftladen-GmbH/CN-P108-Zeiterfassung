@@ -102,9 +102,11 @@
             const data = {
                 labels: labels,
                 datasets: [{
-                    label: 'Working Minutes',
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
+                    label: 'Working Hours',
+                    tension: 0.2,
+                    backgroundColor: '#FE833F',
+                    borderColor: '#FE833F',
+                    pointStyle: false,
                     data: {{ time_history.values() | list | tojson }},
                 }]
             };
