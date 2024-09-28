@@ -10,6 +10,107 @@ from string import (
 )
 
 
+def calculate_time_history(data: list, limit: int = None) -> dict:
+    """ Caclulate a Time delta between multiple days of login and logouts
+
+    Args:
+        data (list of lists or list of dicts):
+
+            ! IMPORTANT: The input data MUST be sorted by datatime
+
+            List of Dictionaries with the keys 'Time' and 'type'
+            ! 'type' has to be either of: login or logoff
+            ! 'time' has to be a datetime object
+            ! Script is ignoring todays date
+
+            OR
+
+            List of a list with an databaseobject at firstplace and the type at the second
+            ! 'type' has to be either of: login or logoff
+            ! the object should have an attribut 'time'
+            ! 'time' has to be a datetime object
+            ! Script is ignoring todays date
+
+            List of Dicts:
+            example 1:
+            [{'time': datetime.strptime('2000-12-03 7:00', '%Y-%m-%d %H:%M'), 'type': 'login'},
+            {'time': datetime.strptime('2000-12-03 16:00', '%Y-%m-%d %H:%M'), 'type': 'logoff'}]
+
+            example 2:
+            [{'time': datetime.strptime('2000-12-01 07:00', '%Y-%m-%d %H:%M'), 'type': 'login'},
+            {'time': datetime.strptime('2000-12-01 09:00', '%Y-%m-%d %H:%M'), 'type': 'logoff'},
+            {'time': datetime.strptime('2000-12-01 11:00', '%Y-%m-%d %H:%M'), 'type': 'login'},
+            {'time': datetime.strptime('2000-12-01 16:00', '%Y-%m-%d %H:%M'), 'type': 'logoff'},
+            {'time': datetime.strptime('2000-12-02 07:00', '%Y-%m-%d %H:%M'), 'type': 'login'},
+            {'time': datetime.strptime('2000-12-02 10:00', '%Y-%m-%d %H:%M'), 'type': 'logoff'},
+            {'time': datetime.strptime('2000-12-02 11:00', '%Y-%m-%d %H:%M'), 'type': 'login'},
+            {'time': datetime.strptime('2000-12-02 16:00', '%Y-%m-%d %H:%M'), 'type': 'logoff'},
+            {'time': datetime.strptime('2000-12-03 7:00', '%Y-%m-%d %H:%M'), 'type': 'login'},
+            {'time': datetime.strptime('2000-12-03 16:00', '%Y-%m-%d %H:%M'), 'type': 'logoff'}]
+
+            List of Lists:
+            example 1:
+            [[databaseobject, 'login'],
+            [databaseobject, 'logoff']]
+
+        limit (int): the limit of days that get processed. Defaults to 'None'
+
+    Raises:
+        ValueError: Raise error if the type key is not correct
+
+    Returns:
+        dict: Return a dict with the keys beeing the date and the value beeing the timedelta object
+    """
+    work_hours = {}
+    start = None
+    end = None
+    current_date = None
+    for d in data:
+        tmp = 0
+
+        # ? Type checking
+        if type(d) is dict:
+            d_type = d['type']
+            d_time = d['time']
+        elif type(d) is list:
+            d_type = d[1]
+            d_time = d[0].time
+        else:
+            raise SyntaxError('Given Data is not supported!')
+
+        if limit is not None and len(work_hours) >= limit:
+            break
+
+        # ? Skip data if date is today
+        if d_time.date() == datetime.now().date():
+            continue
+
+        # ? Reset values if new day is detected
+        if d_time.date() != current_date:
+            start = None
+            end = None
+
+        current_date = d_time.date()
+
+        # ? For Debug
+        # print('Calculating date: ', current_date)
+
+        if d_type == 'login':
+            start = d_time
+        elif d_type == 'logoff':
+            end = d_time
+        else:
+            raise ValueError(f'Expected: "login" or "logoff". Got: {d_type}')
+
+        if start is not None and end is not None:
+            tmp = end - start
+            if str(current_date) not in work_hours:
+                work_hours[str(current_date)] = tmp
+            else:
+                work_hours[str(current_date)] += tmp
+    return work_hours
+
+
 def verify_login(session, userid: str) -> bool:
     """Verifies if the user is logged in
 
