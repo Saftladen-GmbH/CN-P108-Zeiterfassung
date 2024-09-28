@@ -117,6 +117,15 @@
                                     return `${hours}:${minutes}:${seconds}`;
                                 }
                             }
+                        },
+                        x: {
+                            ticks: {
+                                callback: function (value, index, values) {
+                                    // Formatieren Sie die X-Achse als DD.MM.YYYY
+                                    let date = this.getLabelForValue(value).split('-');
+                                    return date[2] + '.' + date[1] + '.' + date[0];
+                                }
+                            }
                         }
                     },
                     plugins: {
