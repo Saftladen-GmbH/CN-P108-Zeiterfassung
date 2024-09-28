@@ -112,13 +112,12 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
             reduced_logouts = all_logouts[:9]
 
             # Erstellt eine neue Liste wo auf dem Index 0 das Login Objekt ist
-            # Auf index 1 dann der typ. Habe dir deinen Code schon angepasst. 
+            # Auf index 1 dann der typ. Habe dir deinen Code schon angepasst.
             combined_logouts = [[x, "logout"] for x in reduced_logouts]
 
             total_list = combined_logins + combined_logouts
             total_list.sort(key=lambda x: x[0].Time, reverse=True)
             return render_template("user_dashboard.html", user=user_data, all_logins=all_logins, all_logouts=all_logouts, total_list=total_list)
-
 
     @server.route("/user/<userid>", methods=["POST", "GET"])
     def user(userid: str):
