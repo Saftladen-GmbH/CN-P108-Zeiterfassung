@@ -291,7 +291,7 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
         if not verify_login(session, AID):
             return redirect(url_for("index"))
         user_data = db.get_or_404(User, UID)
-        return render_template("admin_userdetails.html", user_data=user_data)
+        return render_template("admin_userdetails.html", user=user_data)
 
     @server.route("/admin/<AID>/class/<CA>", methods=["POST", "GET"])
     def admin_classdetails(AID, CA):
