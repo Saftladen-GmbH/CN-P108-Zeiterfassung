@@ -558,12 +558,20 @@ video {
   position: static;
 }
 
+.absolute {
+  position: absolute;
+}
+
 .m-3 {
   margin: 0.75rem;
 }
 
 .m-5 {
   margin: 1.25rem;
+}
+
+.m-20 {
+  margin: 5rem;
 }
 
 .mx-2 {
@@ -616,6 +624,16 @@ video {
   margin-bottom: auto;
 }
 
+.mx-20 {
+  margin-left: 5rem;
+  margin-right: 5rem;
+}
+
+.mx-52 {
+  margin-left: 13rem;
+  margin-right: 13rem;
+}
+
 .mb-10 {
   margin-bottom: 2.5rem;
 }
@@ -654,6 +672,18 @@ video {
 
 .mt-1 {
   margin-top: 0.25rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mr-20 {
+  margin-right: 5rem;
+}
+
+.mt-20 {
+  margin-top: 5rem;
 }
 
 .block {
@@ -718,6 +748,22 @@ video {
   height: 100%;
 }
 
+.h-96 {
+  height: 24rem;
+}
+
+.h-72 {
+  height: 18rem;
+}
+
+.h-56 {
+  height: 14rem;
+}
+
+.h-80 {
+  height: 20rem;
+}
+
 .min-h-60 {
   min-height: 15rem;
 }
@@ -778,6 +824,14 @@ video {
   width: 100%;
 }
 
+.w-96 {
+  width: 24rem;
+}
+
+.w-screen {
+  width: 100vw;
+}
+
 .min-w-10 {
   min-width: 2.5rem;
 }
@@ -788,6 +842,10 @@ video {
 
 .min-w-\[60vw\] {
   min-width: 60vw;
+}
+
+.min-w-full {
+  min-width: 100%;
 }
 
 .max-w-3xl {
@@ -802,6 +860,52 @@ video {
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
+}
+
+.snap-x {
+  scroll-snap-type: x var(--tw-scroll-snap-strictness);
+}
+
+.snap-y {
+  scroll-snap-type: y var(--tw-scroll-snap-strictness);
+}
+
+.snap-start {
+  scroll-snap-align: start;
+}
+
+.snap-center {
+  scroll-snap-align: center;
+}
+
+.scroll-m-40 {
+  scroll-margin: 10rem;
+}
+
+.scroll-my-20 {
+  scroll-margin-top: 5rem;
+  scroll-margin-bottom: 5rem;
+}
+
+.scroll-mx-20 {
+  scroll-margin-left: 5rem;
+  scroll-margin-right: 5rem;
+}
+
+.scroll-mr-10 {
+  scroll-margin-right: 2.5rem;
+}
+
+.scroll-ml-10 {
+  scroll-margin-left: 2.5rem;
+}
+
+.scroll-mt-20 {
+  scroll-margin-top: 5rem;
+}
+
+.scroll-pr-10 {
+  scroll-padding-right: 2.5rem;
 }
 
 .flex-col {
@@ -834,6 +938,14 @@ video {
 
 .overflow-hidden {
   overflow: hidden;
+}
+
+.overflow-scroll {
+  overflow: scroll;
+}
+
+.scroll-smooth {
+  scroll-behavior: smooth;
 }
 
 .text-nowrap {
@@ -1073,6 +1185,11 @@ video {
 .py-3 {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
+}
+
+.px-52 {
+  padding-left: 13rem;
+  padding-right: 13rem;
 }
 
 .pl-2 {
