@@ -293,6 +293,7 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                 # Todo: Add template for changing user data
                 return redirect(url_for('admin', AID=session.get("userid")))
             elif request.form.get('rnd_pw') == 'change':
+                # ! Not Working!
                 # ? WIP
                 new_pw = random_password()
                 user_data.Password = hash_password(new_pw)
