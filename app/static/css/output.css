@@ -636,6 +636,11 @@ video {
   margin-bottom: auto;
 }
 
+.mx-8 {
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
 .mb-1 {
   margin-bottom: 0.25rem;
 }
@@ -682,6 +687,18 @@ video {
 
 .mt-1 {
   margin-top: 0.25rem;
+}
+
+.ml-10 {
+  margin-left: 2.5rem;
+}
+
+.ml-36 {
+  margin-left: 9rem;
+}
+
+.ml-80 {
+  margin-left: 20rem;
 }
 
 .block {
@@ -1125,12 +1142,18 @@ video {
   padding-bottom: 0.75rem;
 }
 
-.pl-2 {
-  padding-left: 0.5rem;
+.py-10 {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
 }
 
-.pb-4 {
-  padding-bottom: 1rem;
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.pl-2 {
+  padding-left: 0.5rem;
 }
 
 .text-center {
@@ -1499,10 +1522,6 @@ video {
 
   .lg\:top-64 {
     top: 16rem;
-  }
-
-  .lg\:top-72 {
-    top: 18rem;
   }
 
   .lg\:mx-5 {

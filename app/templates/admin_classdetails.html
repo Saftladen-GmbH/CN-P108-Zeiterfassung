@@ -17,16 +17,16 @@
     </a>
 </div>
 <div id="classes" class="flex flex-col justify-center items-center transition-all duration-300">
-    <div class="lg:absolute flex top-none right-none lg:top-52 lg:right-44 mb-4">
-        <button id="delclass" class="mx-5 h-12 w-36 rounded-xl bg-rot text-white hover:ring-4 ring-rot/50 duration-400 transition-all text-nowrap text-center">Klasse löschen</button>
-        </div>
     
-    <div class="rounded-lg bg-grau px-3">
-        <div class="min-w-[60vw] flex justify-center content-center">
-            Kürzel: {{class_data.CA}} Fach: {{class_data.Subject_area}} Raum: {{class_data.Classroom}}
+    <div class="rounded-lg flex  bg-grau w-full px-3 mb-4 justify-center items-center">
+        <div class="min-w-[60vw] flex justify-center content-center py-8 text-xl">
+            <p class="mx-8">Kürzel: {{class_data.CA}}</p> 
+            <p class="mx-8">Fach: {{class_data.Subject_area}}</p> 
+            <p class="mx-8">Raum: {{class_data.Classroom}}</p>
         </div>
+        <button id="delclass" class="mx-5 h-12 w-36 rounded-xl bg-rot text-white hover:ring-4 ring-rot/50 duration-400 transition-all text-nowrap text-center">Klasse löschen</button>
     </div>
-    <div class="rounded-lg bg-grau px-3 shadow-lg">
+    <div class="flex flex-col justify-center rounded-lg bg-grau px-3 shadow-lg w-full content-center ">
         <h2 class="text-5xl w-full text-center my-10 underline">Students von {{class_data.CA}}</h2>
         <table id="all_users" class="min-w-[60vw] mb-5">
             <thead>
