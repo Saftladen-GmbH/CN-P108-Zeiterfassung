@@ -7,9 +7,14 @@
 {%endblock%}
 
 {%block body%}
-<div class="lg:absolute flex top-none right-none lg:top-52 lg:right-44 mb-4">
-<button disabled id="newPwd" class="mx-5 h-12 w-36 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center  ">New Password</button>
-<button id="deluser" class="mx-5 h-12 w-36 rounded-xl bg-rot text-white hover:ring-4 ring-rot/50 duration-400 transition-all text-nowrap text-center">Benutzer löschen</button>
+<div class="flex w-full justify-start content-center mb-4">
+    <a href="{{url_for('admin',AID=AID)}}" class="w-36 h-10">
+        <div class="bg-grau border-grau-dunkel border-[1px] rounded-lg text-center content-center text-black hover:ring-4 hover:bg-blau hover:text-black hover:border-blau ring-blau/50 transition-all duration-400" >Zurück</div>
+    </a>
+</div>
+<div class="lg:absolute flex top-none right-none lg:top-64 lg:right-44 mb-4">
+    <button disabled id="newPwd" class="mx-5 h-12 w-36 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center  ">New Password</button>
+    <button id="deluser" class="mx-5 h-12 w-36 rounded-xl bg-rot text-white hover:ring-4 ring-rot/50 duration-400 transition-all text-nowrap text-center">Benutzer löschen</button>
 </div>
 <div id="newModal" class="fixed hidden content-center backdrop-blur-sm backdrop-brightness-50 w-full h-full top-0 left-0">
     <div class="flex flex-col justify-center content-center m-auto w-96 min-h-64 border-rot border-[1.5px] rounded-lg bg-white p-6">
