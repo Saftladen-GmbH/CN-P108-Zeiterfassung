@@ -21,37 +21,62 @@
         <p class="mr-4"><span class="font-bold">Geburtstag: </span> {{user.DOB}}</p>
     </div>
 </div>
+<div class="bg-grau w-full min-h-full flex flex-col justify-center items-center p-5 rounded-lg mb-4 ">
+    <h1 class="text-2xl">Time spend at School</h1>
+    <div class="flex flex-col justify-center items-center w-full">
+        <canvas id="Chart" class="mb-5"></canvas>
+        <table class="table-fixed w-full">
+            <thead>
+                <tr>
+                    <th class="text-start pl-2 w-2/5">Datum</th>
+                    <th class="text-start pl-2 w-2/5">Worktime</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in time_history %}
+                <tr>
+                    <td class="border-b pl-2 py-1 border-grau-dunkel">{{'.'.join(entry.split('-')[::-1])}}</td>
+                    <td class="border-b border-l pl-2 py-1 border-grau-dunkel">{{timedelta(seconds=time_history[entry])}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 <div class="bg-grau w-full min-h-full flex justify-start p-5 rounded-lg">
-    <div><table class="table-fixed w-full">
-        <thead>
-            <tr>
-                <th class="text-start pl-2 w-2/5">Datum</th>
-                <th class="text-start pl-2 w-2/5">Uhrzeit</th>
-                <th class="text-start pl-2 w-1/5">Aktion</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for entry in total_list %}
-            <tr
-            {% if 'login' in entry[1] %}
-                class="bg-green-200"    
-            {% else %}
-                class="bg-red-100"
-            {% endif %}
-            >
-                <td class="border-b pl-2 py-1 border-grau-dunkel">{{entry[0].Time.strftime('%d.%m.%Y')}}</td>
-                <td class="border-b border-l pl-2 py-1 border-grau-dunkel">{{entry[0].Time.strftime('%H:%M:%S')}}</td>
-                <td class="border-b border-l pl-2 py-1 border-grau-dunkel">{{entry[1]}}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="flex flex-col justify-center items-center w-full mb-2">
+        <h1 class="text-2xl">Last login and logouts</h1>
+        <table class="table-fixed w-full">
+            <thead>
+                <tr>
+                    <th class="text-start pl-2 w-2/5">Datum</th>
+                    <th class="text-start pl-2 w-2/5">Uhrzeit</th>
+                    <th class="text-start pl-2 w-1/5">Aktion</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in total_list %}
+                <tr
+                {% if 'login' in entry[1] %}
+                    class="bg-green-200"    
+                {% else %}
+                    class="bg-red-100"
+                {% endif %}
+                >
+                    <td class="border-b pl-2 py-1 border-grau-dunkel">{{entry[0].Time.strftime('%d.%m.%Y')}}</td>
+                    <td class="border-b border-l pl-2 py-1 border-grau-dunkel">{{entry[0].Time.strftime('%H:%M:%S')}}</td>
+                    <td class="border-b border-l pl-2 py-1 border-grau-dunkel">{{entry[1]}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 {%endblock%}
 
 {%block scripts%}
     <script src="{{url_for('static', filename='js/clock.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const rainbowColors = [
           'bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-green-500',
@@ -75,4 +100,81 @@
           });
         });
       </script>
+    <script>
+        const labels = {{ time_history.keys() | list | tojson }};
+
+            const data = {
+                labels: labels,
+                datasets: [{
+                    label: 'Working Hours',
+                    cubicInterpolationMode: 'monotone',
+                    tension: 0.4,
+                    backgroundColor: '#FE833F',
+                    borderColor: '#FE833F',
+                    data: {{ time_history.values() | list | tojson }},
+                }]
+            };
+
+            const config = {
+                type: 'line',
+                data: data,
+                options: { 
+                    aspectRatio: 10/2,
+                    maintainAspectRatio: true,
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function (value, index, values) {
+                                    // Formatieren Sie die Y-Achse als HH:MM:SS
+                                    let hours = Math.floor(value / 3600);
+                                    let minutes = Math.floor((value % 3600) / 60);
+                                    let seconds = value % 60;
+                                    hours = checkTime(hours);
+                                    minutes = checkTime(minutes);
+                                    seconds = checkTime(seconds);
+                                    return `${hours}:${minutes}:${seconds}`;
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                callback: function (value, index, values) {
+                                    // Formatieren Sie die X-Achse als DD.MM.YYYY
+                                    let date = this.getLabelForValue(value).split('-');
+                                    return date[2] + '.' + date[1] + '.' + date[0];
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                usePointStyle: true,
+                            },
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    const value = context.raw;
+                                    let hours = Math.floor(value / 3600);
+                                    let minutes = Math.floor((value % 3600) / 60);
+                                    let seconds = Math.floor(value % 60);
+                                    hours = checkTime(hours);
+                                    minutes = checkTime(minutes);
+                                    seconds = checkTime(seconds);
+                                    return `${hours}h ${minutes}m ${seconds}s`;
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            const myChart = new Chart(
+                document.getElementById('Chart'),
+                config
+            );
+    </script>
 {%endblock%}
