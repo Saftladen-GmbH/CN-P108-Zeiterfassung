@@ -308,7 +308,7 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                 # ? DEBUG
                 print('Would delete User!')
                 # ! If 'if' works, remove the '#' from the following lines
-                # db.session.remove(user_data)
+                # db.session.query(User).filter(User.UID == user_data.UID).delete()
                 # db.session.commit()
                 return redirect(url_for("admin", AID=session.get("userid")))
         all_logins = user_data.Logins
@@ -334,19 +334,18 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
         if request.method == "POST":
             if request.form.get('signout_btn') == 'signout':
                 return user_logout(session)
-            elif request.form.get('delete_class') == 'delete' and request.form.get('CA') == CA:
+            elif request.form.get('delete_class') == 'delete' and request.form.get('CA') == class_data.CA:
                 users = class_data.Students
                 if users:
-                    return render_template("admin_classdetails.html", class_data=class_data, error="Class still has Users!")
+                    print("Class has USER no Delete!")
+                    return render_template("admin_classdetails.html", class_data=class_data, AID=AID, error='Class still has Students!', isHidden='')
                 else:
-                    # TODO: Change to real deletion
-                    # ? DEBUG
-                    print('Would delete class cause class is empty and has no users!')
-                    # ! If 'if' works, remove the '#' from the following lines
-                    # db.session.remove(class_data)
-                    # db.session.commit()
+                    db.session.query(Class).filter(Class.CA == class_data.CA).delete()
+                    db.session.commit()
                 return redirect(url_for("admin", AID=session.get("userid")))
-        return render_template("admin_classdetails.html", class_data=class_data, AID=AID)
+            elif request.form.get('delete_class') == 'delete' and request.form.get('CA') != class_data.CA:
+                return render_template("admin_classdetails.html", class_data=class_data, AID=AID, error='You type the class wrong!', isHidden='')
+        return render_template("admin_classdetails.html", class_data=class_data, AID=AID, isHidden='hidden')
 
     @server.errorhandler(404)
     def page_not_found(e):
