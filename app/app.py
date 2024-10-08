@@ -288,6 +288,19 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
         if not verify_login(session, AID):
             return redirect(url_for("index"))
         user_data = db.get_or_404(User, UID)
+        all_logins = user_data.Logins
+        all_logins.sort(key=lambda x: x.Time, reverse=True)
+        reduced_logins = all_logins[:9]
+
+        combined_logins = [[x, "login"] for x in reduced_logins]
+        all_logouts = user_data.Logoffs
+        all_logouts.sort(key=lambda x: x.Time, reverse=True)
+        reduced_logouts = all_logouts[:9]
+        combined_logouts = [[x, "logout"] for x in reduced_logouts]
+
+        total_list = combined_logins + combined_logouts
+        total_list.sort(key=lambda x: x[0].Time, reverse=True)
+        time_history = {k: v.total_seconds() for k, v in calculate_time_history(total_list).items()}
         if request.method == "POST":
             if request.form.get('signout_btn') == 'signout':
                 return user_logout(session)
@@ -303,28 +316,13 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                 db.session.commit()
                 flash(f"New Password for {user_data.UID}: {new_pw}")
                 return redirect(url_for("admin", AID=session.get("userid")))
-            elif request.form.get('delete_user') == 'delete' and request.form.get('UID') == UID:
-                # TODO: Change to real deletion
-                # ? DEBUG
-                print('Would delete User!')
-                # ! If 'if' works, remove the '#' from the following lines
-                # db.session.query(User).filter(User.UID == user_data.UID).delete()
-                # db.session.commit()
+            elif request.form.get('delete_user') == 'delete' and request.form.get('UID') == user_data.UID:
+                db.session.query(User).filter(User.UID == user_data.UID).delete()
+                db.session.commit()
                 return redirect(url_for("admin", AID=session.get("userid")))
-        all_logins = user_data.Logins
-        all_logins.sort(key=lambda x: x.Time, reverse=True)
-        reduced_logins = all_logins[:9]
-
-        combined_logins = [[x, "login"] for x in reduced_logins]
-        all_logouts = user_data.Logoffs
-        all_logouts.sort(key=lambda x: x.Time, reverse=True)
-        reduced_logouts = all_logouts[:9]
-        combined_logouts = [[x, "logout"] for x in reduced_logouts]
-
-        total_list = combined_logins + combined_logouts
-        total_list.sort(key=lambda x: x[0].Time, reverse=True)
-        time_history = {k: v.total_seconds() for k, v in calculate_time_history(total_list).items()}
-        return render_template("admin_userdetails.html", user=user_data, AID=AID, time_history=time_history, timedelta=timedelta)
+            elif request.form.get('delete_user') == 'delete' and request.form.get('UID') != UID:
+                return render_template("admin_userdetails.html", user=user_data, AID=AID, time_history=time_history, timedelta=timedelta, isHidden='', error='You typed the Userid wrong!')
+        return render_template("admin_userdetails.html", user=user_data, AID=AID, time_history=time_history, timedelta=timedelta, isHidden='hidden')
 
     @server.route("/admin/<AID>/class/<CA>", methods=["POST", "GET"])
     def admin_classdetails(AID, CA):
