@@ -65,6 +65,11 @@ def test_userpage_access(client):
         session["userid"] = 'JD0001010004'
 
     get_response = client.get("/user/JD0001010004", follow_redirects=True)
+    post_response_logout = client.post("/user/JD0001010004", data=
+                                {
+                                    'signout_btn': 'signout'
+                                }, follow_redirects=True)
+    assert post_response_logout.request.path == '/'
     assert get_response.request.path == '/user/JD0001010004'
     assert b'Einstempeln' in get_response.data and b'Ausstempeln' in get_response.data
 
@@ -79,6 +84,11 @@ def test_userdashboard_access(client):
         session["userid"] = 'JD0001010004'
 
     get_response = client.get("/user/JD0001010004/dashboard", follow_redirects=True)
+    post_response_logout = client.post("/user/JD0001010004/dashboard", data=
+                                {
+                                    'signout_btn': 'signout'
+                                }, follow_redirects=True)
+    assert post_response_logout.request.path == '/'
     assert get_response.request.path == '/user/JD0001010004/dashboard'
     assert b'Informationen' in get_response.data
 
@@ -111,6 +121,11 @@ def test_admin_access(client):
                                 {
                                     'btn_add_class': 'adding_class'
                                 }, follow_redirects=True)
+    post_response_logout = client.post("/admin/master", data=
+                                {
+                                    'signout_btn': 'signout'
+                                }, follow_redirects=True)
+    assert post_response_logout.request.path == '/'
     assert post_response_user.status_code == 200 and post_response_class.status_code == 200
     assert post_response_user.request.path =='/admin/master/add_user'
     assert post_response_class.request.path =='/admin/master/add_class'
@@ -149,6 +164,11 @@ def test_admin_adduser_access(client):
                                     'DOB': '2000-01-01',
                                     'CA': 'Testclass'
                                 }, follow_redirects=True)
+    post_response_logout = client.post("/admin/master/add_user", data=
+                                {
+                                    'signout_btn': 'signout'
+                                }, follow_redirects=True)
+    assert post_response_logout.request.path == '/'
     assert post_response_noclass.status_code == 200 and post_response.status_code == 200
     assert b'Class does not exist! Contact an Admin' in post_response_noclass.data
     assert post_response.request.path == '/admin/master'
@@ -171,7 +191,6 @@ def test_admin_addclass_access_denied(client):
 def test_admin_addclass_access(client):
     with client.session_transaction() as session:
         session["userid"] = 'master'
-
     post_response = client.post("/admin/master/add_class", data=
                                 {
                                     'CA': 'Test',
@@ -184,8 +203,12 @@ def test_admin_addclass_access(client):
                                     'Subject_area': 'TestFirst',
                                     'Classroom': 'Testroom',
                                 }, follow_redirects=True)
-
     get_response = client.get("/admin/master/add_class", follow_redirects=True)
+    post_response_logout = client.post("/admin/master/add_class", data=
+                                {
+                                    'signout_btn': 'signout'
+                                }, follow_redirects=True)
+    assert post_response_logout.request.path == '/'
     assert post_response.status_code == 200 and post_response_existing.status_code == 200
     assert b'Class already exists!' in post_response_existing.data
     assert post_response_existing.request.path == '/admin/master/add_class'
