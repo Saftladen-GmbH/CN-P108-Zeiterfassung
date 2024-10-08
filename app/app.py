@@ -311,7 +311,20 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                 # db.session.remove(user_data)
                 # db.session.commit()
                 return redirect(url_for("admin", AID=session.get("userid")))
-        return render_template("admin_userdetails.html", user_data=user_data)
+        all_logins = user_data.Logins
+        all_logins.sort(key=lambda x: x.Time, reverse=True)
+        reduced_logins = all_logins[:9]
+
+        combined_logins = [[x, "login"] for x in reduced_logins]
+        all_logouts = user_data.Logoffs
+        all_logouts.sort(key=lambda x: x.Time, reverse=True)
+        reduced_logouts = all_logouts[:9]
+        combined_logouts = [[x, "logout"] for x in reduced_logouts]
+
+        total_list = combined_logins + combined_logouts
+        total_list.sort(key=lambda x: x[0].Time, reverse=True)
+        time_history = {k: v.total_seconds() for k, v in calculate_time_history(total_list).items()}
+        return render_template("admin_userdetails.html", user=user_data, AID=AID, time_history=time_history, timedelta=timedelta)
 
     @server.route("/admin/<AID>/class/<CA>", methods=["POST", "GET"])
     def admin_classdetails(AID, CA):
@@ -333,7 +346,7 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                     # db.session.remove(class_data)
                     # db.session.commit()
                 return redirect(url_for("admin", AID=session.get("userid")))
-        return render_template("admin_classdetails.html", class_data=class_data)
+        return render_template("admin_classdetails.html", class_data=class_data, AID=AID)
 
     @server.errorhandler(404)
     def page_not_found(e):
