@@ -11,10 +11,11 @@
 {%endblock%}
 
 {%block body%}
-<div class="flex w-full justify-start content-center mb-4">
+<div class="flex w-full justify-between content-center mb-4">
     <a href="{{url_for('admin',AID=AID)}}" class="w-36 h-10">
         <div class="bg-grau border-grau-dunkel border-[1px] rounded-lg text-center content-center text-black hover:ring-4 hover:bg-blau hover:text-black hover:border-blau ring-blau/50 transition-all duration-400" >Zurück</div>
     </a>
+    <button id="delclass" class="h-12 w-36 rounded-xl bg-rot text-white hover:ring-4 ring-rot/50 duration-400 transition-all text-nowrap text-center">Klasse löschen</button>
 </div>
 <div id="classes" class="flex flex-col justify-center items-center transition-all duration-300">
     
@@ -24,7 +25,6 @@
             <p class="mx-8">Fach: {{class_data.Subject_area}}</p> 
             <p class="mx-8">Raum: {{class_data.Classroom}}</p>
         </div>
-        <button id="delclass" class="mx-5 h-12 w-36 rounded-xl bg-rot text-white hover:ring-4 ring-rot/50 duration-400 transition-all text-nowrap text-center">Klasse löschen</button>
     </div>
     <div class="flex flex-col justify-center rounded-lg bg-grau px-3 shadow-lg w-full content-center ">
         <h2 class="text-5xl w-full text-center my-10 underline">Students von {{class_data.CA}}</h2>
