@@ -214,6 +214,8 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
         existing_classes = [row[0] for row in db.session.query(Class.CA).all()]
 
         if request.method == "POST":
+            if request.form.get('signout_btn') == 'signout':
+                return user_logout(session)
             name_in = request.form.get("Name")
             fistname_in = request.form.get("Firstname")
             dob_in = datetime.strptime(request.form.get("DOB"), "%Y-%m-%d")
@@ -253,7 +255,8 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
         existing_classes = [row[0] for row in db.session.query(Class.CA).all()]
 
         if request.method == "POST":
-
+            if request.form.get('signout_btn') == 'signout':
+                return user_logout(session)
             ca_in = request.form.get("CA")
             subject_area_in = request.form.get("Subject_area")
             classroom_in = request.form.get("Classroom")
