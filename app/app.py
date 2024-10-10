@@ -40,11 +40,13 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                     # Password and Username correct
                     print("User Found and Password Correct! Redirect to Userpage")
                     session["userid"] = userid
-                    return redirect(url_for("user", userid=userid))
+                    return redirect(url_for("user",
+                                            userid=userid))
                 else:
                     # Password incorrect
                     print("Password Incorrect!")
-                    return render_template("index.html", error="Incorrect Password!")
+                    return render_template("index.html",
+                                           error="Incorrect Password!")
             else:
                 # try admin
                 if admin_data:
@@ -53,22 +55,28 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                         aid = userid.lower()
                         session["userid"] = aid
                         print("Admin Found and Password Correct! Redirect to Admindashboard")
-                        return redirect(url_for("admin", AID=aid))
+                        return redirect(url_for("admin",
+                                                AID=aid))
                     else:
                         # Password incorrect
                         print("Password Incorrect!")
-                        return render_template("index.html", error="Incorrect Password!")
+                        return render_template("index.html",
+                                               error="Incorrect Password!")
                 else:
                     # User not found - Bad UserID ?
                     print("User not found!")
-                    return render_template("index.html", error="User not found!")
+                    return render_template("index.html",
+                                           error="User not found!")
         else:
             if session.get("userid") and db.session.get(User, session.get("userid")):
-                return redirect(url_for("user", userid=session.get("userid")))
+                return redirect(url_for("user",
+                                        userid=session.get("userid")))
             elif session.get("userid") and db.session.get(Admin, session.get("userid")):
-                return redirect(url_for("admin", AID=session.get("userid")))
+                return redirect(url_for("admin",
+                                        AID=session.get("userid")))
             else:
-                return render_template("index.html", error="")
+                return render_template("index.html",
+                                       error="")
 
     @server.route("/user/<userid>/dashboard", methods=["POST", "GET"])
     def dashboard(userid):
@@ -110,7 +118,12 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
             total_list = combined_logins + combined_logouts
             total_list.sort(key=lambda x: x[0].Time, reverse=True)
             time_history = {k: v.total_seconds() for k, v in calculate_time_history(total_list).items()}
-            return render_template("user_dashboard.html", user=user_data, total_list=total_list, time_history=time_history, timedelta=timedelta)
+
+            return render_template("user_dashboard.html",
+                                   user=user_data,
+                                   total_list=total_list,
+                                   time_history=time_history,
+                                   timedelta=timedelta)
 
     @server.route("/user/<userid>", methods=["POST", "GET"])
     def user(userid: str):
@@ -158,7 +171,8 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                 return user_logout(session)
             db.session.add(data)
             db.session.commit()
-            return redirect(url_for("user", userid=userid))
+            return redirect(url_for("user",
+                                    userid=userid))
         else:
             return render_template("user.html",
                                    logins=user_data.Logins,
@@ -178,9 +192,11 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
             if request.form.get('signout_btn') == 'signout':
                 return user_logout(session)
             elif request.form.get('btn_add_user') == 'adding_user':
-                return redirect(url_for("adduser", AID=session.get("userid")))
+                return redirect(url_for("adduser",
+                                        AID=session.get("userid")))
             elif request.form.get('btn_add_class') == 'adding_class':
-                return redirect(url_for("addclass", AID=session.get("userid")))
+                return redirect(url_for("addclass",
+                                        AID=session.get("userid")))
         else:
             user_page = request.args.get('userpage', 1, type=int)
             class_page = request.args.get('classpage', 1, type=int)
@@ -190,21 +206,28 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
 
             admin_data = db.get_or_404(Admin, AID)
 
-            pagination_users = db.paginate(select=db.select(User), page=user_page, per_page=per_page_user, error_out=False)
-            pagination_classes = db.paginate(select=db.select(Class), page=class_page, per_page=per_page_class, error_out=False)
+            pagination_users = db.paginate(select=db.select(User),
+                                           page=user_page,
+                                           per_page=per_page_user,
+                                           error_out=False)
+            pagination_classes = db.paginate(select=db.select(Class),
+                                             page=class_page,
+                                             per_page=per_page_class,
+                                             error_out=False)
 
             all_users = pagination_users.items
             all_classes = pagination_classes.items
 
-            return render_template("admin.html", data=admin_data,
-                                                user_pages={
-                                                    'data': all_users,
-                                                    'pagination': pagination_users
-                                                    },
-                                                class_pages={
-                                                    'data': all_classes,
-                                                    'pagination': pagination_classes
-                                                })
+            return render_template("admin.html",
+                                   data=admin_data,
+                                   user_pages={
+                                        'data': all_users,
+                                        'pagination': pagination_users
+                                        },
+                                   class_pages={
+                                        'data': all_classes,
+                                        'pagination': pagination_classes
+                                        })
 
     @server.route("/admin/<AID>/add_user", methods=["POST", "GET"])
     def adduser(AID):
@@ -287,6 +310,7 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
         if not verify_login(session, AID):
             return redirect(url_for("index"))
         user_data = db.get_or_404(User, UID)
+
         all_logins = user_data.Logins
         all_logins.sort(key=lambda x: x.Time, reverse=True)
         reduced_logins = all_logins[:9]
@@ -300,14 +324,76 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
         total_list = combined_logins + combined_logouts
         total_list.sort(key=lambda x: x[0].Time, reverse=True)
         time_history = {k: v.total_seconds() for k, v in calculate_time_history(total_list).items()}
-        return render_template("admin_userdetails.html", user=user_data, AID=AID, time_history=time_history, timedelta=timedelta)
+
+        if request.method == "POST":
+            if request.form.get('signout_btn') == 'signout':
+                return user_logout(session)
+            elif request.form.get('change_userdata') == 'change':
+                # ! Not Working!
+                # Todo: Add template for changing user data
+                return redirect(url_for('admin',
+                                        AID=session.get("userid")))
+            elif request.form.get('rnd_pw') == 'change':
+                # ! Not Working!
+                # ? WIP
+                new_pw = random_password()
+                user_data.Password = hash_password(new_pw)
+                db.session.commit()
+                flash(f"New Password for {user_data.UID}: {new_pw}")
+                return redirect(url_for("admin",
+                                        AID=session.get("userid")))
+            elif request.form.get('delete_user') == 'delete' and request.form.get('UID') == user_data.UID:
+                db.session.query(User).filter(User.UID == user_data.UID).delete()
+                db.session.commit()
+                return redirect(url_for("admin",
+                                        AID=session.get("userid")))
+            elif request.form.get('delete_user') == 'delete' and request.form.get('UID') != UID:
+                return render_template("admin_userdetails.html",
+                                       user=user_data,
+                                       AID=AID,
+                                       time_history=time_history,
+                                       timedelta=timedelta,
+                                       isHidden='',
+                                       error='You typed the Userid wrong!')
+        return render_template("admin_userdetails.html",
+                               user=user_data,
+                               AID=AID,
+                               time_history=time_history,
+                               timedelta=timedelta,
+                               isHidden='hidden')
 
     @server.route("/admin/<AID>/class/<CA>", methods=["POST", "GET"])
     def admin_classdetails(AID, CA):
         if not verify_login(session, AID):
             return redirect(url_for("index"))
         class_data = db.get_or_404(Class, CA)
-        return render_template("admin_classdetails.html", class_data=class_data, AID=AID)
+        if request.method == "POST":
+            if request.form.get('signout_btn') == 'signout':
+                return user_logout(session)
+            elif request.form.get('delete_class') == 'delete' and request.form.get('CA') == class_data.CA:
+                users = class_data.Students
+                if users:
+                    print("Class has USER no Delete!")
+                    return render_template("admin_classdetails.html",
+                                           class_data=class_data,
+                                           AID=AID,
+                                           isHidden='',
+                                           error='Class still has Students!')
+                else:
+                    db.session.query(Class).filter(Class.CA == class_data.CA).delete()
+                    db.session.commit()
+                return redirect(url_for("admin", AID=session.get("userid")))
+            elif request.form.get('delete_class') == 'delete' and request.form.get('CA') != class_data.CA:
+                return render_template("admin_classdetails.html",
+                                       class_data=class_data,
+                                       AID=AID,
+                                       isHidden='',
+                                       error='You type the class wrong!')
+
+        return render_template("admin_classdetails.html",
+                               class_data=class_data,
+                               AID=AID,
+                               isHidden='hidden')
 
     @server.errorhandler(404)
     def page_not_found(e):

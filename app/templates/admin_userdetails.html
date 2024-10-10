@@ -17,7 +17,7 @@
 </div>
 </div>
 
-<div id="newModal" class="fixed hidden content-center backdrop-blur-sm backdrop-brightness-50 w-full h-full top-0 left-0">
+<div id="newModal" class="fixed {{isHidden}} content-center backdrop-blur-sm backdrop-brightness-50 w-full h-full top-0 left-0">
     <div class="flex flex-col justify-center content-center m-auto w-96 min-h-64 border-rot border-[1.5px] rounded-lg bg-white p-6">
         <h1 class="font-semibold text-2xl mb-4">User löschen</h1>
         <div class="italic mb-1">
@@ -25,10 +25,18 @@
                 Um den Benutzer zu löschen, wiederhole die UserID um den Vorgang zu bestätigen!
             </p>
         </div>
+        <div class="flex my-1">
+            <p class="font-bold mr-2">
+                Type:
+            </p>
+            <p class="font-mono text-blau">
+                {{user.UID}}
+            </p>
+        </div>
         <form method="post">
             <div>
-                <input class="w-full h-10 mb-6 mt-1 px-2 border-grau border-[1px] rounded-lg" type="text" id="uid" name="uid" placeholder="{{user.UID}}" required>
-                <button id="delete_user" value="delete" class="bg-rot border-rot/50 w-full h-10 mb-4 border-[1px] rounded-lg text-white hover:ring-4 ring-rot/50 transition-all duration-400" type="submit">Löschen</button>
+                <input class="w-full h-10 mb-6 mt-1 px-2 border-grau border-[1px] rounded-lg font-mono" type="text" id="UID" name="UID" placeholder="{{user.UID}}" required>
+                <button id="delete_user" name="delete_user" value="delete" class="bg-rot border-rot/50 w-full h-10 mb-4 border-[1px] rounded-lg text-white hover:ring-4 ring-rot/50 transition-all duration-400" type="submit">Löschen</button>
                 <a id="close">
                     <div class="bg-grau border-grau-dunkel w-full h-10 border-[1px] rounded-lg text-center content-center text-black hover:ring-4 hover:bg-blau hover:text-black hover:border-blau ring-blau/50 transition-all duration-400" >Abbrechen </div>
                 </a>
@@ -54,6 +62,7 @@
     exit.onclick = function() {
         modal.classList.add("hidden")
         modal.classList.remove("absolute")
+        location.reload()
     }
 
 </script>
