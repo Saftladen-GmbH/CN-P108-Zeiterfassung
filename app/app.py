@@ -351,6 +351,7 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                 return render_template("admin_userdetails.html",
                                        user=user_data,
                                        AID=AID,
+                                       total_list=total_list,
                                        time_history=time_history,
                                        timedelta=timedelta,
                                        isHidden='',
@@ -358,6 +359,7 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
         return render_template("admin_userdetails.html",
                                user=user_data,
                                AID=AID,
+                               total_list=total_list,
                                time_history=time_history,
                                timedelta=timedelta,
                                isHidden='hidden')
