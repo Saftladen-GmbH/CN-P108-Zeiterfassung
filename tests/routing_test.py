@@ -224,8 +224,40 @@ def test_admin_classdetails_access_denied(client):
 def test_admin_classdetails_access(client):
     with client.session_transaction() as session:
         session["userid"] = 'master'
-    get_response = client.get("/admin/master/class/Testklasse", follow_redirects=True)
-    assert get_response.request.path == '/admin/master/class/Testklasse'
+    # ? Testdata for Deletion
+    client.post("/admin/master/add_class", data=
+                                {
+                                    'CA': 'Test',
+                                    'Subject_area': 'TestDelete',
+                                    'Classroom': 'Testroom',
+                                }, follow_redirects=True)
+    get_response = client.get("/admin/master/class/Testclass", follow_redirects=True)
+    post_response_wrong_ca = client.post("/admin/master/class/Testclass", data=
+                                         {
+                                             'delete_class': 'delete',
+                                             'CA': 'Testclassss'
+                                         }, follow_redirects=True)
+    post_response_delete_ca_students = client.post("/admin/master/class/Testclass", data=
+                                         {
+                                             'delete_class': 'delete',
+                                             'CA': 'Testclass'
+                                         }, follow_redirects=True)
+    post_response_delete_ca = client.post("/admin/master/class/Test", data=
+                                         {
+                                             'delete_class': 'delete',
+                                             'CA': 'Test'
+                                         }, follow_redirects=True)
+    post_response_logout = client.post("/admin/master/class/Testclass", data=
+                                {
+                                    'signout_btn': 'signout'
+                                }, follow_redirects=True)
+    assert post_response_logout.request.path == '/'
+    assert post_response_wrong_ca.request.path == '/admin/master/class/Testclass'
+    assert b'You type the class wrong!' in post_response_wrong_ca.data
+    assert post_response_delete_ca_students.request.path == '/admin/master/class/Testclass'
+    assert b'Class still has Students!' in post_response_delete_ca_students.data
+    assert post_response_delete_ca.request.path == '/admin/master'
+    assert get_response.request.path == '/admin/master/class/Testclass'
 
 
 def test_admin_userdetails_access_denied(client):
@@ -236,5 +268,31 @@ def test_admin_userdetails_access_denied(client):
 def test_admin_userdetails_access(client):
     with client.session_transaction() as session:
         session["userid"] = 'master'
+    # ? Testdata
+    testuserdata = client.post("/admin/master/add_user", data=
+                                {
+                                    'Name': 'Test',
+                                    'Firstname': 'TestFirst',
+                                    'DOB': '2000-01-01',
+                                    'CA': 'Testclass'
+                                }, follow_redirects=True)
     get_response = client.get("/admin/master/user/JD0001010004", follow_redirects=True)
+    post_response_wrong_uid = client.post("/admin/master/user/JD0001010004", data=
+                                         {
+                                            'delete_user': 'delete',
+                                            'UID': 'JDd0001010004'
+                                         }, follow_redirects=True)
+    post_response_delete_uid = client.post("/admin/master/user/TT0001010004", data=
+                                           {
+                                               'delete_user': 'delete',
+                                               'UID': 'TT0001010004'
+                                               }, follow_redirects=True)
+    post_response_logout = client.post("/admin/master/user/JD0001010004", data=
+                                       {
+                                           'signout_btn': 'signout'
+                                           }, follow_redirects=True)
+    assert post_response_logout.request.path == '/'
+    assert post_response_wrong_uid.request.path == '/admin/master/user/JD0001010004'
+    assert b'You typed the Userid wrong!' in post_response_wrong_uid.data
+    assert post_response_delete_uid.request.path == '/admin/master'
     assert get_response.request.path == '/admin/master/user/JD0001010004'
