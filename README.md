@@ -34,4 +34,5 @@ See [Milestones](https://github.com/Saftladen-GmbH/CN-P108-Zeiterfassung/milesto
   - HOTSPOT:
     saftladen_pi
     test123456789
+  - Connect via raspberrypi.local
 - RFID / NFC Tags & Reader (v3.0.0)
