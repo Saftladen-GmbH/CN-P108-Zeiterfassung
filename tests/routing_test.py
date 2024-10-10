@@ -269,19 +269,19 @@ def test_admin_userdetails_access(client):
     with client.session_transaction() as session:
         session["userid"] = 'master'
     # ? Testdata
-    testuserdata = client.post("/admin/master/add_user", data=
-                                {
-                                    'Name': 'Test',
-                                    'Firstname': 'TestFirst',
-                                    'DOB': '2000-01-01',
-                                    'CA': 'Testclass'
-                                }, follow_redirects=True)
+    client.post("/admin/master/add_user", data=
+                {
+                    'Name': 'Test',
+                    'Firstname': 'TestFirst',
+                    'DOB': '2000-01-01',
+                    'CA': 'Testclass'
+                    }, follow_redirects=True)
     get_response = client.get("/admin/master/user/JD0001010004", follow_redirects=True)
     post_response_wrong_uid = client.post("/admin/master/user/JD0001010004", data=
-                                         {
-                                            'delete_user': 'delete',
-                                            'UID': 'JDd0001010004'
-                                         }, follow_redirects=True)
+                                          {
+                                              'delete_user': 'delete',
+                                              'UID': 'JDd0001010004'
+                                              }, follow_redirects=True)
     post_response_delete_uid = client.post("/admin/master/user/TT0001010004", data=
                                            {
                                                'delete_user': 'delete',
