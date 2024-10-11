@@ -21,8 +21,8 @@
         </h1>
         <form class="flex justify-center items-center my-20" method="post">
             <button disabled
-                class="mx-5 h-12 w-36 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center">Change
-                Password</button>
+                class="mx-5 h-12 w-36 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center">Passwort
+                ändern</button>
         </form>
     </div>
     <div class="flex flex-col justify-center items-center ">
@@ -32,23 +32,23 @@
         </div>
         <div class="rounded-lg bg-grau px-3 shadow-lg">
             <div id="user" class="flex flex-col justify-center items-center transition-all duration-300">
-                <h2 class="text-5xl my-10 underline">All Users</h2>
+                <h2 class="text-5xl my-10 underline">Alle Nutzer</h2>
                 <form class="flex justify-end w-full" method="post">
                     {% if "000000000000" in data.UID %}
-                    <button disabled class="mx-5 h-8 w-24 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center">Add
-                        Admin</button>
+                    <button disabled class="mx-5 h-8 w-24 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center">Admin
+                        hinzufügen</button>
                     {% endif %}
                     <button name="btn_add_user" value="adding_user" 
                         class="mx-5 h-8 w-24 rounded-xl bg-black text-white hover:bg-blau ring-blau/50 hover:ring-8 hover:text-black active:bg-orange active:text-white active:duration-100 active:ease-out transition-all duration-300 text-nowrap">Add
-                        User</button>
+                        Nutzer</button>
                 </form>
                 <table id="all_users" class="min-w-[60vw] mb-5">
                     <thead>
                         <th class="border-b border-grau-dunkel py-2 text-2xl">UserID</th>
                         <th class="border-b border-grau-dunkel py-2 text-2xl">Name</th>
-                        <th class="border-b border-grau-dunkel py-2 text-2xl">Firstname</th>
-                        <th class="border-b border-grau-dunkel py-2 text-2xl">Birthday</th>
-                        <th class="border-b border-grau-dunkel py-2 text-2xl">Class</th>
+                        <th class="border-b border-grau-dunkel py-2 text-2xl">Vorname</th>
+                        <th class="border-b border-grau-dunkel py-2 text-2xl">Geburtstag</th>
+                        <th class="border-b border-grau-dunkel py-2 text-2xl">Klasse</th>
                         <th class="border-b border-grau-dunkel py-2 text-2xl"></th>
                     </thead>
                     <tbody>
@@ -61,7 +61,7 @@
                             <td class="">{{user.DOB}}</td>
                             <td class="">{{user.class.CA}}</td>
                             <td class="py-3">
-                                <a class="mx-5 text-black/50 hover:text-black/25 text-nowrap text-center" href="{{url_for('admin_userdetails', AID=data.Username, UID=user.UID)}}">View</a>
+                                <a class="mx-5 text-black/50 hover:text-black/25 text-nowrap text-center" href="{{url_for('admin_userdetails', AID=data.Username, UID=user.UID)}}">Anzeigen</a>
                             </td>
                         </tr>
                         {%endif%}
@@ -71,11 +71,11 @@
                 {{page_selector(user_pages['pagination'], 'admin', data.Username, "userpage")}}
             </div>
             <div id="classes" class="hidden flex flex-col justify-center items-center transition-all duration-300">
-                <h2 class="text-5xl my-10 underline">All Classes</h2>
+                <h2 class="text-5xl my-10 underline">Alle Klassen</h2>
                 <form class="flex justify-end w-full" method="post">
                     <button name="btn_add_class" value="adding_class"
-                        class="mx-5 h-8 w-24 rounded-xl bg-black text-white hover:bg-blau ring-blau/50 hover:ring-8 hover:text-black active:bg-orange active:text-white active:duration-100 active:ease-out transition-all duration-300 text-nowrap">Add
-                        Class</button>
+                        class="mx-5 h-8 w-24 rounded-xl bg-black text-white hover:bg-blau ring-blau/50 hover:ring-8 hover:text-black active:bg-orange active:text-white active:duration-100 active:ease-out transition-all duration-300 text-nowrap">Klasse
+                        Hinzufügen</button>
                 </form>
                 <table id="all_users" class="min-w-[60vw] mb-5">
                     <thead>
@@ -91,7 +91,7 @@
                             <td class="">{{class.Subject_area}}</td>
                             <td class="">{{class.Classroom}}</td>
                             <td class="py-3">
-                                <a class="mx-5 text-black/50 hover:text-black/25 text-nowrap text-center" href="{{url_for('admin_classdetails', AID=data.Username, CA=class.CA)}}">View</a>
+                                <a class="mx-5 text-black/50 hover:text-black/25 text-nowrap text-center" href="{{url_for('admin_classdetails', AID=data.Username, CA=class.CA)}}">Anzeigen</a>
                             </td>
                         </tr>
                         {% endfor %}
