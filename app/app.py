@@ -46,7 +46,7 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                     # Password incorrect
                     print("Password Incorrect!")
                     return render_template("index.html",
-                                           error="Incorrect Password!")
+                                           error="Falsches Passwort!")
             else:
                 # try admin
                 if admin_data:
@@ -61,12 +61,12 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                         # Password incorrect
                         print("Password Incorrect!")
                         return render_template("index.html",
-                                               error="Incorrect Password!")
+                                               error="Falsches Passwort!")
                 else:
                     # User not found - Bad UserID ?
                     print("User not found!")
                     return render_template("index.html",
-                                           error="User not found!")
+                                           error="Nutzer nicht gefunden!")
         else:
             if session.get("userid") and db.session.get(User, session.get("userid")):
                 return redirect(url_for("user",
@@ -246,7 +246,7 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
 
             if class_in not in existing_classes:
                 return render_template("user_add.html",
-                                       error="Class does not exist! Contact an Admin",
+                                       error="Klasse existiert nicht. Bitte wende dich an einen Administrator",
                                        existing_classes=existing_classes)
 
             uid_gen = generate_uid(name_in, fistname_in, dob_in, db.session)
@@ -262,7 +262,7 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
             db.session.add(user_data)
             db.session.commit()
 
-            flash(f"User added. Note the Password: '{pw_gen}' and give it to {user_data.Firstname} {user_data.Name}!")
+            flash(f"Nutzer hinzugefügt, notiere das Passwort: '{pw_gen}' und gebe es {user_data.Firstname} {user_data.Name}!")
             return redirect(url_for("admin", AID=session.get("userid")))
 
         return render_template("user_add.html",
@@ -287,7 +287,7 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
             if ca_in in existing_classes:
                 return render_template("class_add.html",
                                        AID=session.get('userid'),
-                                       error="Class already exists!")
+                                       error="Klasse existiert schon!")
 
             class_data = Class(CA=ca_in,
                                Subject_area=subject_area_in,
@@ -296,7 +296,7 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
             db.session.add(class_data)
             db.session.commit()
 
-            flash(f"Class added: {ca_in}")
+            flash(f"Klasse hinzugefügt: {ca_in}")
 
             return redirect(url_for("admin",
                                     AID=session.get("userid")))
@@ -339,7 +339,7 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                 new_pw = random_password()
                 user_data.Password = hash_password(new_pw)
                 db.session.commit()
-                flash(f"New Password for {user_data.UID}: {new_pw}")
+                flash(f"Neues Passwort für {user_data.UID}: {new_pw}")
                 return redirect(url_for("admin",
                                         AID=session.get("userid")))
             elif request.form.get('delete_user') == 'delete' and request.form.get('UID') == user_data.UID:
@@ -355,7 +355,7 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                                        time_history=time_history,
                                        timedelta=timedelta,
                                        isHidden='',
-                                       error='You typed the Userid wrong!')
+                                       error='Du hast die UserID nicht richtig geschrieben!')
         return render_template("admin_userdetails.html",
                                user=user_data,
                                AID=AID,
@@ -380,7 +380,7 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                                            class_data=class_data,
                                            AID=AID,
                                            isHidden='',
-                                           error='Class still has Students!')
+                                           error='Die Klasse hat noch Schüler!')
                 else:
                     db.session.query(Class).filter(Class.CA == class_data.CA).delete()
                     db.session.commit()
@@ -390,7 +390,7 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
                                        class_data=class_data,
                                        AID=AID,
                                        isHidden='',
-                                       error='You type the class wrong!')
+                                       error='Du hast die Klasse falsch geschrieben!')
 
         return render_template("admin_classdetails.html",
                                class_data=class_data,
