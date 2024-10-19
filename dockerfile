@@ -1,6 +1,6 @@
 FROM python:3.12.4
 
-WORKDIR /root/
+WORKDIR /root/app/
 
 COPY requirements.txt .
 
@@ -8,6 +8,6 @@ RUN pip3 install -r requirements.txt
 
 COPY app .
 
-CMD source deploy.sh
+CMD sh deploy.sh
 
 EXPOSE 8000
