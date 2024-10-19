@@ -246,7 +246,7 @@ def create_app(db_path: str = 'db/database.db') -> Flask:
 
             if class_in not in existing_classes:
                 return render_template("user_add.html",
-                                       error="Klasse existiert nicht. Bitte wende dich an einen Administrator",
+                                       error="Klasse existiert nicht. Bitte wende dich an einen Administrator!",
                                        existing_classes=existing_classes)
 
             uid_gen = generate_uid(name_in, fistname_in, dob_in, db.session)
