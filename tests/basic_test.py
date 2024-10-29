@@ -1,13 +1,9 @@
-import pytest
 import sys
 import os
+
 sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/../")
 # Module imports here
-from utility import (random_password,
-                     hash_password,
-                     verify_password,
-                     image2blob,
-                     blob2image)
+from utility import random_password, hash_password, verify_password, image2blob, blob2image
 
 
 def test_test():

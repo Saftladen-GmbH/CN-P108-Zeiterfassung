@@ -1,16 +1,6 @@
 from os import path
 from datetime import datetime
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import (
-    create_engine,
-    Column,
-    Integer,
-    String,
-    BLOB,
-    DateTime,
-    Date,
-    ForeignKey
-    )
+from sqlalchemy import create_engine, Column, Integer, String, BLOB, DateTime, Date, ForeignKey
 from sqlalchemy.orm import sessionmaker, relationship, DeclarativeBase
 from utility import random_password, hash_password
 
@@ -34,16 +24,17 @@ class User(Base):
         Logins (list): A list of login instances associated with the user.
         Logoffs (list): A list of logoff instances associated with the user.
     """
-    __tablename__ = 'user'
+
+    __tablename__ = "user"
     UID = Column(String, primary_key=True)
     Picture = Column(BLOB)
     Name = Column(String, nullable=False)
     Firstname = Column(String, nullable=False)
     Password = Column(String, nullable=False)
     DOB = Column(Date, nullable=False)
-    CA = Column(String, ForeignKey('class.CA'))
-    Logins = relationship('Login', backref='user', lazy=True)
-    Logoffs = relationship('Logoff', backref='user', lazy=True)
+    CA = Column(String, ForeignKey("class.CA"))
+    Logins = relationship("Login", backref="user", lazy=True)
+    Logoffs = relationship("Logoff", backref="user", lazy=True)
 
 
 class Login(Base):
@@ -55,10 +46,11 @@ class Login(Base):
         Time (DateTime): The time of the login.
         UID (str): The UID of the user who logged in.
     """
-    __tablename__ = 'login'
+
+    __tablename__ = "login"
     NR = Column(Integer, primary_key=True, autoincrement=True)
     Time = Column(DateTime, nullable=False)
-    UID = Column(String, ForeignKey('user.UID'))
+    UID = Column(String, ForeignKey("user.UID"))
 
 
 class Logoff(Base):
@@ -70,10 +62,11 @@ class Logoff(Base):
         Time (DateTime): The time of the logoff.
         UID (str): The UID of the user who logged off.
     """
-    __tablename__ = 'logoff'
+
+    __tablename__ = "logoff"
     NR = Column(Integer, primary_key=True, autoincrement=True)
     Time = Column(DateTime, nullable=False)
-    UID = Column(String, ForeignKey('user.UID'))
+    UID = Column(String, ForeignKey("user.UID"))
 
 
 class Admin(Base):
@@ -85,10 +78,11 @@ class Admin(Base):
         Password (str): The password of the admin.
         UID (str): The UID of the corresponding User.
     """
-    __tablename__ = 'admin'
+
+    __tablename__ = "admin"
     Username = Column(String, primary_key=True)
     Password = Column(String, nullable=False)
-    UID = Column(String, ForeignKey('user.UID'))
+    UID = Column(String, ForeignKey("user.UID"))
 
 
 class Class(Base):
@@ -101,11 +95,12 @@ class Class(Base):
         Classroom (str): The classroom of the class.
         Students (list): A list of user instances associated with the class.
     """
-    __tablename__ = 'class'
+
+    __tablename__ = "class"
     CA = Column(String, primary_key=True)
     Subject_area = Column(String, nullable=False)
     Classroom = Column(String, nullable=False)
-    Students = relationship('User', backref='class', lazy=True)
+    Students = relationship("User", backref="class", lazy=True)
 
 
 def generate_uid(name: str, first_name: str, dob: datetime, session) -> str:
@@ -123,11 +118,17 @@ def generate_uid(name: str, first_name: str, dob: datetime, session) -> str:
     """
     modifier = 0
     while True:
-        uid = first_name[0] + name[0] + dob.date().strftime("%y%m%d") + str(sum([int(x) for x in dob.date().strftime("%Y%m%d")]) + modifier).zfill(4)
+        uid = (
+            first_name[0]
+            + name[0]
+            + dob.date().strftime("%y%m%d")
+            + str(sum([int(x) for x in dob.date().strftime("%Y%m%d")]) + modifier).zfill(4)
+        )
 
         if not session.query(User).filter(User.UID == uid).first():
             return uid
         modifier += 1
+
 
 def _add_master_admin(session):
     """
@@ -135,17 +136,16 @@ def _add_master_admin(session):
     """
 
     rndpw = random_password()
-    master_user = User(UID='000000000000', Name='Admin', Firstname='Master',
-                       Password=hash_password(rndpw), DOB=datetime.now(),
-                       CA='')
+    master_user = User(
+        UID="000000000000", Name="Admin", Firstname="Master", Password=hash_password(rndpw), DOB=datetime.now(), CA=""
+    )
     session.add(master_user)
-    master_admin = Admin(Username='master',
-                         Password=hash_password(rndpw),
-                         UID='000000000000')
+    master_admin = Admin(Username="master", Password=hash_password(rndpw), UID="000000000000")
     session.add(master_admin)
 
     print(f"Master-Admin added. Note the Password: {rndpw}")
     print("## You won't see it again. Please note the password. ##")
+
 
 def _add_test_data(session):
     """
@@ -154,16 +154,17 @@ def _add_test_data(session):
     Args:
         session(sqlalchemie session): The session to query the database.
     """
-    t_name = 'Doe'
-    t_firstname = 'John'
+    t_name = "Doe"
+    t_firstname = "John"
     t_dob = datetime(2000, 1, 1)
     t_uid = generate_uid(t_name, t_firstname, t_dob, session)
-    test_class = Class(CA='Testclass', Subject_area='Test', Classroom='Testroom')
+    test_class = Class(CA="Testclass", Subject_area="Test", Classroom="Testroom")
     session.add(test_class)
-    test_user = User(UID=t_uid, Name=t_name, Firstname=t_firstname,
-                     Password=hash_password('123456789'), DOB=t_dob,
-                     CA='Testclass')
+    test_user = User(
+        UID=t_uid, Name=t_name, Firstname=t_firstname, Password=hash_password("123456789"), DOB=t_dob, CA="Testclass"
+    )
     session.add(test_user)
+
 
 def init_db(db_url: str):
     """
@@ -189,6 +190,7 @@ def init_db(db_url: str):
     session.commit()
     session.close()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     basedir = path.abspath(path.dirname(__file__))
-    init_db('sqlite:///' + path.join(basedir, 'db/database.db'))
+    init_db("sqlite:///" + path.join(basedir, "db/database.db"))

@@ -387,7 +387,7 @@ def create_app(db_path: str = "db/database.db") -> Flask:
                         class_data=class_data,
                         AID=AID,
                         isHidden="",
-                        error="Die Klasse hat noch Schüler!",
+                        error="Die Klasse hat noch Nutzer!",
                     )
                 else:
                     db.session.query(Class).filter(Class.CA == class_data.CA).delete()
