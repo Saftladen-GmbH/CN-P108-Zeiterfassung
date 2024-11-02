@@ -21,7 +21,7 @@ See [Milestones](https://github.com/Saftladen-GmbH/CN-P108-Zeiterfassung/milesto
 - Backend
 
   - Python -> Flask
-  - Datenbank -> SQLite3 with SQLAlchemie
+  - Datenbank -> SQLite3 with SQLAlchemy
 
 - Frontend
   - HTML 5
