@@ -16,6 +16,14 @@ db = SQLAlchemy()
 
 
 def create_app(db_path: str = "db/database.db") -> Flask:
+    """Creates the App and Initializes the Database
+
+    Args:
+        db_path (str, optional): Path to the Databasefile Defaults to "db/database.db".
+
+    Returns:
+        Flask: return the app
+    """
     server = Flask(__name__)
 
     server.secret_key = "1234566789"
@@ -35,6 +43,11 @@ def create_app(db_path: str = "db/database.db") -> Flask:
 
     @server.route("/", methods=["POST", "GET"])
     def index():
+        """Logic for Index Page
+
+        Returns:
+            Page: Rendered Index Page
+        """
         if request.method == "POST":
             userid = request.form.get("username").replace(" ", "").upper()
             password = request.form.get("password")
@@ -85,12 +98,10 @@ def create_app(db_path: str = "db/database.db") -> Flask:
             userid (str): Needs to be given to load User Data!
                           Defaults to testuser UID for DEV
 
-            !!REMOVE SECOND ROUTE AND DEFAULT VALUE FOR PRODUCTION!!
-
         Returns:
-            Page: Index Page
-            Page: Not Found
-            Page: Dashboard Page
+            Page: Render Index Page
+            Page: Render Not Found
+            Page: Render Dashboard Page
         """
         if not verify_login(session, userid):
             return redirect(url_for("index"))
@@ -134,12 +145,10 @@ def create_app(db_path: str = "db/database.db") -> Flask:
             userid (str): Needs to be given to load User Data!
                           Defaults to testuser UID for DEV
 
-            !!REMOVE SECOND ROUTE AND DEFAULT VALUE FOR PRODUCTION!!
-
         Returns:
-            Page: Index Page
-            Page: Not Found
-            Page: User Page
+            Page: Render Index Page
+            Page: Render Not Found
+            Page: Render User Page
         """
         if not verify_login(session, userid):
             return redirect(url_for("index"))
@@ -185,8 +194,14 @@ def create_app(db_path: str = "db/database.db") -> Flask:
 
     @server.route("/admin/<AID>", methods=["POST", "GET"])
     def admin(AID: str, **kwargs):
-        """Admin Page to manage Users and Classes"""
+        """Admin page to manage Users and Classes
 
+        Args:
+            AID (str): Admin ID to verify the login
+
+        Returns:
+            Page: Render Admin Page
+        """
         if not verify_login(session, AID):
             return redirect(url_for("index"))
 
@@ -231,6 +246,14 @@ def create_app(db_path: str = "db/database.db") -> Flask:
 
     @server.route("/admin/<AID>/add_user", methods=["POST", "GET"])
     def adduser(AID):
+        """Admin utility to add a new User
+
+        Args:
+            AID (str): Admin ID to verify the login
+
+        Returns:
+            Page: Render Add User Page
+        """
         if not verify_login(session, AID):
             return redirect(url_for("index"))
 
@@ -280,6 +303,14 @@ def create_app(db_path: str = "db/database.db") -> Flask:
 
     @server.route("/admin/<AID>/add_class", methods=["POST", "GET"])
     def addclass(AID):
+        """Admin utility to add a new Class
+
+        Args:
+            AID (str): Admin ID to verify the login
+
+        Returns:
+            Page: Render Add Class Page
+        """
         if not verify_login(session, AID):
             return redirect(url_for("index"))
 
@@ -312,6 +343,15 @@ def create_app(db_path: str = "db/database.db") -> Flask:
 
     @server.route("/admin/<AID>/user/<UID>", methods=["POST", "GET"])
     def admin_userdetails(AID, UID):
+        """Admin utility to manage and look into User Data
+
+        Args:
+            AID (str): Admin ID to verify the login
+            UID (str): User ID to look into
+
+        Returns:
+            Page: Render User Details Page
+        """
         if not verify_login(session, AID):
             return redirect(url_for("index"))
         user_data = db.get_or_404(User, UID)
@@ -372,6 +412,15 @@ def create_app(db_path: str = "db/database.db") -> Flask:
 
     @server.route("/admin/<AID>/class/<CA>", methods=["POST", "GET"])
     def admin_classdetails(AID, CA):
+        """Admin utility to manage and look into Class Data
+
+        Args:
+            AID (str): Admin ID to verify the login
+            CA (str): Classabbreviation to look into
+
+        Returns:
+            Page: Render Class Details Page
+        """
         if not verify_login(session, AID):
             return redirect(url_for("index"))
         class_data = db.get_or_404(Class, CA)
@@ -406,6 +455,14 @@ def create_app(db_path: str = "db/database.db") -> Flask:
 
     @server.errorhandler(404)
     def page_not_found(e):
+        """Errorhandler for 404
+
+        Args:
+            e (error): Error information
+
+        Returns:
+            Page: Render 404 Page
+        """
         return render_template("404.html"), 404
 
     return server
