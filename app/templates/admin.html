@@ -27,20 +27,20 @@
     </div>
     <div class="flex flex-col justify-center items-center ">
         <div class="flex h-14 w-[60vw] justify-start text-center items-end">
-            <button id="btn_users" class="h-12 w-32 bg-grau hover:bg-blau/50 hover:h-14 rounded-t-lg transition-all duration-300">Users</button>
-            <button id="btn_classes" class="h-12 w-32 bg-grau-hell hover:bg-blau/50 hover:h-14  rounded-t-lg transition-all duration-300">Classes</button>
+            <button id="btn_users" class="h-12 w-32 bg-grau hover:bg-blau/50 hover:h-14 rounded-t-lg transition-all duration-300">Nutzer</button>
+            <button id="btn_classes" class="h-12 w-32 bg-grau-hell hover:bg-blau/50 hover:h-14  rounded-t-lg transition-all duration-300">Klassen</button>
         </div>
         <div class="rounded-lg bg-grau px-3 shadow-lg">
             <div id="user" class="flex flex-col justify-center items-center transition-all duration-300">
                 <h2 class="text-5xl my-10 underline">Alle Nutzer</h2>
                 <form class="flex justify-end w-full" method="post">
                     {% if "000000000000" in data.UID %}
-                    <button disabled class="mx-5 h-8 w-24 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center">Admin
+                    <button disabled class="mx-5 h-8 w-36 rounded-xl bg-grau-dunkel text-black/50 hover:text-black/25 text-nowrap text-center">Admin
                         hinzufügen</button>
                     {% endif %}
                     <button name="btn_add_user" value="adding_user" 
-                        class="mx-5 h-8 w-24 rounded-xl bg-black text-white hover:bg-blau ring-blau/50 hover:ring-8 hover:text-black active:bg-orange active:text-white active:duration-100 active:ease-out transition-all duration-300 text-nowrap">Add
-                        Nutzer</button>
+                        class="mx-5 h-8 w-36 rounded-xl bg-black text-white hover:bg-blau ring-blau/50 hover:ring-8 hover:text-black active:bg-orange active:text-white active:duration-100 active:ease-out transition-all duration-300 text-nowrap">
+                        Nutzer hinzufügen</button>
                 </form>
                 <table id="all_users" class="min-w-[60vw] mb-5">
                     <thead>
@@ -74,8 +74,8 @@
                 <h2 class="text-5xl my-10 underline">Alle Klassen</h2>
                 <form class="flex justify-end w-full" method="post">
                     <button name="btn_add_class" value="adding_class"
-                        class="mx-5 h-8 w-24 rounded-xl bg-black text-white hover:bg-blau ring-blau/50 hover:ring-8 hover:text-black active:bg-orange active:text-white active:duration-100 active:ease-out transition-all duration-300 text-nowrap">Klasse
-                        Hinzufügen</button>
+                        class="mx-5 h-8 w-36 rounded-xl bg-black text-white hover:bg-blau ring-blau/50 hover:ring-8 hover:text-black active:bg-orange active:text-white active:duration-100 active:ease-out transition-all duration-300 text-nowrap">Klasse
+                        hinzufügen</button>
                 </form>
                 <table id="all_users" class="min-w-[60vw] mb-5">
                     <thead>
