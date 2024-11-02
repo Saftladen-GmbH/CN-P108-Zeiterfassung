@@ -27,13 +27,13 @@
         </div>
     </div>
     <div class="flex flex-col justify-center rounded-lg bg-grau px-3 shadow-lg w-full content-center ">
-        <h2 class="text-5xl w-full text-center my-10 underline">Students von {{class_data.CA}}</h2>
+        <h2 class="text-5xl w-full text-center my-10 underline">Studenten von {{class_data.CA}}</h2>
         <table id="all_users" class="min-w-[60vw] mb-5">
             <thead>
                 <th class="border-b border-grau-dunkel py-2 text-2xl">UserID</th>
                 <th class="border-b border-grau-dunkel py-2 text-2xl">Name</th>
-                <th class="border-b border-grau-dunkel py-2 text-2xl">Firstname</th>
-                <th class="border-b border-grau-dunkel py-2 text-2xl">Birthday</th>
+                <th class="border-b border-grau-dunkel py-2 text-2xl">Vorname</th>
+                <th class="border-b border-grau-dunkel py-2 text-2xl">Geburtstag</th>
             </thead>
             <tbody>
                 {%for user in class_data.Students%}
@@ -51,7 +51,7 @@
 
 <div id="newModal" class="fixed {{isHidden}} content-center backdrop-blur-sm backdrop-brightness-50 w-full h-full top-0 left-0">
     <div class="flex flex-col justify-center content-center m-auto w-96 min-h-64 border-rot border-[1.5px] rounded-lg bg-white p-6">
-        <h1 class="font-semibold text-2xl mb-4">User löschen</h1>
+        <h1 class="font-semibold text-2xl mb-4">Benutzer löschen</h1>
         <div class="italic mb-1">
             <p>
                 Um den Benutzer zu löschen, wiederhole die UserID um den Vorgang zu bestätigen!
