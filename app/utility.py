@@ -4,6 +4,28 @@ from datetime import datetime
 from hashlib import pbkdf2_hmac
 from random import choice
 from string import ascii_letters, digits, punctuation
+import subprocess
+
+
+def get_Version():
+    """Returns the current version of the application
+
+    Returns:
+        str: The current version
+    """
+    try:
+        commit_hash = subprocess.check_output(["git", "log", "-1", "--format=%H"], universal_newlines=True).strip()
+
+        last_tag = subprocess.check_output(["git", "describe", "--tags", "--abbrev=0"], universal_newlines=True).strip()
+
+        version = f"{last_tag} - {commit_hash[:8]}"
+
+        with open("VERSION", "w") as f:
+            f.write(version)
+    except:
+        with open("VERSION", "r") as f:
+            version = f.read()
+    return version
 
 
 def calculate_time_history(data: list, limit: int = None) -> dict:
@@ -211,3 +233,7 @@ def verify_password(stored_password: str, provided_password: str) -> bool:
     stored_hash = stored_password[16:]
     hash_obj = pbkdf2_hmac("sha256", provided_password.encode(), salt, 100000)
     return hash_obj == stored_hash
+
+
+if __name__ == "__main__":
+    print(get_Version())

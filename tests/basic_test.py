@@ -3,7 +3,8 @@ import os
 
 sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/../")
 # Module imports here
-from utility import random_password, hash_password, verify_password, image2blob, blob2image
+from utility import random_password, hash_password, verify_password, image2blob, blob2image, get_Version
+import re
 
 
 def test_test():
@@ -39,3 +40,9 @@ def test_verify_password():
     pw = "password"
     hashed_pw = hash_password(pw)
     assert verify_password(hashed_pw, pw), "Password verification failed"
+
+
+def test_get_Version():
+    version_pattern = re.compile(r"^v\d+\.\d+\.\d+ - [a-f0-9]{8}$")
+    assert re.match(version_pattern, get_Version()), "Version is not in the correct format"
+    assert len(get_Version()) == 17, "Version has no the correct length"
