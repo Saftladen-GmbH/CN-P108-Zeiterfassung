@@ -10,6 +10,7 @@ from utility import (
     user_logout,
     verify_login,
     calculate_time_history,
+    get_Version
 )
 
 db = SQLAlchemy()
@@ -26,6 +27,10 @@ def create_app(db_path: str = "db/database.db") -> Flask:
     """
     server = Flask(__name__)
 
+    current_version = get_Version()
+
+    print(f"Starting App Version: {current_version}")
+
     server.secret_key = "1234566789"
 
     # Database initialization
@@ -40,6 +45,10 @@ def create_app(db_path: str = "db/database.db") -> Flask:
     # Database configuration
     server.config["SQLALCHEMY_DATABASE_URI"] = sqpath
     db.init_app(app=server)
+
+    @server.context_processor
+    def generate_global_variables():
+        return dict(VERSION=current_version)
 
     @server.route("/", methods=["POST", "GET"])
     def index():
