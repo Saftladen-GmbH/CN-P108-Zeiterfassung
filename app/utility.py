@@ -83,9 +83,9 @@ def calculate_time_history(data: list, limit: int = None) -> dict:
             continue
 
         # ? Reset values if new day is detected
-        if d_time.date() != current_date:
-            start = None
-            end = None
+        # if d_time.date() != current_date:
+        #    start = None
+        #    end = None
 
         current_date = d_time.date()
 
