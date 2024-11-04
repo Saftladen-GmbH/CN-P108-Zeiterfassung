@@ -18,7 +18,7 @@ def get_Version():
 
         last_tag = subprocess.check_output(["git", "describe", "--tags", "--abbrev=0"], universal_newlines=True).strip()
 
-        version = f"{last_tag} - {commit_hash[:8]}"
+        version = f"{last_tag} - {commit_hash[:7]}"
 
         with open("VERSION", "w") as f:
             f.write(version)

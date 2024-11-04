@@ -43,6 +43,6 @@ def test_verify_password():
 
 
 def test_get_Version():
-    version_pattern = re.compile(r"^v\d+\.\d+\.\d+ - [a-f0-9]{8}$")
+    version_pattern = re.compile(r"^v\d+\.\d+\.\d+ - [a-f0-9]{7}$")
     assert re.match(version_pattern, get_Version()), "Version is not in the correct format"
-    assert len(get_Version()) == 17, "Version has no the correct length"
+    assert len(get_Version()) == 16, "Version has no the correct length"
