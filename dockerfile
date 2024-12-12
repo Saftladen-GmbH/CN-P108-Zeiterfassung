@@ -8,6 +8,8 @@ RUN pip3 install -r requirements.txt
 
 COPY app .
 
+COPY VERSION .
+
 CMD sh deploy.sh
 
 EXPOSE 8000
